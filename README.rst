@@ -1,37 +1,31 @@
-marvelous - Marvel API wrapper for python 3
+esak - Marvel API wrapper for python 3
 ===========================================
 
-.. image:: https://travis-ci.org/rkuykendall/marvelous.svg?branch=master
-    :target: https://travis-ci.org/rkuykendall/marvelous
-
-.. image:: https://codecov.io/gh/rkuykendall/marvelous/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/rkuykendall/marvelous
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
 
-- `Code on Github <https://github.com/rkuykendall/marvelous>`_
-- `Published on PyPi <https://pypi.python.org/pypi/marvelous>`_
-- `Read the project documentation <http://marvelous.readthedocs.io/en/latest/>`_
+- `Code on Github <https://github.com/bpepple/esak>`_
+- `Published on PyPi <https://pypi.python.org/pypi/esak>`_
 - `Marvel API documentation <https://developer.marvel.com/docs>`_
 
 **To install:**
 
 .. code-block:: bash
 
-    pip install marvelous
+    $ pip3 install --user esak
 
 **Example Usage:**
 
 .. code-block:: python
 
-    import marvelous
+    import esak
 
     # Your own config file to keep your private key local and secret
     from config import public_key, private_key
 
     # Authenticate with Marvel, with keys I got from http://developer.marvel.com/
-    m = marvelous.api(public_key, private_key)
+    m = esak.api(public_key, private_key)
 
     # Get all comics from this week, sorted alphabetically by title
     pulls = sorted(m.comics({
@@ -47,13 +41,12 @@ marvelous - Marvel API wrapper for python 3
         # id of the series
         print('{} (series #{})'.format(comic.title, comic.series.id))
 
-`Output available in full documentation <http://marvelous.readthedocs.io/en/latest/>`_
+`Output available in full documentation <http://esak.readthedocs.io/en/latest/>`_
 
 
 Contributing
 ------------
 
-- To run the test suite, run `python -m nose` in this folder
 - When running a new test for the first time, set the environment variables
   ``PUBLIC_KEY`` and ``PRIVATE_KEY`` to any Marel API keys. The result will be
   stored in the `tests/testing_mock.sqlite` database without your keys.
@@ -63,4 +56,3 @@ Contributing
 
 - Update version number
 - Create tag on Github
-- Wait for Travis to publish
