@@ -2,9 +2,9 @@
 name = "esak"
 version = "1.0.0"
 description = "Marvel API wrapper for python."
-authors = ["Robert Kuykendall <robert@rkuykendall.com>"]
+authors = ["Brian Pepple <bdpepple@gmail.com>"]
 license = "MIT"
-maintainers = ["Robert Kuykendall <robert@rkuykendall.com>"]
+maintainers = ["Brian Pepple <bdpepple@gmail.com>"]
 readme = "README.rst"
 packages = [
 	{ include = "esak" },
@@ -56,8 +56,8 @@ known_first_party = []
 known_third_party = ["marshmallow", "pytest", "requests", "requests_mock", "sphinx_rtd_theme"]
 
 [tool.poetry.urls]
-"Homepage" = "https://github.com/rkuykendall/esak"
-"Bug Tracker" = "https://github.com/rkuykendall/esak/issues"
+"Homepage" = "https://github.com/bpepple/esak"
+"Bug Tracker" = "https://github.com/bpepple/esak/issues"
 
 [tool.poetry.extras]
 docs = ["sphinx-rtd-theme"]
