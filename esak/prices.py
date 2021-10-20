@@ -22,12 +22,7 @@ class PriceSchemas(Schema):
 
     @pre_load
     def process_input(self, data, **kwargs):
-        new_data = {}
-        for idx, d in enumerate(data, 0):
-            if d["type"][idx]:
-                new_data[d["type"]] = d["price"]
-
-        return new_data
+        return {d["type"]: d["price"] for idx, d in enumerate(data, 0) if d["type"][idx]}
 
     @post_load
     def make(self, data, **kwargs):
