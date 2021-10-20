@@ -29,7 +29,7 @@ def test_pulls_verbose(talker):
     )
 
     c_iter = iter(characters)
-    assert (next(c_iter).name) == "Askew-Tronics"
-    assert (next(c_iter).name) == "Cargill"
-    assert (next(c_iter).name) == "Firebrand"
+    assert (next(c_iter).name) == "Howard Saint"
+    assert (next(c_iter).name) == "The Phantom"
+    assert (next(c_iter).name) == "Nextwave"
     assert len(characters) > 0
