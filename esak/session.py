@@ -21,13 +21,12 @@ from esak import (
 
 
 class Session:
-    api_url = "http://gateway.marvel.com:80/v1/public/{}"
-
     def __init__(self, public_key, private_key, cache=None):
 
         self.public_key = public_key
         self.private_key = private_key
         self.cache = cache
+        self.api_url = "http://gateway.marvel.com:80/v1/public/{}"
 
     def _create_cached_params(self, params: Dict[str, Any]) -> str:
         # Generate part of cache key before hash, apikey and timestamp added
