@@ -21,6 +21,6 @@ def test_api():
     try:
         m = api(public_key="Something", private_key="Else")
     except Exception as exc:
-        print("mokkari.api() raised {} unexpectedly!".format(exc))
+        print(f"mokkari.api() raised {exc} unexpectedly!")
 
     assert m.__class__.__name__, session.Session.__name__

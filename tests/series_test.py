@@ -14,10 +14,7 @@ def test_known_series(talker):
     usms = talker.series(466)
     assert usms.title == "Ultimate Spider-Man (2000 - 2009)"
     assert usms.id == 466
-    assert (
-        "http://i.annihil.us/u/prod/marvel/i/mg/6/c0/5149db8019dc9.jpg"
-        == usms.thumbnail
-    )
+    assert "http://i.annihil.us/u/prod/marvel/i/mg/6/c0/5149db8019dc9.jpg" == usms.thumbnail
     assert 2009 == usms.endYear
     assert 2000 == usms.startYear
     assert (

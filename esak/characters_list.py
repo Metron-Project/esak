@@ -29,6 +29,4 @@ class CharactersList:
         try:
             return next(itertools.islice(self.character, index, index + 1))
         except TypeError:
-            return list(
-                itertools.islice(self.character, index.start, index.stop, index.step)
-            )
+            return list(itertools.islice(self.character, index.start, index.stop, index.step))

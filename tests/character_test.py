@@ -11,9 +11,7 @@ def test_known_character(talker):
     cap = talker.character(1009220)
     assert cap.name == "Captain America"
     assert cap.resource_uri == "http://gateway.marvel.com/v1/public/characters/1009220"
-    assert (
-        cap.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087.jpg"
-    )
+    assert cap.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087.jpg"
     assert len(cap.series) > 0
     assert len(cap.events) > 0
 

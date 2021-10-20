@@ -16,7 +16,6 @@ classifiers=[
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python",
@@ -24,7 +23,7 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 marshmallow = "^3.13.0"
 requests = "^2.26.0"
 sphinx-rtd-theme = {version = "^0.5.2", optional = true}
@@ -38,19 +37,21 @@ tox = "^3.24.3"
 pre-commit = "^2.14.1"
 isort = "^5.9.3"
 seed-isort-config = "^2.2.0"
+pyupgrade = "^2.29.0"
+flake8-builtins = "^1.5.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
-line-length = 88
-target-version = ['py37']
+line-length = 95
+target-version = ['py38']
 
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-line_length = 88
+line_length = 95
 default_section = "THIRDPARTY"
 known_first_party = []
 known_third_party = ["marshmallow", "pytest", "requests", "requests_mock", "sphinx_rtd_theme"]

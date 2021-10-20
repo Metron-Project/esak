@@ -64,8 +64,7 @@ class ComicSchema(Schema):
 
         if "images" in new_data:
             new_data["images"] = [
-                "{}.{}".format(img["path"], img["extension"])
-                for img in new_data["images"]
+                "{}.{}".format(img["path"], img["extension"]) for img in new_data["images"]
             ]
 
         if "isbn" in new_data:

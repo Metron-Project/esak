@@ -35,7 +35,7 @@ class Session:
         cache_params = ""
         if len(params) > 0:
             orderedParams = OrderedDict(sorted(params.items(), key=lambda t: t[0]))
-            cache_params = "?{}".format(urllib.parse.urlencode(orderedParams))
+            cache_params = f"?{urllib.parse.urlencode(orderedParams)}"
 
         now_string = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
         auth_hash = hashlib.md5()
@@ -48,7 +48,7 @@ class Session:
         params["ts"] = now_string
 
         url = self.api_url.format("/".join(str(e) for e in endpoint))
-        cache_key = "{url}{cache_params}".format(url=url, cache_params=cache_params)
+        cache_key = f"{url}{cache_params}"
 
         if self.cache:
             try:
@@ -58,7 +58,7 @@ class Session:
                     return cached_response
             except AttributeError as e:
                 raise exceptions.CacheError(
-                    "Cache object passed in is missing attribute: {}".format(repr(e))
+                    f"Cache object passed in is missing attribute: {repr(e)}"
                 )
 
         response = requests.get(url, params=params)
@@ -73,7 +73,7 @@ class Session:
                 self.cache.store(cache_key, data)
             except AttributeError as e:
                 raise exceptions.CacheError(
-                    "Cache object passed in is missing attribute: {}".format(repr(e))
+                    f"Cache object passed in is missing attribute: {repr(e)}"
                 )
 
         return data

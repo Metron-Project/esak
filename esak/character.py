@@ -38,9 +38,7 @@ class CharactersSchema(Schema):
             data = data["data"]["results"][0]
 
         if "thumbnail" in data:
-            data[
-                "thumbnail"
-            ] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
+            data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
 
         if "events" in data:
             data["events"] = data["events"]["items"]
