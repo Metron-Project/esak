@@ -1,6 +1,6 @@
 # Testing
 
-These tests use the marvelous requests caching for mocking tests, so tests will
+These tests use the esak requests caching for mocking tests, so tests will
 run quickly and not require an API key on travis, which may fail due to
 rate limiting.
 

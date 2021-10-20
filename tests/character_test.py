@@ -4,7 +4,7 @@ This module contains tests for Character objects.
 """
 import pytest
 
-from marvelous import exceptions
+from esak import exceptions
 
 
 def test_known_character(talker):

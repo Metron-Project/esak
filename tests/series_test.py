@@ -6,8 +6,8 @@ import datetime
 
 import pytest
 
-from marvelous import comics_list, exceptions
-from marvelous.series import Series
+from esak import comics_list, exceptions
+from esak.series import Series
 
 
 def test_known_series(talker):

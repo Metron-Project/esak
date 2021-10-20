@@ -4,7 +4,7 @@ This module contains tests for project init.
 """
 import pytest
 
-from marvelous import api, exceptions, session
+from esak import api, exceptions, session
 
 
 def test_api():

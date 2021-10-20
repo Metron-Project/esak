@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "marvelous"
+name = "esak"
 version = "1.4.2"
 description = "Marvel API wrapper for python."
 authors = ["Robert Kuykendall <robert@rkuykendall.com>"]
@@ -7,7 +7,7 @@ license = "MIT"
 maintainers = ["Robert Kuykendall <robert@rkuykendall.com>"]
 readme = "README.rst"
 packages = [
-	{ include = "marvelous" },
+	{ include = "esak" },
 ]
 include = [
     { path = "tests", format = "sdist" }
@@ -56,14 +56,14 @@ known_first_party = []
 known_third_party = ["marshmallow", "pytest", "requests", "requests_mock", "sphinx_rtd_theme"]
 
 [tool.poetry.urls]
-"Homepage" = "https://github.com/rkuykendall/marvelous"
-"Bug Tracker" = "https://github.com/rkuykendall/marvelous/issues"
+"Homepage" = "https://github.com/rkuykendall/esak"
+"Bug Tracker" = "https://github.com/rkuykendall/esak/issues"
 
 [tool.poetry.extras]
 docs = ["sphinx-rtd-theme"]
 
 [tool.coverage.run]
-source = ["marvelous"]
+source = ["esak"]
 
 [tool.coverage.report]
 show_missing = true

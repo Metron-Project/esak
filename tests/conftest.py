@@ -7,7 +7,7 @@ import os
 
 import pytest
 
-from marvelous import api, sqlite_cache
+from esak import api, sqlite_cache
 
 
 @pytest.fixture(scope="session")
@@ -24,7 +24,7 @@ def dummy_privkey():
 
 @pytest.fixture(scope="session")
 def talker(dummy_pubkey, dummy_privkey):
-    """marvelous api fixture."""
+    """esak api fixture."""
     return api(
         public_key=dummy_pubkey,
         private_key=dummy_privkey,
