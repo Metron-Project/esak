@@ -9,7 +9,7 @@ Marvelous Documentation
 
 **Links:**
 
-- `Code on Github <https://github.com/rkuykendall/esak>`_
+- `Code on Github <https://github.com/bpepple/esak>`_
 - `Published on PyPi <https://pypi.python.org/pypi/esak>`_
 - `Read the project documentation <http://esak.readthedocs.io/en/latest/>`_
 
