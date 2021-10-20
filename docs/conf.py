@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# marvelous documentation build configuration file, created by
+# esak documentation build configuration file, created by
 # sphinx-quickstart on Thu Apr 14 09:12:24 2016.
 #
 # This file is execfile()d with the current directory set to its
@@ -48,7 +48,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "marvelous"
+project = "esak"
 copyright = "2016, Robert Kuykendall"
 author = "Robert Kuykendall"
 
@@ -123,7 +123,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
-# html_title = u'marvelous v0.0.4'
+# html_title = u'esak v0.0.4'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
@@ -226,8 +226,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "marvelous.tex",
-        "marvelous Documentation",
+        "esak.tex",
+        "esak Documentation",
         "Robert Kuykendall",
         "manual",
     ),
@@ -258,7 +258,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "marvelous", "marvelous Documentation", [author], 1)]
+man_pages = [(master_doc, "esak", "esak Documentation", [author], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -272,10 +272,10 @@ man_pages = [(master_doc, "marvelous", "marvelous Documentation", [author], 1)]
 texinfo_documents = [
     (
         master_doc,
-        "marvelous",
-        "marvelous Documentation",
+        "esak",
+        "esak Documentation",
         author,
-        "marvelous",
+        "esak",
         "One line description of project.",
         "Miscellaneous",
     ),

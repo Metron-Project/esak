@@ -1,4 +1,4 @@
-.. marvelous documentation master file, created by
+.. esak documentation master file, created by
    sphinx-quickstart on Thu Apr 14 09:12:24 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -9,27 +9,27 @@ Marvelous Documentation
 
 **Links:**
 
-- `Code on Github <https://github.com/rkuykendall/marvelous>`_
-- `Published on PyPi <https://pypi.python.org/pypi/marvelous>`_
-- `Read the project documentation <http://marvelous.readthedocs.io/en/latest/>`_
+- `Code on Github <https://github.com/rkuykendall/esak>`_
+- `Published on PyPi <https://pypi.python.org/pypi/esak>`_
+- `Read the project documentation <http://esak.readthedocs.io/en/latest/>`_
 
 **To install:**
 
 .. code-block:: bash
 
-    pip install marvelous
+    pip install esak
 
 **Usage:**
 
 .. code-block:: python
 
-    import marvelous
+    import esak
 
     # Your own config file to keep your private key local and secret
     from config import public_key, private_key
 
     # Authenticate with Marvel, with keys I got from http://developer.marvel.com/
-    m = marvelous.api(public_key, private_key)
+    m = esak.api(public_key, private_key)
 
     # Get all comics from this week, sorted alphabetically by title
     pulls = sorted(m.comics({
@@ -66,7 +66,7 @@ Instantiating API
 
 .. code-block:: python
 
-    import marvelous
+    import esak
 
     public_key = "Public key from https://developer.marvel.com/account"
     private_key = "Private key from https://developer.marvel.com/account"
@@ -84,7 +84,7 @@ Instantiating API
     cache = CacheClass()
 
     # m is a session object, read about it below
-    m = marvelous.api(
+    m = esak.api(
         public_key,
         private_key,
         cache=cache
@@ -94,7 +94,7 @@ Instantiating API
 Session Methods
 ---------------
 
-The session object returned by ``marvelous.api(public_key, private_key)``
+The session object returned by ``esak.api(public_key, private_key)``
 has the following methods.
 
 m.call(endpoint, params)
@@ -135,7 +135,7 @@ For documentation on all the acceptable keys in `params`, see the
 Objects
 -------
 
-Aside from making it easier to build and send requests, marvelous also creates
+Aside from making it easier to build and send requests, esak also creates
 easy-to-work-with python objects from the response.
 
 
@@ -209,7 +209,7 @@ SeriesList
 Exceptions
 ----------
 
-Exceptions can be imported from ``marvelous.exceptions`` and caught:
+Exceptions can be imported from ``esak.exceptions`` and caught:
 
 - ``ApiError``
 - ``AuthenticationError``
@@ -220,7 +220,7 @@ Exceptions can be imported from ``marvelous.exceptions`` and caught:
 Caching
 -------
 
-``marvelous.api`` supports an optional cache attribute, which can store API
+``esak.api`` supports an optional cache attribute, which can store API
 responses and significanly improve working with the Marvel API. The cache
 argument must be an object with these two methods:
 
@@ -235,9 +235,9 @@ An Sqlite cache class is included with the library and can be imported like so:
 
 .. code-block:: python
 
-    m = marvelous.api(
+    m = esak.api(
         public_key, private_key,
-        cache=marvelous.SqliteCache(db_name="marvelous_cache.db"))
+        cache=esak.SqliteCache(db_name="marvelous_cache.db"))
 
 
 Examples
@@ -246,7 +246,7 @@ Examples
 .. code-block:: python
 
     import os
-    import marvelous
+    import esak
 
     # Your own config file to keep your private key local and secret
     from config import public_key, private_key
@@ -259,7 +259,7 @@ Examples
     ])
 
     # Authenticate with Marvel, with keys I got from http://developer.marvel.com/
-    m = marvelous.api(public_key, private_key)
+    m = esak.api(public_key, private_key)
 
     # Get all comics from this week, sorted alphabetically by title
     # Uses the same API parameters as listed in the official API documentation
