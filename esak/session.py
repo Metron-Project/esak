@@ -125,12 +125,9 @@ class Session:
 
     def creator(self, _id):
         try:
-            result = creator.CreatorsSchema().load(self.call(["creators", _id]))
+            return creator.CreatorsSchema().load(self.call(["creators", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
-
-        result.session = self
-        return result
 
     def creators_list(self, params=None):
         if params is None:
@@ -140,12 +137,9 @@ class Session:
 
     def character(self, _id):
         try:
-            result = character.CharactersSchema().load(self.call(["characters", _id]))
+            return character.CharactersSchema().load(self.call(["characters", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
-
-        result.session = self
-        return result
 
     def characters_list(self, params=None):
         if params is None:
