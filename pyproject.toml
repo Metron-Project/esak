@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "esak"
-version = "1.4.2"
+version = "1.0.0"
 description = "Marvel API wrapper for python."
 authors = ["Robert Kuykendall <robert@rkuykendall.com>"]
 license = "MIT"
