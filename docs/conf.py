@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # esak documentation build configuration file, created by
 # sphinx-quickstart on Thu Apr 14 09:12:24 2016.
