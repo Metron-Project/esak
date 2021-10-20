@@ -2,13 +2,15 @@ import datetime
 import hashlib
 import urllib.parse
 from collections import OrderedDict
+from typing import Any, Dict, Optional
 
 import requests
 from marshmallow import ValidationError
 
-from . import (
+from esak import (
     character,
     characters_list,
+    comic,
     comics_list,
     creator,
     creators_list,
@@ -78,7 +80,13 @@ class Session:
 
         return data
 
-    def comics(self, params=None):
+    def comic(self, _id: int) -> comic.Comic:
+        try:
+            return comic.ComicSchema().load(self.call(["comics", _id]))
+        except ValidationError as error:
+            raise exceptions.ApiError(error)
+
+    def comics_list(self, params: Optional[Dict[str, Any]] = None) -> comics_list.ComicsList:
         if params is None:
             params = {}
 

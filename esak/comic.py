@@ -1,10 +1,13 @@
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from . import character, creator, dates, events, prices, series, urls
+from . import character, creator, dates, events, exceptions, prices, series, urls
 
 
 class Comic:
     def __init__(self, **kwargs):
+        if "response" not in kwargs:
+            kwargs["response"] = None
+
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -45,35 +48,40 @@ class ComicSchema(Schema):
 
     @pre_load
     def process_input(self, data, **kwargs):
-        new_data = data
+        if data.get("code", 200) != 200:
+            raise exceptions.ApiError(data.get("status"))
+
+        if "status" in data:
+            data["data"]["results"][0]["response"] = data
+            data = data["data"]["results"][0]
 
         # Marvel comic 1768, and maybe others, returns a modified of
         # "-0001-11-30T00:00:00-0500". The best way to handle this is
         # probably just to ignore it, since I don't know how to fix it.
-        if new_data.get("modified", " ")[0] == "-":
-            del new_data["modified"]
+        if data.get("modified", " ")[0] == "-":
+            del data["modified"]
 
-        if "events" in new_data:
-            new_data["events"] = new_data["events"]["items"]
+        if "events" in data:
+            data["events"] = data["events"]["items"]
 
-        if "creators" in new_data:
-            new_data["creators"] = new_data["creators"]["items"]
+        if "creators" in data:
+            data["creators"] = data["creators"]["items"]
 
-        if "characters" in new_data:
-            new_data["characters"] = new_data["characters"]["items"]
+        if "characters" in data:
+            data["characters"] = data["characters"]["items"]
 
-        if "images" in new_data:
-            new_data["images"] = [
-                "{}.{}".format(img["path"], img["extension"]) for img in new_data["images"]
+        if "images" in data:
+            data["images"] = [
+                "{}.{}".format(img["path"], img["extension"]) for img in data["images"]
             ]
 
-        if "isbn" in new_data:
-            new_data["isbn"] = str(new_data["isbn"])
+        if "isbn" in data:
+            data["isbn"] = str(data["isbn"])
 
-        if "diamondCode" in new_data:
-            new_data["diamondCode"] = str(new_data["diamondCode"])
+        if "diamondCode" in data:
+            data["diamondCode"] = str(data["diamondCode"])
 
-        return new_data
+        return data
 
     @post_load
     def make(self, data, **kwargs):
