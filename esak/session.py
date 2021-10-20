@@ -2,7 +2,7 @@ import datetime
 import hashlib
 import urllib.parse
 from collections import OrderedDict
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional, Union
 
 import requests
 from marshmallow import ValidationError
@@ -17,11 +17,17 @@ from esak import (
     exceptions,
     series,
     series_list,
+    sqlite_cache,
 )
 
 
 class Session:
-    def __init__(self, public_key, private_key, cache=None):
+    def __init__(
+        self,
+        public_key: str,
+        private_key: str,
+        cache: Optional[sqlite_cache.SqliteCache] = None,
+    ):
 
         self.public_key = public_key
         self.private_key = private_key
@@ -74,7 +80,7 @@ class Session:
                     f"Cache object passed in is missing attribute: {repr(e)}"
                 )
 
-    def call(self, endpoint, params=None):
+    def call(self, endpoint: List[Union[str, int]], params: Dict[str, Any] = None) -> Any:
         if params is None:
             params = {}
 
@@ -136,31 +142,35 @@ class Session:
 
         return result
 
-    def series_list(self, params=None):
+    def series_list(self, params: Optional[Dict[str, Any]] = None) -> series_list.SeriesList:
         if params is None:
             params = {}
 
         return series_list.SeriesList(self.call(["series"], params=params))
 
-    def creator(self, _id):
+    def creator(self, _id: int) -> creator.Creator:
         try:
             return creator.CreatorsSchema().load(self.call(["creators", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def creators_list(self, params=None):
+    def creators_list(
+        self, params: Optional[Dict[str, Any]] = None
+    ) -> creators_list.CreatorsList:
         if params is None:
             params = {}
 
         return creators_list.CreatorsList(self.call(["creators"], params=params))
 
-    def character(self, _id):
+    def character(self, _id: int) -> character.Character:
         try:
             return character.CharactersSchema().load(self.call(["characters", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def characters_list(self, params=None):
+    def characters_list(
+        self, params: Optional[Dict[str, Any]] = None
+    ) -> characters_list.CharactersList:
         if params is None:
             params = {}
 
