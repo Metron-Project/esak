@@ -29,6 +29,4 @@ class SeriesList:
         try:
             return next(itertools.islice(self.series, index, index + 1))
         except TypeError:
-            return list(
-                itertools.islice(self.series, index.start, index.stop, index.step)
-            )
+            return list(itertools.islice(self.series, index.start, index.stop, index.step))
