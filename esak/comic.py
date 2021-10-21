@@ -52,7 +52,9 @@ class ComicSchema(Schema):
             raise exceptions.ApiError(data.get("status"))
 
         if "status" in data:
-            data["data"]["results"][0]["response"] = data
+            # Not quite sure why another version of the response
+            # was being kept, but let's comment it out for now.
+            # data["data"]["results"][0]["response"] = data
             data = data["data"]["results"][0]
 
         # Marvel comic 1768, and maybe others, returns a modified of
