@@ -1,20 +1,35 @@
+"""
+Creator module.
+
+This module provides the following classes:
+
+- Creator
+- CreatorSchema
+"""
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 from . import events, exceptions, series
 
 
 class Creator:
+    """
+    The Creator object contains information for creators.
+
+    :param `**kwargs`: The keyword arguments is used for setting creator data from Marvel.
+    """
+
     def __init__(self, **kwargs):
+        """Intialize a new Creator."""
         if "response" not in kwargs:
             kwargs["response"] = None
 
         for k, v in kwargs.items():
             setattr(self, k, v)
 
-    # TODO: Retrieve comics list for creator
-
 
 class CreatorsSchema(Schema):
+    """Schema for the Creator API."""
+
     id = fields.Int()
     firstName = fields.Str(attribute="first_name")
     middleName = fields.Str(attribute="middle_name")
@@ -30,6 +45,8 @@ class CreatorsSchema(Schema):
     events = fields.Nested(events.EventsSchema, many=True)
 
     class Meta:
+        """Any unknown fields will be included."""
+
         unknown = INCLUDE
 
     @pre_load
@@ -55,4 +72,12 @@ class CreatorsSchema(Schema):
 
     @post_load
     def make(self, data, **kwargs):
+        """
+        Make the Creator object.
+
+        :param data: Data from Marvel response.
+
+        :returns: :class:`Creator` object
+        :rtype: Creator
+        """
         return Creator(**data)
