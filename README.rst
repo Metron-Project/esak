@@ -2,7 +2,16 @@ esak - Marvel API wrapper for python 3
 ===========================================
 
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+.. image:: https://img.shields.io/pypi/v/esak.svg?logo=PyPI&label=Version&style=flat-square   :alt: PyPI
+    :target: https://pypi.org/project/esak
+
+.. image:: https://img.shields.io/pypi/pyversions/esak.svg?logo=Python&label=Python-Versions&style=flat-square
+    :target: https://pypi.org/project/esak
+
+.. image:: https://img.shields.io/github/license/bpepple/esak
+    :target: https://opensource.org/licenses/GPL-3.0  
+
+.. image:: https://img.shields.io/badge/Code%20Style-Black-000000.svg?style=flat-square
     :target: https://github.com/psf/black
 
 - `Code on Github <https://github.com/bpepple/esak>`_
