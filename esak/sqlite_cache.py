@@ -17,7 +17,7 @@ class SqliteCache:
     :param str db_name: Path and database name to use.
     """
 
-    def __init__(self, db_name: str = "marvelous_cache.db") -> None:
+    def __init__(self, db_name: str = "esak_cache.db") -> None:
         """Intialize a new SqliteCache."""
         self.con = sqlite3.connect(db_name)
         self.cur = self.con.cursor()
