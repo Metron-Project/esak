@@ -28,7 +28,7 @@ esak - Marvel API wrapper for python 3
     m = esak.api(public_key, private_key)
 
     # Get all comics from this week, sorted alphabetically by title
-    pulls = sorted(m.comics({
+    pulls = sorted(m.comics_list({
         'format': "comic",
         'formatType': "comic",
         'noVariants': True,
@@ -41,8 +41,6 @@ esak - Marvel API wrapper for python 3
         # id of the series
         print('{} (series #{})'.format(comic.title, comic.series.id))
 
-`Output available in full documentation <http://esak.readthedocs.io/en/latest/>`_
-
 
 Contributing
 ------------
@@ -51,8 +49,3 @@ Contributing
   ``PUBLIC_KEY`` and ``PRIVATE_KEY`` to any Marel API keys. The result will be
   stored in the `tests/testing_mock.sqlite` database without your keys.
 
-
-**To release:**
-
-- Update version number
-- Create tag on Github
