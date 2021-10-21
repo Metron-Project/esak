@@ -2,6 +2,7 @@
 Test Comic module.
 This module contains tests for Comic objects.
 """
+from datetime import date
 from decimal import Decimal
 
 
@@ -53,6 +54,9 @@ def test_known_comic(talker):
     assert af15.stories[2].id == 35506
     assert af15.stories[2].type == "interiorStory"
     assert af15.stories[2].name == "The Bell-Ringer"
+    assert af15.dates.on_sale == date(1962, 8, 1)
+    assert af15.dates.foc is None
+    assert af15.dates.unlimited == date(2008, 5, 13)
 
 
 def test_invalid_isbn(talker):
@@ -71,6 +75,9 @@ def test_invalid_diamond_code(talker):
 def test_upc_code(talker):
     cable = talker.comic(95781)
     assert cable.upc == "759606201991000111"
+    assert cable.dates.on_sale == date(2021, 8, 25)
+    assert cable.dates.foc == date(2021, 8, 2)
+    assert cable.dates.unlimited is None
 
 
 def test_comic_digital_price(talker):
@@ -90,3 +97,6 @@ def test_comic_digital_price(talker):
     assert cw1.stories[1].id == 5873
     assert cw1.stories[1].type == "interiorStory"
     assert cw1.stories[1].name == "1 of 7 - 7XLS"
+    assert cw1.dates.on_sale == date(2006, 5, 3)
+    assert cw1.dates.foc is None
+    assert cw1.dates.unlimited == date(2009, 8, 12)

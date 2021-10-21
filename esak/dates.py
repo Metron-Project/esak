@@ -10,12 +10,13 @@ class Dates:
 
 
 class DatesSchema(Schema):
-    onsaleDate = fields.DateTime(attribute="on_sale")
-    focDate = fields.DateTime(attribute="foc")
-    unlimitedDate = fields.DateTime(attribute="unlimited")
+    onsaleDate = fields.Date(attribute="on_sale")
+    focDate = fields.Date(attribute="foc")  # Final Order Cutoff date
+    unlimitedDate = fields.Date(attribute="unlimited")
 
     class Meta:
         unknown = INCLUDE
+        dateformat = "%Y-%m-%dT%H:%M:%S%z"
 
     @pre_load
     def process_input(self, data, **kwargs):
