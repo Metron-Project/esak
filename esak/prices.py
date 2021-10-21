@@ -2,14 +2,15 @@ from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 
 class Prices:
-    def __init__(self, **kwargs):
-        for k, v in kwargs.items():
-            setattr(self, k, v)
+    def __init__(self, print=None, digital=None, **kwargs):
+        self.print = print
+        self.digital = digital
+        self.unknown = kwargs
 
 
 class PriceSchemas(Schema):
-    printPrice = fields.Decimal(places=2, allow_none=True, attribute="print")
-    digitalPurchasePrice = fields.Decimal(places=2, allow_none=True, attribute="digital")
+    printPrice = fields.Decimal(places=2, attribute="print")
+    digitalPurchasePrice = fields.Decimal(places=2, attribute="digital")
 
     class Meta:
         unknown = INCLUDE

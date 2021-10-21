@@ -44,6 +44,7 @@ def test_known_comic(talker):
     assert "Steve Ditko" in [s.name for s in af15.creators]
     assert "Abe Lincoln" not in [s.name for s in af15.creators]
     assert af15.prices.print == Decimal("0.00")
+    assert af15.prices.digital is None
     assert len(af15.stories) == 5
     assert af15.stories[0].id == 35504
     assert af15.stories[0].type == "cover"
@@ -64,6 +65,7 @@ def test_invalid_isbn(talker):
     murpg = talker.comic(1143)
     assert murpg.isbn == "785110283"
     assert murpg.prices.print == Decimal("9.99")
+    assert murpg.prices.digital is None
 
 
 def test_invalid_diamond_code(talker):
