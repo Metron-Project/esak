@@ -43,6 +43,16 @@ def test_known_comic(talker):
     assert "Steve Ditko" in [s.name for s in af15.creators]
     assert "Abe Lincoln" not in [s.name for s in af15.creators]
     assert af15.prices.print == Decimal("0.00")
+    assert len(af15.stories) == 5
+    assert af15.stories[0].id == 35504
+    assert af15.stories[0].type == "cover"
+    assert af15.stories[0].name == "Cover: Amazing Fantasy (1962) #15"
+    assert af15.stories[1].id == 35505
+    assert af15.stories[1].type == "interiorStory"
+    assert af15.stories[1].name == "Spider-Man!"
+    assert af15.stories[2].id == 35506
+    assert af15.stories[2].type == "interiorStory"
+    assert af15.stories[2].name == "The Bell-Ringer"
 
 
 def test_invalid_isbn(talker):
@@ -73,3 +83,10 @@ def test_comic_digital_price(talker):
     assert cw1.upc == "75960605921800111"
     assert cw1.issue_number == 1
     assert cw1.digital_id == 5486
+    assert len(cw1.stories) == 2
+    assert cw1.stories[0].id == 5872
+    assert cw1.stories[0].type == "cover"
+    assert cw1.stories[0].name == "1 of 7 - 7XLS"
+    assert cw1.stories[1].id == 5873
+    assert cw1.stories[1].type == "interiorStory"
+    assert cw1.stories[1].name == "1 of 7 - 7XLS"

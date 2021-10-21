@@ -1,6 +1,6 @@
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from . import character, creator, dates, events, exceptions, prices, series, urls
+from esak import character, creator, dates, events, exceptions, prices, series, stories, urls
 
 
 class Comic:
@@ -40,7 +40,7 @@ class ComicSchema(Schema):
     images = fields.List(fields.Url)
     creators = fields.Nested(creator.CreatorsSchema, many=True)
     characters = fields.Nested(character.CharactersSchema, many=True)
-    # stories
+    stories = fields.Nested(stories.StorySummarySchema, many=True)
     events = fields.Nested(events.EventsSchema, many=True)
 
     class Meta:
@@ -60,6 +60,9 @@ class ComicSchema(Schema):
         # probably just to ignore it, since I don't know how to fix it.
         if data.get("modified", " ")[0] == "-":
             del data["modified"]
+
+        if "stories" in data:
+            data["stories"] = data["stories"]["items"]
 
         if "events" in data:
             data["events"] = data["events"]["items"]

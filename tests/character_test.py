@@ -14,6 +14,13 @@ def test_known_character(talker):
     assert cap.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087.jpg"
     assert len(cap.series) > 0
     assert len(cap.events) > 0
+    assert len(cap.stories) == 20
+    assert cap.stories[0].id == 670
+    assert cap.stories[0].name == "X-MEN (2004) #186"
+    assert cap.stories[0].type == "cover"
+    assert cap.stories[19].id == 1606
+    assert cap.stories[19].name == "WEAPON X (2002) #14"
+    assert cap.stories[19].type == "cover"
 
 
 def test_bad_character(talker):
