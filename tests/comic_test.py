@@ -100,3 +100,5 @@ def test_comic_digital_price(talker):
     assert cw1.dates.on_sale == date(2006, 5, 3)
     assert cw1.dates.foc is None
     assert cw1.dates.unlimited == date(2009, 8, 12)
+    assert cw1.images[0] == "http://i.annihil.us/u/prod/marvel/i/mg/e/f0/511307b2f1200.jpg"
+    assert cw1.images[1] == "http://i.annihil.us/u/prod/marvel/i/mg/6/f0/4f75b393338cf.jpg"

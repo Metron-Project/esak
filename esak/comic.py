@@ -76,9 +76,7 @@ class ComicSchema(Schema):
             data["characters"] = data["characters"]["items"]
 
         if "images" in data:
-            data["images"] = [
-                "{}.{}".format(img["path"], img["extension"]) for img in data["images"]
-            ]
+            data["images"] = [f"{img['path']}.{img['extension']}" for img in data["images"]]
 
         if "isbn" in data:
             data["isbn"] = str(data["isbn"])
