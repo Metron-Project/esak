@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import platform
 import urllib.parse
 from collections import OrderedDict
 from typing import Any, Dict, List, Optional, Union
@@ -8,6 +9,7 @@ import requests
 from marshmallow import ValidationError
 
 from esak import (
+    __version__,
     character,
     characters_list,
     comic,
@@ -92,8 +94,15 @@ class Session:
         if cached_response is not None:
             return cached_response
 
+        header = {
+            "User-Agent": f"esak/{__version__} ({platform.system()}; {platform.release()})"
+        }
         self._update_params(params)
-        response = requests.get(url, params=params)
+        response = requests.get(
+            url,
+            params=params,
+            headers=header,
+        )
 
         data = response.json()
 
