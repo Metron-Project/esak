@@ -7,8 +7,12 @@ This module provides the following classes:
 - StorySummarySchema
 - Stories
 - StoriesSchema
+- StoriesList
 """
+import itertools
+
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
+from marshmallow.exceptions import ValidationError
 
 from esak import creator, events, exceptions, series
 
@@ -110,3 +114,34 @@ class StoriesSchema(Schema):
         :rtype: Stories
         """
         return Stories(**data)
+
+
+class StoriesList:
+    """The StoriesList object contains a list of `Stories` objects."""
+
+    def __init__(self, response):
+        """Initialize a new StoriesList."""
+        self.stories = []
+
+        for stories_dict in response["data"]["results"]:
+            try:
+                result = StoriesSchema().load(stories_dict)
+            except ValidationError as error:
+                raise exceptions.ApiError(error)
+
+            self.stories.append(result)
+
+    def __iter__(self):
+        """Return an iterator object."""
+        return iter(self.stories)
+
+    def __len__(self):
+        """Return the length of the object."""
+        return len(self.stories)
+
+    def __getitem__(self, index):
+        """Return the object of a at index."""
+        try:
+            return next(itertools.islice(self.stories, index, index + 1))
+        except TypeError:
+            return list(itertools.islice(self.stories, index.start, index.stop, index.step))

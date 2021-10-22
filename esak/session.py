@@ -186,8 +186,14 @@ class Session:
 
         return characters_list.CharactersList(self.call(["characters"], params=params))
 
-    def stories(self, _id: int) -> stories.Stories:
+    def story(self, _id: int) -> stories.Stories:
         try:
             return stories.StoriesSchema().load(self.call(["stories", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
+
+    def stories_list(self, params: Optional[Dict[str, Any]] = None) -> stories.StoriesList:
+        if params is None:
+            params = {}
+
+        return stories.StoriesList(self.call(["stories"], params=params))
