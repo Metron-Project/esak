@@ -58,6 +58,14 @@ def test_known_comic(talker):
     assert af15.dates.on_sale == date(1962, 8, 1)
     assert af15.dates.foc is None
     assert af15.dates.unlimited == date(2008, 5, 13)
+    assert len(af15.collections) == 1
+    assert af15.collections[0].id == 16214
+    assert af15.collections[0].name == "AMAZING FANTASY OMNIBUS HC (Hardcover)"
+    assert (
+        af15.collections[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/16214"
+    )
+    assert len(af15.collected_issues) < 1
+    assert len(af15.variants) < 1
 
 
 def test_invalid_isbn(talker):
