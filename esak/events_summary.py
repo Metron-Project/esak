@@ -17,7 +17,7 @@ class EventSummary:
 
 
 class EventSummarySchema(Schema):
-    id = fields.Str()
+    id = fields.Int()
     name = fields.Str()
 
     class Meta:

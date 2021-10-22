@@ -16,6 +16,7 @@ from esak import (
     comics_list,
     creator,
     creators_list,
+    events,
     exceptions,
     series,
     series_list,
@@ -197,3 +198,15 @@ class Session:
             params = {}
 
         return stories.StoriesList(self.call(["stories"], params=params))
+
+    def event(self, _id: int) -> events.Events:
+        try:
+            return events.EventsSchema().load(self.call(["events", _id]))
+        except ValidationError as error:
+            raise exceptions.ApiError(error)
+
+    def events_list(self, params: Optional[Dict[str, Any]] = None) -> events.EventsList:
+        if params is None:
+            params = {}
+
+        return events.EventsList(self.call(["events"], params=params))
