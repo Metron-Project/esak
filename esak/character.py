@@ -8,7 +8,7 @@ This module provides the following classes:
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from esak import events, exceptions, series, stories, urls
+from esak import events, exceptions, series, story_summary, urls
 
 
 class Character:
@@ -27,7 +27,7 @@ class Character:
             setattr(self, k, v)
 
 
-class CharactersSchema(Schema):
+class CharacterSchema(Schema):
     """Schema for the Character API."""
 
     id = fields.Int()
@@ -38,9 +38,7 @@ class CharactersSchema(Schema):
     urls = fields.Nested(urls.UrlsSchema)
     thumbnail = fields.Url()
     # comics
-    stories = fields.Nested(
-        stories.StorySummarySchema, many=True
-    )  # Marvel only returns up to 20 story items
+    stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     events = fields.Nested(events.EventsSchema, many=True)
     series = fields.Nested(series.SeriesSchema, many=True)
 

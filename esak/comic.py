@@ -1,6 +1,17 @@
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from esak import character, creator, dates, events, exceptions, prices, series, stories, urls
+from esak import (
+    character,
+    comic_summary,
+    creator,
+    dates,
+    events,
+    exceptions,
+    prices,
+    series,
+    story_summary,
+    urls,
+)
 
 
 class Comic:
@@ -31,16 +42,18 @@ class ComicSchema(Schema):
     resourceURI = fields.Url(attribute="resource_uri")
     urls = fields.Nested(urls.UrlsSchema)
     series = fields.Nested(series.SeriesSchema)
-    # variants
-    # collections
-    # collectedIssues
+    variants = fields.Nested(comic_summary.ComicSummarySchema, many=True)
+    collections = fields.Nested(comic_summary.ComicSummarySchema, many=True)
+    collectedIssues = fields.Nested(
+        comic_summary.ComicSummarySchema, attribute="collected_issues", many=True
+    )
     dates = fields.Nested(dates.DatesSchema)
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)
     # thumbnail
     images = fields.List(fields.Url)
     creators = fields.Nested(creator.CreatorsSchema, many=True)
-    characters = fields.Nested(character.CharactersSchema, many=True)
-    stories = fields.Nested(stories.StorySummarySchema, many=True)
+    characters = fields.Nested(character.CharacterSchema, many=True)
+    stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     events = fields.Nested(events.EventsSchema, many=True)
 
     class Meta:
