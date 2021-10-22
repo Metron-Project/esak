@@ -14,7 +14,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import creator, events, exceptions, series
+from esak import comic_summary, creator, events, exceptions, series
 
 
 class StorySummary:
@@ -70,7 +70,7 @@ class StoriesSchema(Schema):
     events = fields.Nested(events.EventsSchema, many=True)
     # characters = fields.Nested(character.CharacterSchema, many=True)
     creators = fields.Nested(creator.CreatorsSchema, many=True)
-    # originalIssue
+    originalIssue = fields.Nested(comic_summary.ComicSummarySchema, attribute="original_issue")
 
     class Meta:
         """Any unknown fields will be included."""

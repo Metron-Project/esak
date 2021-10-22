@@ -28,6 +28,10 @@ def test_known_story(talker):
     assert sm.series[1].name == "AMAZING FANTASY OMNIBUS HC (2007)"
     assert sm.series[1].resource_uri == "http://gateway.marvel.com/v1/public/series/2707"
 
+    assert sm.original_issue.id == 16926
+    assert sm.original_issue.name == "Amazing Fantasy (1962) #15"
+    assert sm.original_issue.resource_uri == "http://gateway.marvel.com/v1/public/comics/16926"
+
 
 def test_bad_story(talker):
     with pytest.raises(exceptions.ApiError):
