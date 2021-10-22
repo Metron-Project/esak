@@ -1,28 +1,24 @@
 """
-Story Summary module.
+Events Summary module.
 
 This module provides the following classes:
 
-- StorySummary
-- StorySummarySchema
+- EventsSummary
+- EventsSummarySchema
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 
-class StorySummary:
-    def __init__(self, id=None, name=None, type=None, resource_uri=None, **kwargs):
+class EventSummary:
+    def __init__(self, id=None, name=None, **kwargs):
         self.id = id
         self.name = name
-        self.type = type
-        self.resource_uri = resource_uri
         self.unknown = kwargs
 
 
-class StorySummarySchema(Schema):
+class EventSummarySchema(Schema):
     id = fields.Int()
     name = fields.Str()
-    resourceURI = fields.Str(attribute="resource_uri")
-    type = fields.Str()
 
     class Meta:
         unknown = INCLUDE
@@ -34,4 +30,4 @@ class StorySummarySchema(Schema):
 
     @post_load
     def make(self, data, **kwargs):
-        return StorySummary(**data)
+        return EventSummary(**data)

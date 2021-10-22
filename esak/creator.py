@@ -8,7 +8,7 @@ This module provides the following classes:
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from . import events, exceptions, series
+from esak import events_summary, exceptions, series, story_summary
 
 
 class Creator:
@@ -20,9 +20,6 @@ class Creator:
 
     def __init__(self, **kwargs):
         """Intialize a new Creator."""
-        if "response" not in kwargs:
-            kwargs["response"] = None
-
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -41,8 +38,8 @@ class CreatorsSchema(Schema):
     # urls
     thumbnail = fields.Url()
     series = fields.Nested(series.SeriesSchema, many=True)
-    # stories
-    events = fields.Nested(events.EventsSchema, many=True)
+    stories = fields.Nested(story_summary.StorySummarySchema, many=True)
+    events = fields.Nested(events_summary.EventSummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""
@@ -55,7 +52,6 @@ class CreatorsSchema(Schema):
             raise exceptions.ApiError(data.get("status"))
 
         if "status" in data:
-            data["data"]["results"][0]["response"] = data
             data = data["data"]["results"][0]
 
         if "thumbnail" in data:
@@ -66,6 +62,9 @@ class CreatorsSchema(Schema):
 
         if "series" in data:
             data["series"] = data["series"]["items"]
+
+        if "stories" in data:
+            data["stories"] = data["stories"]["items"]
 
         data["id"] = data["resourceURI"].split("/")[-1]
         return data
