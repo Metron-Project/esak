@@ -20,6 +20,7 @@ from esak import (
     series,
     series_list,
     sqlite_cache,
+    stories,
 )
 
 
@@ -184,3 +185,9 @@ class Session:
             params = {}
 
         return characters_list.CharactersList(self.call(["characters"], params=params))
+
+    def stories(self, _id: int) -> stories.Stories:
+        try:
+            return stories.StoriesSchema().load(self.call(["stories", _id]))
+        except ValidationError as error:
+            raise exceptions.ApiError(error)
