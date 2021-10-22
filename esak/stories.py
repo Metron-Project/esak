@@ -12,7 +12,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import character, comic_summary, creator, events, exceptions, series
+from esak import character, comic_summary, creator, events_summary, exceptions, series
 
 
 class Stories:
@@ -39,7 +39,7 @@ class StoriesSchema(Schema):
     thumbnail = fields.Url(allow_none=True)
     # comics
     series = fields.Nested(series.SeriesSchema, many=True)
-    events = fields.Nested(events.EventsSchema, many=True)
+    events = fields.Nested(events_summary.EventSummarySchema, many=True)
     characters = fields.Nested(character.CharacterSchema, many=True)
     creators = fields.Nested(creator.CreatorsSchema, many=True)
     originalIssue = fields.Nested(comic_summary.ComicSummarySchema, attribute="original_issue")

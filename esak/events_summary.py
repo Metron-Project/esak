@@ -1,14 +1,22 @@
+"""
+Events Summary module.
+
+This module provides the following classes:
+
+- EventsSummary
+- EventsSummarySchema
+"""
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 
-class Events:
+class EventSummary:
     def __init__(self, id=None, name=None, **kwargs):
         self.id = id
         self.name = name
         self.unknown = kwargs
 
 
-class EventsSchema(Schema):
+class EventSummarySchema(Schema):
     id = fields.Str()
     name = fields.Str()
 
@@ -22,4 +30,4 @@ class EventsSchema(Schema):
 
     @post_load
     def make(self, data, **kwargs):
-        return Events(**data)
+        return EventSummary(**data)

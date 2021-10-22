@@ -8,7 +8,7 @@ This module provides the following classes:
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from . import events, exceptions, series
+from esak import events_summary, exceptions, series
 
 
 class Creator:
@@ -42,7 +42,7 @@ class CreatorsSchema(Schema):
     thumbnail = fields.Url()
     series = fields.Nested(series.SeriesSchema, many=True)
     # stories
-    events = fields.Nested(events.EventsSchema, many=True)
+    events = fields.Nested(events_summary.EventSummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""
