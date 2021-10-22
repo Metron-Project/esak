@@ -3,8 +3,6 @@ Stories module.
 
 This module provides the following classes:
 
-- StorySummary
-- StorySummarySchema
 - Stories
 - StoriesSchema
 - StoriesList
@@ -14,33 +12,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import comic_summary, creator, events, exceptions, series
-
-
-class StorySummary:
-    def __init__(self, id=None, name=None, type=None, **kwargs):
-        self.id = id
-        self.name = name
-        self.type = type
-        self.unknown = kwargs
-
-
-class StorySummarySchema(Schema):
-    id = fields.Int()
-    name = fields.Str()
-    type = fields.Str()
-
-    class Meta:
-        unknown = INCLUDE
-
-    @pre_load
-    def process_input(self, data, **kwargs):
-        data["id"] = data["resourceURI"].split("/")[-1]
-        return data
-
-    @post_load
-    def make(self, data, **kwargs):
-        return StorySummary(**data)
+from esak import character, comic_summary, creator, events, exceptions, series
 
 
 class Stories:
@@ -68,7 +40,7 @@ class StoriesSchema(Schema):
     # comics
     series = fields.Nested(series.SeriesSchema, many=True)
     events = fields.Nested(events.EventsSchema, many=True)
-    # characters = fields.Nested(character.CharacterSchema, many=True)
+    characters = fields.Nested(character.CharacterSchema, many=True)
     creators = fields.Nested(creator.CreatorsSchema, many=True)
     originalIssue = fields.Nested(comic_summary.ComicSummarySchema, attribute="original_issue")
 
@@ -98,6 +70,9 @@ class StoriesSchema(Schema):
 
         if "creators" in data:
             data["creators"] = data["creators"]["items"]
+
+        if "characters" in data:
+            data["characters"] = data["characters"]["items"]
 
         data["id"] = data["resourceURI"].split("/")[-1]
 
