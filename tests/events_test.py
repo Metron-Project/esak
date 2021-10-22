@@ -41,6 +41,11 @@ def test_known_event(talker):
     assert se.previous.id == 332
     assert se.previous.name == "Dead No More: The Clone Conspiracy"
 
+    assert len(se.comics) == 20
+    assert se.comics[0].id == 63223
+    assert se.comics[0].name == "All-New Guardians of the Galaxy Annual (2017) #1"
+    assert se.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/63223"
+
 
 def test_bad_event(talker):
     with pytest.raises(exceptions.ApiError):

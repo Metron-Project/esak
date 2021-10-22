@@ -12,7 +12,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import character, creator, events_summary, exceptions, story_summary
+from esak import character, comic_summary, creator, events_summary, exceptions, story_summary
 
 
 class Events:
@@ -37,7 +37,7 @@ class EventsSchema(Schema):
     start = fields.Date()
     end = fields.Date()
     thumbnail = fields.Url()
-    # comics
+    comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
     stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     # series
     characters = fields.Nested(character.CharacterSchema, many=True)
@@ -65,6 +65,9 @@ class EventsSchema(Schema):
 
         if "creators" in data:
             data["creators"] = data["creators"]["items"]
+
+        if "comics" in data:
+            data["comics"] = data["comics"]["items"]
 
         if "thumbnail" in data:
             data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"

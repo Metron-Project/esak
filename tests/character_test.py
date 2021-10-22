@@ -22,6 +22,11 @@ def test_known_character(talker):
     assert cap.stories[19].name == "WEAPON X (2002) #14"
     assert cap.stories[19].type == "cover"
 
+    assert len(cap.comics) == 20
+    assert cap.comics[0].id == 43488
+    assert cap.comics[0].name == "A+X (2012) #1"
+    assert cap.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/43488"
+
 
 def test_bad_character(talker):
     with pytest.raises(exceptions.ApiError):
