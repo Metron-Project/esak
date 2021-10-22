@@ -39,7 +39,7 @@ class ComicSchema(Schema):
     # thumbnail
     images = fields.List(fields.Url)
     creators = fields.Nested(creator.CreatorsSchema, many=True)
-    characters = fields.Nested(character.CharactersSchema, many=True)
+    characters = fields.Nested(character.CharacterSchema, many=True)
     stories = fields.Nested(stories.StorySummarySchema, many=True)
     events = fields.Nested(events.EventsSchema, many=True)
 

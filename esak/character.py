@@ -27,7 +27,7 @@ class Character:
             setattr(self, k, v)
 
 
-class CharactersSchema(Schema):
+class CharacterSchema(Schema):
     """Schema for the Character API."""
 
     id = fields.Int()

@@ -19,7 +19,7 @@ class CharactersList:
         """Initialize a new CharactersList."""
         self.character = []
 
-        schema = character.CharactersSchema()
+        schema = character.CharacterSchema()
         for character_dict in response["data"]["results"]:
             try:
                 result = schema.load(character_dict)

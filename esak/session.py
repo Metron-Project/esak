@@ -173,7 +173,7 @@ class Session:
 
     def character(self, _id: int) -> character.Character:
         try:
-            return character.CharactersSchema().load(self.call(["characters", _id]))
+            return character.CharacterSchema().load(self.call(["characters", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
