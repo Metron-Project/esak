@@ -10,16 +10,18 @@ from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 
 class StorySummary:
-    def __init__(self, id=None, name=None, type=None, **kwargs):
+    def __init__(self, id=None, name=None, type=None, resource_uri=None, **kwargs):
         self.id = id
         self.name = name
         self.type = type
+        self.resource_uri = resource_uri
         self.unknown = kwargs
 
 
 class StorySummarySchema(Schema):
     id = fields.Int()
     name = fields.Str()
+    resourceURI = fields.Str(attribute="resource_uri")
     type = fields.Str()
 
     class Meta:

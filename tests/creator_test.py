@@ -14,9 +14,16 @@ def test_known_creator(talker):
     assert jason.last_name == "Aaron"
     assert jason.id == 11463
     assert jason.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/7/10/5cd9c7870670e.jpg"
+
     assert 16450 in [s.id for s in jason.series]
     assert len(jason.series[:5]) == 5
     assert len(jason.series) == len([x for x in jason.series if x.id > 3])
+
+    assert len(jason.stories) == 20
+    assert jason.stories[0].id == 32907
+    assert jason.stories[0].name == "Man In The Pit 1 of 1"
+    assert jason.stories[0].type == "interiorStory"
+    assert jason.stories[0].resource_uri == "http://gateway.marvel.com/v1/public/stories/32907"
 
 
 def test_bad_creator(talker):
