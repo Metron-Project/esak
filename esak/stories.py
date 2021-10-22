@@ -37,7 +37,7 @@ class StoriesSchema(Schema):
     type = fields.Str()
     modified = fields.DateTime()
     thumbnail = fields.Url(allow_none=True)
-    # comics
+    comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
     series = fields.Nested(series.SeriesSchema, many=True)
     events = fields.Nested(events_summary.EventSummarySchema, many=True)
     characters = fields.Nested(character.CharacterSchema, many=True)
@@ -73,6 +73,9 @@ class StoriesSchema(Schema):
 
         if "characters" in data:
             data["characters"] = data["characters"]["items"]
+
+        if "comics" in data:
+            data["comics"] = data["comics"]["items"]
 
         data["id"] = data["resourceURI"].split("/")[-1]
 

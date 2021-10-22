@@ -39,6 +39,11 @@ def test_known_story(talker):
         == "http://gateway.marvel.com/v1/public/characters/1009610"
     )
 
+    assert len(sm.comics) == 2
+    assert sm.comics[0].id == 16926
+    assert sm.comics[0].name == "Amazing Fantasy (1962) #15"
+    assert sm.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/16926"
+
 
 def test_bad_story(talker):
     with pytest.raises(exceptions.ApiError):

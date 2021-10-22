@@ -8,7 +8,7 @@ This module provides the following classes:
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from esak import events_summary, exceptions, series, story_summary
+from esak import comic_summary, events_summary, exceptions, series, story_summary
 
 
 class Creator:
@@ -40,6 +40,7 @@ class CreatorsSchema(Schema):
     series = fields.Nested(series.SeriesSchema, many=True)
     stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     events = fields.Nested(events_summary.EventSummarySchema, many=True)
+    comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""
@@ -65,6 +66,9 @@ class CreatorsSchema(Schema):
 
         if "stories" in data:
             data["stories"] = data["stories"]["items"]
+
+        if "comics" in data:
+            data["comics"] = data["comics"]["items"]
 
         data["id"] = data["resourceURI"].split("/")[-1]
         return data
