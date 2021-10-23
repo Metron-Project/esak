@@ -8,10 +8,9 @@ from typing import Any, Dict, List, Optional, Union
 import requests
 from marshmallow import ValidationError
 
+from esak import __version__
+from esak import character as ch
 from esak import (
-    __version__,
-    character,
-    characters_list,
     comic,
     comics_list,
     creator,
@@ -154,19 +153,17 @@ class Session:
 
         return creators_list.CreatorsList(self.call(["creators"], params=params))
 
-    def character(self, _id: int) -> character.Character:
+    def character(self, _id: int) -> ch.Character:
         try:
-            return character.CharacterSchema().load(self.call(["characters", _id]))
+            return ch.CharacterSchema().load(self.call(["characters", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def characters_list(
-        self, params: Optional[Dict[str, Any]] = None
-    ) -> characters_list.CharactersList:
+    def characters_list(self, params: Optional[Dict[str, Any]] = None) -> ch.CharactersList:
         if params is None:
             params = {}
 
-        return characters_list.CharactersList(self.call(["characters"], params=params))
+        return ch.CharactersList(self.call(["characters"], params=params))
 
     def story(self, _id: int) -> stories.Stories:
         try:
