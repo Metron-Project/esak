@@ -34,6 +34,8 @@ class CharacterSummarySchema(Schema):
     resourceURI = fields.Url(attribute="resource_uri")
 
     class Meta:
+        """Any unknown fields will be included."""
+
         unknown = INCLUDE
 
     @pre_load
