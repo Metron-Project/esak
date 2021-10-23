@@ -1,3 +1,10 @@
+"""
+Session module.
+
+This module provides the following classes:
+
+- Session
+"""
 import datetime
 import hashlib
 import platform
@@ -20,13 +27,21 @@ from esak import sqlite_cache, stories
 
 
 class Session:
+    """
+    Session to request api endpoints.
+
+    :param str public_key: The public_key for authentication with Marvel
+    :param str private_key: The private_key used for authentication with Marvel
+    :param SqliteCache optional: SqliteCache to use
+    """
+
     def __init__(
         self,
         public_key: str,
         private_key: str,
         cache: Optional[sqlite_cache.SqliteCache] = None,
     ):
-
+        """Intialize a new Session."""
         self.public_key = public_key
         self.private_key = private_key
         self.cache = cache
@@ -111,6 +126,14 @@ class Session:
         return data
 
     def comic(self, _id: int) -> com.Comic:
+        """
+        Request data for a comic based on it's ``_id``.
+
+        :param int _id: The comic id.
+
+        :return: :class:`Comic` object
+        :rtype: Comic
+        """
         try:
             return com.ComicSchema().load(self.call(["comics", _id]))
         except ValidationError as error:
@@ -119,6 +142,17 @@ class Session:
     def comic_characters(
         self, _id: int, params: Optional[Dict[str, Any]] = None
     ) -> ch.CharactersList:
+        """
+        Request a list of characters from a comic.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Character` objects.
+        :rtype: CharactersList
+        """
         if params is None:
             params = {}
 
@@ -127,12 +161,34 @@ class Session:
     def comic_creators(
         self, _id: int, params: Optional[Dict[str, Any]] = None
     ) -> cr.CreatorsList:
+        """
+        Request a list of creators from a comic.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Creator` objects.
+        :rtype: CreatorsList
+        """
         if params is None:
             params = {}
 
         return cr.CreatorsList(self.call(["comics", _id, "creators"], params=params))
 
     def comic_events(self, _id: int, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
+        """
+        Request a list of events from a comic.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Event` objects.
+        :rtype: EventsList
+        """
         if params is None:
             params = {}
 
@@ -141,12 +197,32 @@ class Session:
     def comic_stories(
         self, _id: int, params: Optional[Dict[str, Any]] = None
     ) -> stories.StoriesList:
+        """
+        Request a list of stories from a comic.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Stories` objects.
+        :rtype: StoriesList
+        """
         if params is None:
             params = {}
 
         return stories.StoriesList(self.call(["comics", _id, "stories"], params=params))
 
     def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
+        """
+        Request a list of comics.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Comic` objects.
+        :rtype: ComicsList
+        """
         if params is None:
             params = {}
 
