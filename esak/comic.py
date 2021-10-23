@@ -1,3 +1,12 @@
+"""
+Comic module.
+
+This module provides the following classes:
+
+- Comic
+- ComicSchema
+- ComicsList
+"""
 import itertools
 
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
@@ -18,15 +27,21 @@ from esak import (
 
 
 class Comic:
-    def __init__(self, **kwargs):
-        if "response" not in kwargs:
-            kwargs["response"] = None
+    """
+    The Comic object contains information for a comic.
 
+    :param `**kwargs`: The keyword arguments is used for setting comic data from Marvel.
+    """
+
+    def __init__(self, **kwargs):
+        """Intialize a new comic."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 
 
 class ComicSchema(Schema):
+    """Schema for the Comic API."""
+
     id = fields.Int()
     digitalId = fields.Int(attribute="digital_id")
     title = fields.Str()
@@ -60,17 +75,24 @@ class ComicSchema(Schema):
     events = fields.Nested(events_summary.EventSummarySchema, many=True)
 
     class Meta:
+        """Any unknown fields will be included."""
+
         unknown = INCLUDE
 
     @pre_load
     def process_input(self, data, **kwargs):
+        """
+        Clean the data from Marvel.
+
+        :param data: Data from Marvel response.
+
+        :returns: Marvel Response
+        :rtype: dict
+        """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
 
         if "status" in data:
-            # Not quite sure why another version of the response
-            # was being kept, but let's comment it out for now.
-            # data["data"]["results"][0]["response"] = data
             data = data["data"]["results"][0]
 
         # Marvel comic 1768, and maybe others, returns a modified of
@@ -104,13 +126,23 @@ class ComicSchema(Schema):
 
     @post_load
     def make(self, data, **kwargs):
+        """
+        Make the Comic object.
+
+        :param data: Data from Marvel response.
+
+        :returns: :class:`Comic` object
+        :rtype: Comic
+        """
         return Comic(**data)
 
 
 class ComicsList:
+    """The ComicsList object contains a list of `Comic` objects."""
+
     def __init__(self, response):
+        """Initialize a new ComicList."""
         self.comics = []
-        self.response = response
 
         for comic_dict in response["data"]["results"]:
             try:
@@ -121,12 +153,15 @@ class ComicsList:
             self.comics.append(result)
 
     def __iter__(self):
+        """Return an iterator object."""
         return iter(self.comics)
 
     def __len__(self):
+        """Return the length of the object."""
         return len(self.comics)
 
     def __getitem__(self, index):
+        """Return the object of a at index."""
         try:
             return next(itertools.islice(self.comics, index, index + 1))
         except TypeError:
