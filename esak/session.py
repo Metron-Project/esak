@@ -116,6 +116,14 @@ class Session:
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
+    def comic_characters(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> ch.CharactersList:
+        if params is None:
+            params = {}
+
+        return ch.CharactersList(self.call(["comics", _id, "characters"], params=params))
+
     def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
         if params is None:
             params = {}

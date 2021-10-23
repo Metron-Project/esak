@@ -112,3 +112,19 @@ def test_comic_digital_price(talker):
     assert cw1.dates.unlimited == date(2009, 8, 12)
     assert cw1.images[0] == "http://i.annihil.us/u/prod/marvel/i/mg/e/f0/511307b2f1200.jpg"
     assert cw1.images[1] == "http://i.annihil.us/u/prod/marvel/i/mg/6/f0/4f75b393338cf.jpg"
+
+
+def test_comic_characters(talker):
+    a1 = talker.comic_characters(67002)
+    assert len(a1.character) == 8
+    she_hulk = a1.character[6]
+    assert she_hulk.id == 1009583
+    assert she_hulk.name == "She-Hulk (Jennifer Walters)"
+    assert she_hulk.resource_uri == "http://gateway.marvel.com/v1/public/characters/1009583"
+    assert (
+        she_hulk.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/7/20/527bb5d64599e.jpg"
+    )
+    assert len(she_hulk.comics) == 20
+    assert len(she_hulk.events) == 15
+    assert len(she_hulk.series) == 20
+    assert len(she_hulk.stories) == 20
