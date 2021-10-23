@@ -11,6 +11,7 @@ from esak.series import Series
 
 
 def test_known_series(talker):
+
     usms = talker.series(466)
     assert usms.title == "Ultimate Spider-Man (2000 - 2009)"
     assert usms.id == 466
@@ -39,6 +40,15 @@ def test_known_series(talker):
     assert usms.comics[0].id == 4372
     assert usms.comics[0].name == "Ultimate Spider-Man (2000) #1"
     assert usms.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/4372"
+
+    assert len(usms.characters) == 20
+    assert usms.characters[11].id == 1010921
+    assert usms.characters[11].name == "Doctor Octopus (Ultimate)"
+    assert usms.characters[11].role is None
+    assert (
+        usms.characters[11].resource_uri
+        == "http://gateway.marvel.com/v1/public/characters/1010921"
+    )
 
 
 def test_bad_series(talker):

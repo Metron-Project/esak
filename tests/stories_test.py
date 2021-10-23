@@ -44,6 +44,15 @@ def test_known_story(talker):
     assert sm.comics[0].name == "Amazing Fantasy (1962) #15"
     assert sm.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/16926"
 
+    assert len(sm.characters) == 1
+    assert sm.characters[0].id == 1009610
+    assert sm.characters[0].name == "Spider-Man (Peter Parker)"
+    assert sm.characters[0].role is None
+    assert (
+        sm.characters[0].resource_uri
+        == "http://gateway.marvel.com/v1/public/characters/1009610"
+    )
+
 
 def test_bad_story(talker):
     with pytest.raises(exceptions.ApiError):

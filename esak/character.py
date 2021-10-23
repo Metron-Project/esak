@@ -20,9 +20,6 @@ class Character:
 
     def __init__(self, **kwargs):
         """Intialize a new Character."""
-        if "response" not in kwargs:
-            kwargs["response"] = None
-
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -53,11 +50,12 @@ class CharacterSchema(Schema):
             raise exceptions.ApiError(data.get("status"))
 
         if "status" in data:
-            data["data"]["results"][0]["response"] = data
             data = data["data"]["results"][0]
 
-        if "thumbnail" in data:
+        if "thumbnail" in data and data["thumbnail"] is not None:
             data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
+        else:
+            data["thumbnail"] = None
 
         if "events" in data:
             data["events"] = data["events"]["items"]
@@ -72,6 +70,7 @@ class CharacterSchema(Schema):
             data["comics"] = data["comics"]["items"]
 
         data["id"] = data["resourceURI"].split("/")[-1]
+
         return data
 
     @post_load
