@@ -11,6 +11,7 @@ from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from esak import (
     character_summary,
     comic_summary,
+    creator_summary,
     events_summary,
     exceptions,
     series_summary,
@@ -39,7 +40,7 @@ class SeriesSchema(Schema):
     stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     events = fields.Nested(events_summary.EventSummarySchema, many=True)
     characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
-    # creators
+    creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
     next = fields.Nested(series_summary.SeriesSummarySchema, allow_none=True)
     previous = fields.Nested(series_summary.SeriesSummarySchema, allow_none=True)
 
@@ -73,6 +74,9 @@ class SeriesSchema(Schema):
 
         if "characters" in data:
             data["characters"] = data["characters"]["items"]
+
+        if "creators" in data:
+            data["creators"] = data["creators"]["items"]
 
         return data
 

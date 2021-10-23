@@ -50,6 +50,12 @@ def test_known_series(talker):
         == "http://gateway.marvel.com/v1/public/characters/1010921"
     )
 
+    assert len(usms.creators) == 20
+    assert usms.creators[12].id == 162
+    assert usms.creators[12].name == "John Cassaday"
+    assert usms.creators[12].role == "penciller"
+    assert usms.creators[12].resource_uri == "http://gateway.marvel.com/v1/public/creators/162"
+
 
 def test_bad_series(talker):
     with pytest.raises(exceptions.ApiError):

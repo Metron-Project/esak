@@ -15,7 +15,7 @@ from marshmallow.exceptions import ValidationError
 from esak import (
     character_summary,
     comic_summary,
-    creator,
+    creator_summary,
     events_summary,
     exceptions,
     series_summary,
@@ -48,7 +48,7 @@ class StoriesSchema(Schema):
     series = fields.Nested(series_summary.SeriesSummarySchema, many=True)
     events = fields.Nested(events_summary.EventSummarySchema, many=True)
     characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
-    creators = fields.Nested(creator.CreatorsSchema, many=True)
+    creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
     originalIssue = fields.Nested(comic_summary.ComicSummarySchema, attribute="original_issue")
 
     class Meta:

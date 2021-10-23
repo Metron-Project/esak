@@ -3,7 +3,7 @@ from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from esak import (
     character_summary,
     comic_summary,
-    creator,
+    creator_summary,
     dates,
     events_summary,
     exceptions,
@@ -51,7 +51,7 @@ class ComicSchema(Schema):
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)
     # thumbnail
     images = fields.List(fields.Url)
-    creators = fields.Nested(creator.CreatorsSchema, many=True)
+    creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
     characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
     stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     events = fields.Nested(events_summary.EventSummarySchema, many=True)
