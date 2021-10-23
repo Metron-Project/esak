@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional, Union
 import requests
 from marshmallow import ValidationError
 
+# Alias these modules to prevent namespace collision with methods.
 from esak import __version__
 from esak import character as ch
 from esak import comic as com
