@@ -6,7 +6,10 @@ This module provides the following classes:
 - Character
 - CharacterSchema
 """
+import itertools
+
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
+from marshmallow.exceptions import ValidationError
 
 from esak import comic_summary, events_summary, exceptions, series_summary, story_summary, urls
 
@@ -84,3 +87,34 @@ class CharacterSchema(Schema):
         :rtype: Character
         """
         return Character(**data)
+
+
+class CharactersList:
+    """The CharactersList object contains a list of `Character` objects."""
+
+    def __init__(self, response):
+        """Initialize a new CharactersList."""
+        self.character = []
+
+        for character_dict in response["data"]["results"]:
+            try:
+                result = CharacterSchema().load(character_dict)
+            except ValidationError as error:
+                raise exceptions.ApiError(error)
+
+            self.character.append(result)
+
+    def __iter__(self):
+        """Return an iterator object."""
+        return iter(self.character)
+
+    def __len__(self):
+        """Return the length of the object."""
+        return len(self.character)
+
+    def __getitem__(self, index):
+        """Return the object of a at index."""
+        try:
+            return next(itertools.islice(self.character, index, index + 1))
+        except TypeError:
+            return list(itertools.islice(self.character, index.start, index.stop, index.step))

@@ -6,7 +6,10 @@ This module provides the following classes:
 - Creator
 - CreatorSchema
 """
+import itertools
+
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
+from marshmallow.exceptions import ValidationError
 
 from esak import comic_summary, events_summary, exceptions, series_summary, story_summary
 
@@ -84,3 +87,34 @@ class CreatorsSchema(Schema):
         :rtype: Creator
         """
         return Creator(**data)
+
+
+class CreatorsList:
+    """The CreatorsList object contains a list of `Creator` objects."""
+
+    def __init__(self, response):
+        """Initialize a new CreatorsList."""
+        self.creator = []
+
+        for series_dict in response["data"]["results"]:
+            try:
+                result = CreatorsSchema().load(series_dict)
+            except ValidationError as error:
+                raise exceptions.ApiError(error)
+
+            self.creator.append(result)
+
+    def __iter__(self):
+        """Return an iterator object."""
+        return iter(self.creator)
+
+    def __len__(self):
+        """Return the length of the object."""
+        return len(self.creator)
+
+    def __getitem__(self, index):
+        """Return the object of a at index."""
+        try:
+            return next(itertools.islice(self.creator, index, index + 1))
+        except TypeError:
+            return list(itertools.islice(self.creator, index.start, index.stop, index.step))

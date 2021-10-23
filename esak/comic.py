@@ -1,4 +1,7 @@
+import itertools
+
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
+from marshmallow.exceptions import ValidationError
 
 from esak import (
     character_summary,
@@ -102,3 +105,29 @@ class ComicSchema(Schema):
     @post_load
     def make(self, data, **kwargs):
         return Comic(**data)
+
+
+class ComicsList:
+    def __init__(self, response):
+        self.comics = []
+        self.response = response
+
+        for comic_dict in response["data"]["results"]:
+            try:
+                result = ComicSchema().load(comic_dict)
+            except ValidationError as error:
+                raise exceptions.ApiError(error)
+
+            self.comics.append(result)
+
+    def __iter__(self):
+        return iter(self.comics)
+
+    def __len__(self):
+        return len(self.comics)
+
+    def __getitem__(self, index):
+        try:
+            return next(itertools.islice(self.comics, index, index + 1))
+        except TypeError:
+            return list(itertools.islice(self.comics, index.start, index.stop, index.step))

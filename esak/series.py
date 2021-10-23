@@ -6,7 +6,10 @@ This module provides the following classes:
 - Series
 - SeriesSchema
 """
+import itertools
+
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
+from marshmallow.exceptions import ValidationError
 
 from esak import (
     character_summary,
@@ -83,3 +86,29 @@ class SeriesSchema(Schema):
     @post_load
     def make(self, data, **kwargs):
         return Series(**data)
+
+
+class SeriesList:
+    def __init__(self, response):
+        self.series = []
+        self.response = response
+
+        for series_dict in response["data"]["results"]:
+            try:
+                result = SeriesSchema().load(series_dict)
+            except ValidationError as error:
+                raise exceptions.ApiError(error)
+
+            self.series.append(result)
+
+    def __iter__(self):
+        return iter(self.series)
+
+    def __len__(self):
+        return len(self.series)
+
+    def __getitem__(self, index):
+        try:
+            return next(itertools.islice(self.series, index, index + 1))
+        except TypeError:
+            return list(itertools.islice(self.series, index.start, index.stop, index.step))

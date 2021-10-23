@@ -3,8 +3,8 @@ Events module.
 
 This module provides the following classes:
 
-- Events
-- EventsSchema
+- Event
+- EventSchema
 - EventsList
 """
 import itertools
@@ -25,9 +25,9 @@ from esak import (
 
 class Events:
     """
-    The Events object contains information for events.
+    The Event object contains information for events.
 
-    :param `**kwargs`: The keyword arguments is used for setting events data from Marvel.
+    :param `**kwargs`: The keyword arguments is used for setting event data from Marvel.
     """
 
     def __init__(self, **kwargs) -> None:
@@ -35,7 +35,7 @@ class Events:
             setattr(self, k, v)
 
 
-class EventsSchema(Schema):
+class EventSchema(Schema):
     id = fields.Int()
     title = fields.Str()
     description = fields.Str()
@@ -107,7 +107,7 @@ class EventsList:
 
         for events_dict in response["data"]["results"]:
             try:
-                result = EventsSchema().load(events_dict)
+                result = EventSchema().load(events_dict)
             except ValidationError as error:
                 raise exceptions.ApiError(error)
 

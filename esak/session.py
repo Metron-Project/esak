@@ -8,21 +8,15 @@ from typing import Any, Dict, List, Optional, Union
 import requests
 from marshmallow import ValidationError
 
-from esak import (
-    __version__,
-    character,
-    characters_list,
-    comic,
-    comics_list,
-    creator,
-    creators_list,
-    events,
-    exceptions,
-    series,
-    series_list,
-    sqlite_cache,
-    stories,
-)
+# Alias these modules to prevent namespace collision with methods.
+from esak import __version__
+from esak import character as ch
+from esak import comic as com
+from esak import creator as cr
+from esak import event as ev
+from esak import exceptions
+from esak import series as ser
+from esak import sqlite_cache, stories
 
 
 class Session:
@@ -116,57 +110,53 @@ class Session:
 
         return data
 
-    def comic(self, _id: int) -> comic.Comic:
+    def comic(self, _id: int) -> com.Comic:
         try:
-            return comic.ComicSchema().load(self.call(["comics", _id]))
+            return com.ComicSchema().load(self.call(["comics", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def comics_list(self, params: Optional[Dict[str, Any]] = None) -> comics_list.ComicsList:
+    def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
         if params is None:
             params = {}
 
-        return comics_list.ComicsList(self.call(["comics"], params=params))
+        return com.ComicsList(self.call(["comics"], params=params))
 
-    def series(self, _id: int) -> series.Series:
+    def series(self, _id: int) -> ser.Series:
         try:
-            return series.SeriesSchema().load(self.call(["series", _id]))
+            return ser.SeriesSchema().load(self.call(["series", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def series_list(self, params: Optional[Dict[str, Any]] = None) -> series_list.SeriesList:
+    def series_list(self, params: Optional[Dict[str, Any]] = None) -> ser.SeriesList:
         if params is None:
             params = {}
 
-        return series_list.SeriesList(self.call(["series"], params=params))
+        return ser.SeriesList(self.call(["series"], params=params))
 
-    def creator(self, _id: int) -> creator.Creator:
+    def creator(self, _id: int) -> cr.Creator:
         try:
-            return creator.CreatorsSchema().load(self.call(["creators", _id]))
+            return cr.CreatorsSchema().load(self.call(["creators", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def creators_list(
-        self, params: Optional[Dict[str, Any]] = None
-    ) -> creators_list.CreatorsList:
+    def creators_list(self, params: Optional[Dict[str, Any]] = None) -> cr.CreatorsList:
         if params is None:
             params = {}
 
-        return creators_list.CreatorsList(self.call(["creators"], params=params))
+        return cr.CreatorsList(self.call(["creators"], params=params))
 
-    def character(self, _id: int) -> character.Character:
+    def character(self, _id: int) -> ch.Character:
         try:
-            return character.CharacterSchema().load(self.call(["characters", _id]))
+            return ch.CharacterSchema().load(self.call(["characters", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def characters_list(
-        self, params: Optional[Dict[str, Any]] = None
-    ) -> characters_list.CharactersList:
+    def characters_list(self, params: Optional[Dict[str, Any]] = None) -> ch.CharactersList:
         if params is None:
             params = {}
 
-        return characters_list.CharactersList(self.call(["characters"], params=params))
+        return ch.CharactersList(self.call(["characters"], params=params))
 
     def story(self, _id: int) -> stories.Stories:
         try:
@@ -180,14 +170,14 @@ class Session:
 
         return stories.StoriesList(self.call(["stories"], params=params))
 
-    def event(self, _id: int) -> events.Events:
+    def event(self, _id: int) -> ev.Events:
         try:
-            return events.EventsSchema().load(self.call(["events", _id]))
+            return ev.EventSchema().load(self.call(["events", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def events_list(self, params: Optional[Dict[str, Any]] = None) -> events.EventsList:
+    def events_list(self, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
         if params is None:
             params = {}
 
-        return events.EventsList(self.call(["events"], params=params))
+        return ev.EventsList(self.call(["events"], params=params))
