@@ -12,7 +12,8 @@ from esak import __version__
 from esak import character as ch
 from esak import comic as com
 from esak import creator as cr
-from esak import events, exceptions
+from esak import event as ev
+from esak import exceptions
 from esak import series as ser
 from esak import sqlite_cache, stories
 
@@ -168,14 +169,14 @@ class Session:
 
         return stories.StoriesList(self.call(["stories"], params=params))
 
-    def event(self, _id: int) -> events.Events:
+    def event(self, _id: int) -> ev.Events:
         try:
-            return events.EventsSchema().load(self.call(["events", _id]))
+            return ev.EventSchema().load(self.call(["events", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def events_list(self, params: Optional[Dict[str, Any]] = None) -> events.EventsList:
+    def events_list(self, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
         if params is None:
             params = {}
 
-        return events.EventsList(self.call(["events"], params=params))
+        return ev.EventsList(self.call(["events"], params=params))
