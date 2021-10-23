@@ -128,30 +128,11 @@ class Session:
 
         return comics_list.ComicsList(self.call(["comics"], params=params))
 
-    def series(self, _id=None, params=None):
-        result = None
-        if _id:
-            try:
-                result = series.SeriesSchema().load(self.call(["series", _id]))
-                result.session = self
-            except ValidationError as error:
-                raise exceptions.ApiError(error)
-        elif params:
-            try:
-                api_call = self.call(["series"], params)
-
-                if api_call.get("code", 200) != 200:
-                    raise exceptions.ApiError(api_call.get("status"))
-
-                result = series.SeriesSchema().load(
-                    api_call.get("data", {}).get("results"), many=True
-                )
-                for r in result:
-                    r.session = self
-            except ValidationError as error:
-                raise exceptions.ApiError(error)
-
-        return result
+    def series(self, _id: int) -> series.Series:
+        try:
+            return series.SeriesSchema().load(self.call(["series", _id]))
+        except ValidationError as error:
+            raise exceptions.ApiError(error)
 
     def series_list(self, params: Optional[Dict[str, Any]] = None) -> series_list.SeriesList:
         if params is None:
