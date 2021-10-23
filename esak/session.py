@@ -12,7 +12,9 @@ from esak import __version__
 from esak import character as ch
 from esak import comic as com
 from esak import creator as cr
-from esak import events, exceptions, series, series_list, sqlite_cache, stories
+from esak import events, exceptions
+from esak import series as ser
+from esak import sqlite_cache, stories
 
 
 class Session:
@@ -118,17 +120,17 @@ class Session:
 
         return com.ComicsList(self.call(["comics"], params=params))
 
-    def series(self, _id: int) -> series.Series:
+    def series(self, _id: int) -> ser.Series:
         try:
-            return series.SeriesSchema().load(self.call(["series", _id]))
+            return ser.SeriesSchema().load(self.call(["series", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def series_list(self, params: Optional[Dict[str, Any]] = None) -> series_list.SeriesList:
+    def series_list(self, params: Optional[Dict[str, Any]] = None) -> ser.SeriesList:
         if params is None:
             params = {}
 
-        return series_list.SeriesList(self.call(["series"], params=params))
+        return ser.SeriesList(self.call(["series"], params=params))
 
     def creator(self, _id: int) -> cr.Creator:
         try:
