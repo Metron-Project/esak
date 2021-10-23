@@ -132,6 +132,12 @@ class Session:
 
         return cr.CreatorsList(self.call(["comics", _id, "creators"], params=params))
 
+    def comic_events(self, _id: int, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
+        if params is None:
+            params = {}
+
+        return ev.EventsList(self.call(["comics", _id, "events"], params=params))
+
     def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
         if params is None:
             params = {}

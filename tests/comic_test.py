@@ -144,3 +144,30 @@ def test_comic_creators(talker):
     assert len(jason.events) == 10
     assert len(jason.series) == 20
     assert len(jason.stories) == 20
+
+
+def test_comic_events(talker):
+    sw1 = talker.comic_events(52447)
+    assert len(sw1.events) == 1
+    secret_wars = sw1.events[0]
+    assert secret_wars.id == 323
+    assert secret_wars.title == "Secret Wars (2015)"
+    assert (
+        secret_wars.thumbnail
+        == "http://i.annihil.us/u/prod/marvel/i/mg/c/70/545be45c5d6cc.jpg"
+    )
+    assert secret_wars.resource_uri == "http://gateway.marvel.com/v1/public/events/323"
+    assert secret_wars.start == date(2015, 5, 1)
+    assert secret_wars.end == date(2015, 12, 31)
+    assert len(secret_wars.characters) == 9
+    assert len(secret_wars.comics) == 20
+    assert len(secret_wars.creators) == 20
+    assert len(secret_wars.series) == 20
+    assert secret_wars.next.id == 332
+    assert secret_wars.next.name == "Dead No More: The Clone Conspiracy"
+    assert secret_wars.next.resource_uri == "http://gateway.marvel.com/v1/public/events/332"
+    assert secret_wars.previous.id == 321
+    assert secret_wars.previous.name == "Spider-Verse"
+    assert (
+        secret_wars.previous.resource_uri == "http://gateway.marvel.com/v1/public/events/321"
+    )
