@@ -171,3 +171,21 @@ def test_comic_events(talker):
     assert (
         secret_wars.previous.resource_uri == "http://gateway.marvel.com/v1/public/events/321"
     )
+
+
+def test_comic_stories(talker):
+    aforce4 = talker.comic_stories(51206)
+    assert len(aforce4.stories) == 2
+    s = aforce4.stories[1]
+    assert s.id == 113990
+    assert s.type == "story"
+    assert s.resource_uri == "http://gateway.marvel.com/v1/public/stories/113990"
+    assert len(s.characters) == 0
+    assert len(s.comics) == 1
+    assert len(s.creators) == 3
+    assert len(s.events) == 1
+    assert s.original_issue.id == 51206
+    assert s.original_issue.name == "A-Force (2015) #4"
+    assert s.original_issue.resource_uri == "http://gateway.marvel.com/v1/public/comics/51206"
+    assert len(s.series) == 1
+    assert s.thumbnail is None

@@ -138,6 +138,14 @@ class Session:
 
         return ev.EventsList(self.call(["comics", _id, "events"], params=params))
 
+    def comic_stories(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> stories.StoriesList:
+        if params is None:
+            params = {}
+
+        return stories.StoriesList(self.call(["comics", _id, "stories"], params=params))
+
     def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
         if params is None:
             params = {}
