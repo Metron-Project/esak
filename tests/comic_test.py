@@ -128,3 +128,19 @@ def test_comic_characters(talker):
     assert len(she_hulk.events) == 15
     assert len(she_hulk.series) == 20
     assert len(she_hulk.stories) == 20
+
+
+def test_comic_creators(talker):
+    a1 = talker.comic_creators(67002)
+    assert len(a1.creator) > 0
+    jason = a1.creator[0]
+    assert jason.id == 11463
+    assert jason.first_name == "Jason"
+    assert jason.last_name == "Aaron"
+    assert jason.full_name == "Jason Aaron"
+    assert jason.resource_uri == "http://gateway.marvel.com/v1/public/creators/11463"
+    assert jason.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/7/10/5cd9c7870670e.jpg"
+    assert len(jason.comics) == 20
+    assert len(jason.events) == 10
+    assert len(jason.series) == 20
+    assert len(jason.stories) == 20
