@@ -54,7 +54,7 @@ multi_line_output = 3
 line_length = 95
 default_section = "THIRDPARTY"
 known_first_party = []
-known_third_party = ["marshmallow", "pytest", "requests", "requests_mock", "sphinx_rtd_theme"]
+known_third_party = ["marshmallow", "pytest", "requests", "requests_mock"]
 
 [tool.poetry.urls]
 "Homepage" = "https://github.com/bpepple/esak"
