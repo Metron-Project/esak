@@ -6,7 +6,7 @@ import datetime
 
 import pytest
 
-from esak import comics_list, exceptions
+from esak import comic, exceptions
 from esak.series import Series
 
 
@@ -64,7 +64,7 @@ def test_bad_series(talker):
 
 def test_bad_response_data():
     with pytest.raises(exceptions.ApiError):
-        comics_list.ComicsList({"data": {"results": [{"modified": "potato"}]}})
+        comic.ComicsList({"data": {"results": [{"modified": "potato"}]}})
 
 
 def test_all_series(talker):

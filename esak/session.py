@@ -11,16 +11,8 @@ from marshmallow import ValidationError
 from esak import __version__
 from esak import character as ch
 from esak import comic as com
-from esak import (
-    creator,
-    creators_list,
-    events,
-    exceptions,
-    series,
-    series_list,
-    sqlite_cache,
-    stories,
-)
+from esak import creator as cr
+from esak import events, exceptions, series, series_list, sqlite_cache, stories
 
 
 class Session:
@@ -138,19 +130,17 @@ class Session:
 
         return series_list.SeriesList(self.call(["series"], params=params))
 
-    def creator(self, _id: int) -> creator.Creator:
+    def creator(self, _id: int) -> cr.Creator:
         try:
-            return creator.CreatorsSchema().load(self.call(["creators", _id]))
+            return cr.CreatorsSchema().load(self.call(["creators", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def creators_list(
-        self, params: Optional[Dict[str, Any]] = None
-    ) -> creators_list.CreatorsList:
+    def creators_list(self, params: Optional[Dict[str, Any]] = None) -> cr.CreatorsList:
         if params is None:
             params = {}
 
-        return creators_list.CreatorsList(self.call(["creators"], params=params))
+        return cr.CreatorsList(self.call(["creators"], params=params))
 
     def character(self, _id: int) -> ch.Character:
         try:
