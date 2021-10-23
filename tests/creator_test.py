@@ -30,6 +30,11 @@ def test_known_creator(talker):
     assert jason.comics[0].name == "A+X Vol. 1: = Awesome (Trade Paperback)"
     assert jason.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/45762"
 
+    assert len(jason.series) == 20
+    assert jason.series[11].id == 24229
+    assert jason.series[11].name == "Avengers (2018 - Present)"
+    assert jason.series[11].resource_uri == "http://gateway.marvel.com/v1/public/series/24229"
+
 
 def test_bad_creator(talker):
     with pytest.raises(exceptions.ApiError):

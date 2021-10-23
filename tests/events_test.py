@@ -46,6 +46,11 @@ def test_known_event(talker):
     assert se.comics[0].name == "All-New Guardians of the Galaxy Annual (2017) #1"
     assert se.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/63223"
 
+    assert len(se.series) == 20
+    assert se.series[11].id == 25356
+    assert se.series[11].name == "Secret Empire Omega (2017)"
+    assert se.series[11].resource_uri == "http://gateway.marvel.com/v1/public/series/25356"
+
 
 def test_bad_event(talker):
     with pytest.raises(exceptions.ApiError):

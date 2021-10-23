@@ -1,40 +1,40 @@
+"""
+Series module.
+
+This module provides the following classes:
+
+- Series
+- SeriesSchema
+"""
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from . import exceptions
+from esak import comic_summary, events_summary, exceptions, series_summary, story_summary
 
 
 class Series:
     def __init__(self, **kwargs):
-        if "response" not in kwargs:
-            kwargs["response"] = None
-
         for k, v in kwargs.items():
-            if k == "comics":
-                continue
             setattr(self, k, v)
-
-    def comics(self, params=None):
-        from . import comics_list
-
-        if params is None:
-            params = {}
-
-        return comics_list.ComicsList(
-            self.session.call(["series", self.id, "comics"], params=params)
-        )
 
 
 class SeriesSchema(Schema):
-    response = fields.Raw()
     id = fields.Int()
-    resourceURI = fields.Str(attribute="resource_uri")
     title = fields.Str()
-    modified = fields.DateTime()
     description = fields.Str(allow_none=True)
-    thumbnail = fields.URL(allow_none=True)
-    startYear = fields.Int(allow_none=True)
-    endYear = fields.Int(allow_none=True)
+    resourceURI = fields.Str(attribute="resource_uri")
+    # urls
+    startYear = fields.Int(attribute="start_year", allow_none=True)
+    endYear = fields.Int(attribute="end_year", allow_none=True)
     rating = fields.Str(allow_none=True)
+    modified = fields.DateTime()
+    thumbnail = fields.URL(allow_none=True)
+    comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
+    stories = fields.Nested(story_summary.StorySummarySchema, many=True)
+    events = fields.Nested(events_summary.EventSummarySchema, many=True)
+    # characters
+    # creators
+    next = fields.Nested(series_summary.SeriesSummarySchema, allow_none=True)
+    previous = fields.Nested(series_summary.SeriesSummarySchema, allow_none=True)
 
     class Meta:
         unknown = INCLUDE
@@ -45,17 +45,25 @@ class SeriesSchema(Schema):
             raise exceptions.ApiError(data.get("status"))
 
         if "status" in data:
-            data["data"]["results"][0]["response"] = data
             data = data["data"]["results"][0]
 
         # derive ID
         data["id"] = data["resourceURI"].split("/")[-1]
-        # derive thumbnail
-        thumb_dict = data.get("thumbnail", {})
-        if thumb_dict:
-            data["thumbnail"] = f"{thumb_dict['path']}.{thumb_dict['extension']}"
+
+        if "thumbnail" in data and data["thumbnail"] is not None:
+            data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
         else:
             data["thumbnail"] = None
+
+        if "comics" in data:
+            data["comics"] = data["comics"]["items"]
+
+        if "stories" in data:
+            data["stories"] = data["stories"]["items"]
+
+        if "events" in data:
+            data["events"] = data["events"]["items"]
+
         return data
 
     @post_load

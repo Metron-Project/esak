@@ -8,7 +8,7 @@ This module provides the following classes:
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
-from esak import comic_summary, events_summary, exceptions, series, story_summary, urls
+from esak import comic_summary, events_summary, exceptions, series_summary, story_summary, urls
 
 
 class Character:
@@ -40,7 +40,7 @@ class CharacterSchema(Schema):
     comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
     stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     events = fields.Nested(events_summary.EventSummarySchema, many=True)
-    series = fields.Nested(series.SeriesSchema, many=True)
+    series = fields.Nested(series_summary.SeriesSummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""
