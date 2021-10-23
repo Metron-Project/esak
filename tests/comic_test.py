@@ -112,3 +112,80 @@ def test_comic_digital_price(talker):
     assert cw1.dates.unlimited == date(2009, 8, 12)
     assert cw1.images[0] == "http://i.annihil.us/u/prod/marvel/i/mg/e/f0/511307b2f1200.jpg"
     assert cw1.images[1] == "http://i.annihil.us/u/prod/marvel/i/mg/6/f0/4f75b393338cf.jpg"
+
+
+def test_comic_characters(talker):
+    a1 = talker.comic_characters(67002)
+    assert len(a1.character) == 8
+    she_hulk = a1.character[6]
+    assert she_hulk.id == 1009583
+    assert she_hulk.name == "She-Hulk (Jennifer Walters)"
+    assert she_hulk.resource_uri == "http://gateway.marvel.com/v1/public/characters/1009583"
+    assert (
+        she_hulk.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/7/20/527bb5d64599e.jpg"
+    )
+    assert len(she_hulk.comics) == 20
+    assert len(she_hulk.events) == 15
+    assert len(she_hulk.series) == 20
+    assert len(she_hulk.stories) == 20
+
+
+def test_comic_creators(talker):
+    a1 = talker.comic_creators(67002)
+    assert len(a1.creator) > 0
+    jason = a1.creator[0]
+    assert jason.id == 11463
+    assert jason.first_name == "Jason"
+    assert jason.last_name == "Aaron"
+    assert jason.full_name == "Jason Aaron"
+    assert jason.resource_uri == "http://gateway.marvel.com/v1/public/creators/11463"
+    assert jason.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/7/10/5cd9c7870670e.jpg"
+    assert len(jason.comics) == 20
+    assert len(jason.events) == 10
+    assert len(jason.series) == 20
+    assert len(jason.stories) == 20
+
+
+def test_comic_events(talker):
+    sw1 = talker.comic_events(52447)
+    assert len(sw1.events) == 1
+    secret_wars = sw1.events[0]
+    assert secret_wars.id == 323
+    assert secret_wars.title == "Secret Wars (2015)"
+    assert (
+        secret_wars.thumbnail
+        == "http://i.annihil.us/u/prod/marvel/i/mg/c/70/545be45c5d6cc.jpg"
+    )
+    assert secret_wars.resource_uri == "http://gateway.marvel.com/v1/public/events/323"
+    assert secret_wars.start == date(2015, 5, 1)
+    assert secret_wars.end == date(2015, 12, 31)
+    assert len(secret_wars.characters) == 9
+    assert len(secret_wars.comics) == 20
+    assert len(secret_wars.creators) == 20
+    assert len(secret_wars.series) == 20
+    assert secret_wars.next.id == 332
+    assert secret_wars.next.name == "Dead No More: The Clone Conspiracy"
+    assert secret_wars.next.resource_uri == "http://gateway.marvel.com/v1/public/events/332"
+    assert secret_wars.previous.id == 321
+    assert secret_wars.previous.name == "Spider-Verse"
+    assert (
+        secret_wars.previous.resource_uri == "http://gateway.marvel.com/v1/public/events/321"
+    )
+
+
+def test_comic_stories(talker):
+    aforce4 = talker.comic_stories(51206)
+    assert len(aforce4.stories) == 2
+    s = aforce4.stories[1]
+    assert s.id == 113990
+    assert s.type == "story"
+    assert s.resource_uri == "http://gateway.marvel.com/v1/public/stories/113990"
+    assert len(s.characters) == 0
+    assert len(s.comics) == 1
+    assert len(s.creators) == 3
+    assert len(s.events) == 1
+    assert s.original_issue.id == 51206
+    assert s.original_issue.name == "A-Force (2015) #4"
+    assert s.original_issue.resource_uri == "http://gateway.marvel.com/v1/public/comics/51206"
+    assert len(s.series) == 1
+    assert s.thumbnail is None
