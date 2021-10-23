@@ -27,6 +27,11 @@ def test_known_character(talker):
     assert cap.comics[0].name == "A+X (2012) #1"
     assert cap.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/43488"
 
+    assert len(cap.series) == 20
+    assert cap.series[10].id == 9865
+    assert cap.series[10].name == "All-Winners Squad: Band of Heroes (2011)"
+    assert cap.series[10].resource_uri == "http://gateway.marvel.com/v1/public/series/9865"
+
 
 def test_bad_character(talker):
     with pytest.raises(exceptions.ApiError):
