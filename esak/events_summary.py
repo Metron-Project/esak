@@ -10,15 +10,17 @@ from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 
 class EventSummary:
-    def __init__(self, id=None, name=None, **kwargs):
+    def __init__(self, id=None, name=None, resource_uri=None, **kwargs):
         self.id = id
         self.name = name
+        self.resource_uri = resource_uri
         self.unknown = kwargs
 
 
 class EventSummarySchema(Schema):
     id = fields.Int()
     name = fields.Str()
+    resourceURI = fields.Str(attribute="resource_uri")
 
     class Meta:
         unknown = INCLUDE
