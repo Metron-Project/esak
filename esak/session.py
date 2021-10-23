@@ -10,9 +10,8 @@ from marshmallow import ValidationError
 
 from esak import __version__
 from esak import character as ch
+from esak import comic as com
 from esak import (
-    comic,
-    comics_list,
     creator,
     creators_list,
     events,
@@ -115,17 +114,17 @@ class Session:
 
         return data
 
-    def comic(self, _id: int) -> comic.Comic:
+    def comic(self, _id: int) -> com.Comic:
         try:
-            return comic.ComicSchema().load(self.call(["comics", _id]))
+            return com.ComicSchema().load(self.call(["comics", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
-    def comics_list(self, params: Optional[Dict[str, Any]] = None) -> comics_list.ComicsList:
+    def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
         if params is None:
             params = {}
 
-        return comics_list.ComicsList(self.call(["comics"], params=params))
+        return com.ComicsList(self.call(["comics"], params=params))
 
     def series(self, _id: int) -> series.Series:
         try:
