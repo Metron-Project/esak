@@ -19,6 +19,8 @@ def api(
     :type private_key: str, optional
     :param cache: SqliteCache to use
     :type cache: SqliteCache, optional
+
+    :raises: :class:`AuthenticationError`
     """
     if public_key is None:
         raise exceptions.AuthenticationError("Missing public_key.")
