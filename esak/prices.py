@@ -14,7 +14,7 @@ class Prices:
     The Prices object contains price information.
 
     :param `print`: The price of print comic.
-    :param `digital: The price of digital comic.
+    :param `digital`: The price of digital comic.
     :param `**kwargs`: The keyword arguments used for setting any other price from Marvel.
     """
 

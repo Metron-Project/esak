@@ -14,7 +14,7 @@ class Urls:
     The Urls object contains commonly used urls.
 
     :param `digital_purchase_date`: The url for the digital_purchase_date
-    :param `foc_date: The url for the final order cutoff date.
+    :param `foc_date`: The url for the final order cutoff date.
     :param `onsale_date`: The url for the on sale date.
     :param `unlimited_date`: The url for the Marvel Unlimited date.
     :param `wiki`: The url for the wiki entry.
