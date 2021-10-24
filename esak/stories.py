@@ -30,6 +30,7 @@ class Stories:
     """
 
     def __init__(self, **kwargs) -> None:
+        """Intialize a new story."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -58,6 +59,14 @@ class StoriesSchema(Schema):
 
     @pre_load
     def process_input(self, data, **kwargs):
+        """
+        Clean the data from Marvel.
+
+        :param data: Data from Marvel response.
+
+        :returns: Marvel Response
+        :rtype: dict
+        """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
 
