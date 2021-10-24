@@ -147,9 +147,9 @@ def test_series_creators(talker):
 
 
 def test_series_events(talker):
-    sm = talker.series_events(15305)
-    assert len(sm.events) == 1
-    e = sm[0]
+    AvX = talker.series_events(15305)
+    assert len(AvX.events) == 1
+    e = AvX[0]
     assert e.id == 310
     assert e.title == "Avengers VS X-Men"
     assert e.resource_uri == "http://gateway.marvel.com/v1/public/events/310"
@@ -167,3 +167,20 @@ def test_series_events(talker):
     assert e.previous.id == 309
     assert e.previous.name == "Shattered Heroes"
     assert e.previous.resource_uri == "http://gateway.marvel.com/v1/public/events/309"
+
+
+def test_series_stories(talker):
+    AvX = talker.series_stories(15305)
+    assert len(AvX.stories) == 20
+    s = AvX.stories[13]
+    assert s.id == 93246
+    assert s.type == "story"
+    assert s.resource_uri == "http://gateway.marvel.com/v1/public/stories/93246"
+    assert len(s.characters) == 4
+    assert len(s.comics) == 1
+    assert len(s.creators) == 6
+    assert len(s.events) == 1
+    assert len(s.series) == 1
+    assert s.original_issue.id == 41193
+    assert s.original_issue.name == "Avengers Vs. X-Men (2012) #4"
+    assert s.original_issue.resource_uri == "http://gateway.marvel.com/v1/public/comics/41193"
