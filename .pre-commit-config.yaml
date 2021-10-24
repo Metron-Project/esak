@@ -16,6 +16,7 @@ repos:
     rev: 3.9.2
     hooks:
       - id: flake8
+        exclude: ^tests/
         additional_dependencies:
           [flake8-docstrings, flake8-builtins, flake8-rst-docstrings]
   - repo: https://github.com/asottile/pyupgrade
