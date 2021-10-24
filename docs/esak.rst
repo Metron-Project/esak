@@ -68,10 +68,10 @@ esak.event module
    :undoc-members:
    :show-inheritance:
 
-esak.events\_summary module
----------------------------
+esak.event\_summary module
+--------------------------
 
-.. automodule:: esak.events_summary
+.. automodule:: esak.event_summary
    :members:
    :undoc-members:
    :show-inheritance:
