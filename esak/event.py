@@ -31,11 +31,14 @@ class Events:
     """
 
     def __init__(self, **kwargs) -> None:
+        """Intialize a new event."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 
 
 class EventSchema(Schema):
+    """Schema for the Event API."""
+
     id = fields.Int()
     title = fields.Str()
     description = fields.Str()
@@ -54,11 +57,21 @@ class EventSchema(Schema):
     previous = fields.Nested(events_summary.EventSummarySchema)
 
     class Meta:
+        """Any unknown fields will be included."""
+
         unknown = INCLUDE
         dateformat = "%Y-%m-%d %H:%M:%S"
 
     @pre_load
     def process_input(self, data, **kwargs):
+        """
+        Clean the data from Marvel.
+
+        :param data: Data from Marvel response.
+
+        :returns: Marvel Response
+        :rtype: dict
+        """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
 

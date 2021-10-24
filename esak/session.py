@@ -93,7 +93,7 @@ class Session:
                     f"Cache object passed in is missing attribute: {repr(e)}"
                 )
 
-    def call(self, endpoint: List[Union[str, int]], params: Dict[str, Any] = None) -> Any:
+    def _call(self, endpoint: List[Union[str, int]], params: Dict[str, Any] = None) -> Any:
         if params is None:
             params = {}
 
@@ -133,9 +133,11 @@ class Session:
 
         :return: :class:`Comic` object
         :rtype: Comic
+
+        :raises: :class:`ApiError`
         """
         try:
-            return com.ComicSchema().load(self.call(["comics", _id]))
+            return com.ComicSchema().load(self._call(["comics", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
@@ -156,7 +158,7 @@ class Session:
         if params is None:
             params = {}
 
-        return ch.CharactersList(self.call(["comics", _id, "characters"], params=params))
+        return ch.CharactersList(self._call(["comics", _id, "characters"], params=params))
 
     def comic_creators(
         self, _id: int, params: Optional[Dict[str, Any]] = None
@@ -175,7 +177,7 @@ class Session:
         if params is None:
             params = {}
 
-        return cr.CreatorsList(self.call(["comics", _id, "creators"], params=params))
+        return cr.CreatorsList(self._call(["comics", _id, "creators"], params=params))
 
     def comic_events(self, _id: int, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
         """
@@ -192,7 +194,7 @@ class Session:
         if params is None:
             params = {}
 
-        return ev.EventsList(self.call(["comics", _id, "events"], params=params))
+        return ev.EventsList(self._call(["comics", _id, "events"], params=params))
 
     def comic_stories(
         self, _id: int, params: Optional[Dict[str, Any]] = None
@@ -211,7 +213,7 @@ class Session:
         if params is None:
             params = {}
 
-        return stories.StoriesList(self.call(["comics", _id, "stories"], params=params))
+        return stories.StoriesList(self._call(["comics", _id, "stories"], params=params))
 
     def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
         """
@@ -226,64 +228,159 @@ class Session:
         if params is None:
             params = {}
 
-        return com.ComicsList(self.call(["comics"], params=params))
+        return com.ComicsList(self._call(["comics"], params=params))
 
     def series(self, _id: int) -> ser.Series:
+        """
+        Request data for a series based on it's ``_id``.
+
+        :param int _id: The series id.
+
+        :return: :class:`Series` object
+        :rtype: Series
+
+        :raises: :class:`ApiError`
+        """
         try:
-            return ser.SeriesSchema().load(self.call(["series", _id]))
+            return ser.SeriesSchema().load(self._call(["series", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
     def series_list(self, params: Optional[Dict[str, Any]] = None) -> ser.SeriesList:
+        """
+        Request a list of series.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Series` objects.
+        :rtype: SeriesList
+        """
         if params is None:
             params = {}
 
-        return ser.SeriesList(self.call(["series"], params=params))
+        return ser.SeriesList(self._call(["series"], params=params))
 
     def creator(self, _id: int) -> cr.Creator:
+        """
+        Request data for a creator based on it's ``_id``.
+
+        :param int _id: The creator id.
+
+        :return: :class:`Creator` object
+        :rtype: Creator
+
+        :raises: :class:`ApiError`
+        """
         try:
-            return cr.CreatorsSchema().load(self.call(["creators", _id]))
+            return cr.CreatorsSchema().load(self._call(["creators", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
     def creators_list(self, params: Optional[Dict[str, Any]] = None) -> cr.CreatorsList:
+        """
+        Request a list of creators.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Creator` objects.
+        :rtype: CreatorsList
+        """
         if params is None:
             params = {}
 
-        return cr.CreatorsList(self.call(["creators"], params=params))
+        return cr.CreatorsList(self._call(["creators"], params=params))
 
     def character(self, _id: int) -> ch.Character:
+        """
+        Request data for a character based on it's ``_id``.
+
+        :param int _id: The character id.
+
+        :return: :class:`Character` object
+        :rtype: Character
+
+        :raises: :class:`ApiError`
+        """
         try:
-            return ch.CharacterSchema().load(self.call(["characters", _id]))
+            return ch.CharacterSchema().load(self._call(["characters", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
     def characters_list(self, params: Optional[Dict[str, Any]] = None) -> ch.CharactersList:
+        """
+        Request a list of characters.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Character` objects.
+        :rtype: CharactersList
+        """
         if params is None:
             params = {}
 
-        return ch.CharactersList(self.call(["characters"], params=params))
+        return ch.CharactersList(self._call(["characters"], params=params))
 
     def story(self, _id: int) -> stories.Stories:
+        """
+        Request data for a Story based on it's ``_id``.
+
+        :param int _id: The story id.
+
+        :return: :class:`Stories` object
+        :rtype: Stories
+
+        :raises: :class:`ApiError`
+        """
         try:
-            return stories.StoriesSchema().load(self.call(["stories", _id]))
+            return stories.StoriesSchema().load(self._call(["stories", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
     def stories_list(self, params: Optional[Dict[str, Any]] = None) -> stories.StoriesList:
+        """
+        Request a list of stories.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Stories` objects.
+        :rtype: StoriesList
+        """
         if params is None:
             params = {}
 
-        return stories.StoriesList(self.call(["stories"], params=params))
+        return stories.StoriesList(self._call(["stories"], params=params))
 
     def event(self, _id: int) -> ev.Events:
+        """
+        Request data for an event based on it's ``_id``.
+
+        :param int _id: The event id.
+
+        :return: :class:`Event` object
+        :rtype: Event
+
+        :raises: :class:`ApiError`
+        """
         try:
-            return ev.EventSchema().load(self.call(["events", _id]))
+            return ev.EventSchema().load(self._call(["events", _id]))
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
     def events_list(self, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
+        """
+        Request a list of events.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Event` objects.
+        :rtype: EventsList
+        """
         if params is None:
             params = {}
 
-        return ev.EventsList(self.call(["events"], params=params))
+        return ev.EventsList(self._call(["events"], params=params))
