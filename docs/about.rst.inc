@@ -1,4 +1,18 @@
-**Esak** is a python wrapper for the Marvel API.
+Introduction
+------------
+
+Esak was created to make it easy to write small but powerful scripts which
+leverage the Marvel API, such as reading lists. The original use was to
+automate a list of Marvel comics weekly releases without having to copy each
+title manually from the Midtown Comics website.
+
+This package uses 2 major libraries :
+
+- requests for connecting to the Marvel API
+- marshmallow for parsing the response into python objects
+
+Instantiating API
+-----------------
 
 .. code-block:: python
 
