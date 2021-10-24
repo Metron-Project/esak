@@ -124,3 +124,19 @@ def test_series_comics(talker):
     assert len(sm_75.stories) == 2
     assert sm_75.prices.print == Decimal("5.99")
     assert sm_75.prices.digital is None
+
+
+def test_series_creators(talker):
+    sm = talker.series_creators(24396)
+    assert len(sm.creator) == 20
+    bagley = sm.creator[10]
+    assert bagley.id == 87
+    assert bagley.first_name == "Mark"
+    assert bagley.last_name == "Bagley"
+    assert bagley.full_name == "Mark Bagley"
+    assert bagley.resource_uri == "http://gateway.marvel.com/v1/public/creators/87"
+    assert bagley.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/9/b0/4bc5d2f67f706.jpg"
+    assert len(bagley.comics) == 20
+    assert len(bagley.events) == 13
+    assert len(bagley.series) == 20
+    assert len(bagley.stories) == 20
