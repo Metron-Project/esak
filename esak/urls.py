@@ -19,7 +19,7 @@ class Urls:
     :param `unlimited_date`: The url for the Marvel Unlimited date.
     :param `wiki`: The url for the wiki entry.
     :param `detail`: The url for detail information.
-    :param `**kwargs`: The keyword arguments used for setting any other price from Marvel.
+    :param `**kwargs`: The keyword arguments used for setting any other url from Marvel.
     """
 
     def __init__(
