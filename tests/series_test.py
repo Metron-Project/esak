@@ -91,3 +91,17 @@ def test_pulls_verbose(talker):
     assert next(s_iter).id == 26024
     assert next(s_iter).id == 18454
     assert len(series) > 0
+
+
+def test_series_characters(talker):
+    sm = talker.series_characters(24396)
+    assert len(sm.character) == 20
+    kingpin = sm.character[10]
+    assert kingpin.id == 1009389
+    assert kingpin.name == "Kingpin"
+    assert kingpin.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/9/60/526034fb5aff7.jpg"
+    assert len(kingpin.comics) == 20
+    assert len(kingpin.events) == 7
+    assert len(kingpin.series) == 20
+    assert len(kingpin.stories) == 20
+    assert kingpin.urls.onsale_date is None
