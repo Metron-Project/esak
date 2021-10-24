@@ -80,9 +80,13 @@ def test_all_series(talker):
     series_iter = talker.series_list(
         params={"seriesType": "ongoing", "startYear": 2009, "limit": 10}
     )
-    for s in series_iter:
-        assert isinstance(s, Series)
-        assert s.start_year == 2009
+    powers = series_iter[7]
+    assert powers.id == 9073
+    assert powers.start_year == 2009
+    assert powers.end_year == 2012
+    assert powers.title == "Powers (2009 - 2012)"
+    assert powers.type == "ongoing"
+    assert powers.resource_uri == "http://gateway.marvel.com/v1/public/series/9073"
 
 
 def test_pulls_verbose(talker):
