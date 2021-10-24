@@ -23,7 +23,7 @@ esak - Marvel API wrapper for python 3
 .. code-block:: bash
 
     $ pip3 install --user esak
-
+ 
 **Example Usage:**
 
 .. code-block:: python
@@ -50,6 +50,14 @@ esak - Marvel API wrapper for python 3
         # id of the series
         print('{} (series #{})'.format(comic.title, comic.series.id))
 
+Documentation
+-------------
+- `Read the project documentation <https://esak.readthedocs.io/en/stable/>`_
+
+Bugs/Requests
+-------------
+  
+Please use the `GitHub issue tracker <https://github.com/bpepple/esak/issues>`_ to submit bugs or request features.
 
 Contributing
 ------------
