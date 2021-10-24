@@ -23,12 +23,21 @@ from esak import (
 
 
 class Series:
+    """
+    The Series object contains information for a series.
+
+    :param `**kwargs`: The keyword arguments is used for setting series data from Marvel.
+    """
+
     def __init__(self, **kwargs):
+        """Intialize a new series."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 
 
 class SeriesSchema(Schema):
+    """Schema for the Comic API."""
+
     id = fields.Int()
     title = fields.Str()
     description = fields.Str(allow_none=True)
@@ -48,10 +57,20 @@ class SeriesSchema(Schema):
     previous = fields.Nested(series_summary.SeriesSummarySchema, allow_none=True)
 
     class Meta:
+        """Any unknown fields will be included."""
+
         unknown = INCLUDE
 
     @pre_load
     def process_input(self, data, **kwargs):
+        """
+        Clean the data from Marvel.
+
+        :param data: Data from Marvel response.
+
+        :returns: Marvel Response
+        :rtype: dict
+        """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
 
@@ -85,13 +104,23 @@ class SeriesSchema(Schema):
 
     @post_load
     def make(self, data, **kwargs):
+        """
+        Make the Series object.
+
+        :param data: Data from Marvel response.
+
+        :returns: :class:`Series` object
+        :rtype: Seriess
+        """
         return Series(**data)
 
 
 class SeriesList:
+    """The SeriesList object contains a list of `Series` objects."""
+
     def __init__(self, response):
+        """Initialize a new SeriesList."""
         self.series = []
-        self.response = response
 
         for series_dict in response["data"]["results"]:
             try:
@@ -102,12 +131,15 @@ class SeriesList:
             self.series.append(result)
 
     def __iter__(self):
+        """Return an iterator object."""
         return iter(self.series)
 
     def __len__(self):
+        """Return the length of the object."""
         return len(self.series)
 
     def __getitem__(self, index):
+        """Return the object of a at index."""
         try:
             return next(itertools.islice(self.series, index, index + 1))
         except TypeError:
