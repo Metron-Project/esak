@@ -265,6 +265,25 @@ class Session:
 
         return ch.CharactersList(self._call(["series", _id, "characters"], params=params))
 
+    def series_comics(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> com.ComicsList:
+        """
+        Request a list of comics from a series.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Comic` objects.
+        :rtype: ComicsList
+        """
+        if params is None:
+            params = {}
+
+        return com.ComicsList(self._call(["series", _id, "comics"], params=params))
+
     def series_list(self, params: Optional[Dict[str, Any]] = None) -> ser.SeriesList:
         """
         Request a list of series.

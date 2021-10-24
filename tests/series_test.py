@@ -3,6 +3,7 @@ Test Series module.
 This module contains tests for Series objects.
 """
 import datetime
+from decimal import Decimal
 
 import pytest
 
@@ -105,3 +106,21 @@ def test_series_characters(talker):
     assert len(kingpin.series) == 20
     assert len(kingpin.stories) == 20
     assert kingpin.urls.onsale_date is None
+
+
+def test_series_comics(talker):
+    sm = talker.series_comics(24396)
+    assert len(sm.comics) == 20
+    sm_75 = sm.comics[10]
+    assert sm_75.format == "Comic"
+    assert sm_75.title == "The Amazing Spider-Man (2018) #75 (Variant)"
+    assert sm_75.issue_number == 75
+    assert sm_75.page_count == 56
+    assert sm_75.resource_uri == "http://gateway.marvel.com/v1/public/comics/97900"
+    assert sm_75.upc == "75960608936907551"
+    assert len(sm_75.creators) == 5
+    assert len(sm_75.characters) == 0
+    assert len(sm_75.events) == 0
+    assert len(sm_75.stories) == 2
+    assert sm_75.prices.print == Decimal("5.99")
+    assert sm_75.prices.digital is None
