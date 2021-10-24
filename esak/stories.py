@@ -16,7 +16,7 @@ from esak import (
     character_summary,
     comic_summary,
     creator_summary,
-    events_summary,
+    event_summary,
     exceptions,
     series_summary,
 )
@@ -47,7 +47,7 @@ class StoriesSchema(Schema):
     thumbnail = fields.Url(allow_none=True)
     comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
     series = fields.Nested(series_summary.SeriesSummarySchema, many=True)
-    events = fields.Nested(events_summary.EventSummarySchema, many=True)
+    events = fields.Nested(event_summary.EventSummarySchema, many=True)
     characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
     creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
     originalIssue = fields.Nested(comic_summary.ComicSummarySchema, attribute="original_issue")

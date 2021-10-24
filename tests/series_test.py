@@ -3,6 +3,7 @@ Test Series module.
 This module contains tests for Series objects.
 """
 import datetime
+from decimal import Decimal
 
 import pytest
 
@@ -79,9 +80,13 @@ def test_all_series(talker):
     series_iter = talker.series_list(
         params={"seriesType": "ongoing", "startYear": 2009, "limit": 10}
     )
-    for s in series_iter:
-        assert isinstance(s, Series)
-        assert s.start_year == 2009
+    powers = series_iter[7]
+    assert powers.id == 9073
+    assert powers.start_year == 2009
+    assert powers.end_year == 2012
+    assert powers.title == "Powers (2009 - 2012)"
+    assert powers.type == "ongoing"
+    assert powers.resource_uri == "http://gateway.marvel.com/v1/public/series/9073"
 
 
 def test_pulls_verbose(talker):
@@ -91,3 +96,91 @@ def test_pulls_verbose(talker):
     assert next(s_iter).id == 26024
     assert next(s_iter).id == 18454
     assert len(series) > 0
+
+
+def test_series_characters(talker):
+    sm = talker.series_characters(24396)
+    assert len(sm.character) == 20
+    kingpin = sm.character[10]
+    assert kingpin.id == 1009389
+    assert kingpin.name == "Kingpin"
+    assert kingpin.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/9/60/526034fb5aff7.jpg"
+    assert len(kingpin.comics) == 20
+    assert len(kingpin.events) == 7
+    assert len(kingpin.series) == 20
+    assert len(kingpin.stories) == 20
+    assert kingpin.urls.onsale_date is None
+
+
+def test_series_comics(talker):
+    sm = talker.series_comics(24396)
+    assert len(sm.comics) == 20
+    sm_75 = sm.comics[10]
+    assert sm_75.format == "Comic"
+    assert sm_75.title == "The Amazing Spider-Man (2018) #75 (Variant)"
+    assert sm_75.issue_number == 75
+    assert sm_75.page_count == 56
+    assert sm_75.resource_uri == "http://gateway.marvel.com/v1/public/comics/97900"
+    assert sm_75.upc == "75960608936907551"
+    assert len(sm_75.creators) == 5
+    assert len(sm_75.characters) == 0
+    assert len(sm_75.events) == 0
+    assert len(sm_75.stories) == 2
+    assert sm_75.prices.print == Decimal("5.99")
+    assert sm_75.prices.digital is None
+
+
+def test_series_creators(talker):
+    sm = talker.series_creators(24396)
+    assert len(sm.creator) == 20
+    bagley = sm.creator[10]
+    assert bagley.id == 87
+    assert bagley.first_name == "Mark"
+    assert bagley.last_name == "Bagley"
+    assert bagley.full_name == "Mark Bagley"
+    assert bagley.resource_uri == "http://gateway.marvel.com/v1/public/creators/87"
+    assert bagley.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/9/b0/4bc5d2f67f706.jpg"
+    assert len(bagley.comics) == 20
+    assert len(bagley.events) == 13
+    assert len(bagley.series) == 20
+    assert len(bagley.stories) == 20
+
+
+def test_series_events(talker):
+    AvX = talker.series_events(15305)
+    assert len(AvX.events) == 1
+    e = AvX[0]
+    assert e.id == 310
+    assert e.title == "Avengers VS X-Men"
+    assert e.resource_uri == "http://gateway.marvel.com/v1/public/events/310"
+    assert e.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/3/20/5109a1f93b543.jpg"
+    assert len(e.characters) == 20
+    assert len(e.comics) == 20
+    assert len(e.creators) == 20
+    assert len(e.series) == 9
+    assert len(e.stories) == 20
+    assert e.start == datetime.date(2012, 4, 4)
+    assert e.end == datetime.date(2012, 9, 19)
+    assert e.next.id == 311
+    assert e.next.name == "Marvel NOW!"
+    assert e.next.resource_uri == "http://gateway.marvel.com/v1/public/events/311"
+    assert e.previous.id == 309
+    assert e.previous.name == "Shattered Heroes"
+    assert e.previous.resource_uri == "http://gateway.marvel.com/v1/public/events/309"
+
+
+def test_series_stories(talker):
+    AvX = talker.series_stories(15305)
+    assert len(AvX.stories) == 20
+    s = AvX.stories[13]
+    assert s.id == 93246
+    assert s.type == "story"
+    assert s.resource_uri == "http://gateway.marvel.com/v1/public/stories/93246"
+    assert len(s.characters) == 4
+    assert len(s.comics) == 1
+    assert len(s.creators) == 6
+    assert len(s.events) == 1
+    assert len(s.series) == 1
+    assert s.original_issue.id == 41193
+    assert s.original_issue.name == "Avengers Vs. X-Men (2012) #4"
+    assert s.original_issue.resource_uri == "http://gateway.marvel.com/v1/public/comics/41193"

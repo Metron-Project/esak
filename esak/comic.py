@@ -17,7 +17,7 @@ from esak import (
     comic_summary,
     creator_summary,
     dates,
-    events_summary,
+    event_summary,
     exceptions,
     prices,
     series,
@@ -72,7 +72,7 @@ class ComicSchema(Schema):
     creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
     characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
     stories = fields.Nested(story_summary.StorySummarySchema, many=True)
-    events = fields.Nested(events_summary.EventSummarySchema, many=True)
+    events = fields.Nested(event_summary.EventSummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""

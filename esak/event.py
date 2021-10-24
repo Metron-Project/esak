@@ -16,7 +16,7 @@ from esak import (
     character_summary,
     comic_summary,
     creator_summary,
-    events_summary,
+    event_summary,
     exceptions,
     series_summary,
     story_summary,
@@ -53,8 +53,8 @@ class EventSchema(Schema):
     series = fields.Nested(series_summary.SeriesSummarySchema, many=True)
     characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
     creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
-    next = fields.Nested(events_summary.EventSummarySchema)
-    previous = fields.Nested(events_summary.EventSummarySchema)
+    next = fields.Nested(event_summary.EventSummarySchema)
+    previous = fields.Nested(event_summary.EventSummarySchema)
 
     class Meta:
         """Any unknown fields will be included."""
