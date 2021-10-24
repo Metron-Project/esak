@@ -22,7 +22,7 @@ import esak  # noqa #E402
 
 project = "Esak"
 copyright = "2021, Brian Pepple"
-author = "Brian Pepple"
+author = "Brian Pepple, Robert Kuykendall"
 
 # The full version, including alpha/beta/rc tags
 version = release = esak.__version__
