@@ -140,3 +140,26 @@ def test_series_creators(talker):
     assert len(bagley.events) == 13
     assert len(bagley.series) == 20
     assert len(bagley.stories) == 20
+
+
+def test_series_events(talker):
+    sm = talker.series_events(15305)
+    assert len(sm.events) == 1
+    e = sm[0]
+    assert e.id == 310
+    assert e.title == "Avengers VS X-Men"
+    assert e.resource_uri == "http://gateway.marvel.com/v1/public/events/310"
+    assert e.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/3/20/5109a1f93b543.jpg"
+    assert len(e.characters) == 20
+    assert len(e.comics) == 20
+    assert len(e.creators) == 20
+    assert len(e.series) == 9
+    assert len(e.stories) == 20
+    assert e.start == datetime.date(2012, 4, 4)
+    assert e.end == datetime.date(2012, 9, 19)
+    assert e.next.id == 311
+    assert e.next.name == "Marvel NOW!"
+    assert e.next.resource_uri == "http://gateway.marvel.com/v1/public/events/311"
+    assert e.previous.id == 309
+    assert e.previous.name == "Shattered Heroes"
+    assert e.previous.resource_uri == "http://gateway.marvel.com/v1/public/events/309"
