@@ -96,3 +96,15 @@ def test_creator_events(talker):
     assert len(s.stories) == 20
     assert s.start == date(2011, 10, 19)
     assert s.end == date(2012, 4, 22)
+
+
+def test_creator_series(talker):
+    jason = talker.creator_series(11463)
+    assert len(jason.series) == 20
+    ax = jason.series[0]
+    assert ax.id == 16450
+    assert ax.start_year == 2012
+    assert ax.end_year == 2014
+    assert ax.title == "A+X (2012 - 2014)"
+    assert ax.next is None
+    assert ax.previous is None

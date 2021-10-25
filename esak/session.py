@@ -410,6 +410,25 @@ class Session:
 
         return ev.EventsList(self._call(["creators", _id, "events"], params=params))
 
+    def creator_series(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> ser.SeriesList:
+        """
+        Request a list of series by a creator.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Series` objects.
+        :rtype: SeriesList
+        """
+        if params is None:
+            params = {}
+
+        return ser.SeriesList(self._call(["creators", _id, "series"], params=params))
+
     def creators_list(self, params: Optional[Dict[str, Any]] = None) -> cr.CreatorsList:
         """
         Request a list of creators.
