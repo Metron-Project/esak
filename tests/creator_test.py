@@ -79,3 +79,20 @@ def test_creator_comics(talker):
     assert val5.prices.print == Decimal("3.99")
     assert val5.dates.on_sale == date(2021, 9, 15)
     assert val5.dates.foc == date(2021, 8, 23)
+
+
+def test_creator_events(talker):
+    jason = talker.creator_events(11463)
+    assert len(jason.events) == 10
+    s = jason.events[5]
+    assert s.id == 309
+    assert s.title == "Shattered Heroes"
+    assert s.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/2/a0/511e8000770cd.jpg"
+    assert s.resource_uri == "http://gateway.marvel.com/v1/public/events/309"
+    assert len(s.characters) == 20
+    assert len(s.comics) == 20
+    assert len(s.creators) == 20
+    assert len(s.series) == 10
+    assert len(s.stories) == 20
+    assert s.start == date(2011, 10, 19)
+    assert s.end == date(2012, 4, 22)
