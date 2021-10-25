@@ -3,6 +3,9 @@ Test Creator module.
 This module contains tests for Creator objects.
 """
 
+from datetime import date
+from decimal import Decimal
+
 import pytest
 
 from esak import exceptions
@@ -52,3 +55,27 @@ def test_pulls_verbose(talker):
     assert next(c_iter).full_name, "Mark Shultz"
     assert next(c_iter).full_name, "Miles Lane"
     assert len(creators) > 0
+
+
+def test_creator_comics(talker):
+    jason = talker.creator_comics(11463)
+    assert len(jason.comics) == 20
+    val5 = jason.comics[7]
+    assert val5.id == 93341
+    assert val5.series.id == 31903
+    assert val5.series.name == "The Mighty Valkyries (2021)"
+    assert val5.series.resource_uri == "http://gateway.marvel.com/v1/public/series/31903"
+    assert val5.title == "The Mighty Valkyries (2021) #5"
+    assert val5.issue_number == 5
+    assert val5.page_count == 32
+    assert val5.upc == "75960620098600511"
+    assert val5.diamond_code == "JUN210717"
+    assert val5.format == "Comic"
+    assert len(val5.characters) == 2
+    assert len(val5.creators) == 5
+    assert len(val5.events) == 0
+    assert len(val5.stories) == 2
+    assert val5.prices.digital is None
+    assert val5.prices.print == Decimal("3.99")
+    assert val5.dates.on_sale == date(2021, 9, 15)
+    assert val5.dates.foc == date(2021, 8, 23)
