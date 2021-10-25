@@ -3,6 +3,9 @@ Test Creator module.
 This module contains tests for Creator objects.
 """
 
+from datetime import date
+from decimal import Decimal
+
 import pytest
 
 from esak import exceptions
@@ -52,3 +55,71 @@ def test_pulls_verbose(talker):
     assert next(c_iter).full_name, "Mark Shultz"
     assert next(c_iter).full_name, "Miles Lane"
     assert len(creators) > 0
+
+
+def test_creator_comics(talker):
+    jason = talker.creator_comics(11463)
+    assert len(jason.comics) == 20
+    val5 = jason.comics[7]
+    assert val5.id == 93341
+    assert val5.series.id == 31903
+    assert val5.series.name == "The Mighty Valkyries (2021)"
+    assert val5.series.resource_uri == "http://gateway.marvel.com/v1/public/series/31903"
+    assert val5.title == "The Mighty Valkyries (2021) #5"
+    assert val5.issue_number == 5
+    assert val5.page_count == 32
+    assert val5.upc == "75960620098600511"
+    assert val5.diamond_code == "JUN210717"
+    assert val5.format == "Comic"
+    assert len(val5.characters) == 2
+    assert len(val5.creators) == 5
+    assert len(val5.events) == 0
+    assert len(val5.stories) == 2
+    assert val5.prices.digital is None
+    assert val5.prices.print == Decimal("3.99")
+    assert val5.dates.on_sale == date(2021, 9, 15)
+    assert val5.dates.foc == date(2021, 8, 23)
+
+
+def test_creator_events(talker):
+    jason = talker.creator_events(11463)
+    assert len(jason.events) == 10
+    s = jason.events[5]
+    assert s.id == 309
+    assert s.title == "Shattered Heroes"
+    assert s.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/2/a0/511e8000770cd.jpg"
+    assert s.resource_uri == "http://gateway.marvel.com/v1/public/events/309"
+    assert len(s.characters) == 20
+    assert len(s.comics) == 20
+    assert len(s.creators) == 20
+    assert len(s.series) == 10
+    assert len(s.stories) == 20
+    assert s.start == date(2011, 10, 19)
+    assert s.end == date(2012, 4, 22)
+
+
+def test_creator_series(talker):
+    jason = talker.creator_series(11463)
+    assert len(jason.series) == 20
+    ax = jason.series[0]
+    assert ax.id == 16450
+    assert ax.start_year == 2012
+    assert ax.end_year == 2014
+    assert ax.title == "A+X (2012 - 2014)"
+    assert ax.next is None
+    assert ax.previous is None
+
+
+def test_creator_stories(talker):
+    jason = talker.creator_stories(11463)
+    assert len(jason.stories) == 20
+    man = jason.stories[0]
+    assert man.id == 32907
+    assert man.title == "Man In The Pit 1 of 1"
+    assert man.type == "story"
+    assert man.resource_uri == "http://gateway.marvel.com/v1/public/stories/32907"
+    assert len(man.characters) == 2
+    assert len(man.comics) == 1
+    assert len(man.creators) == 4
+    assert man.original_issue.id == 16112
+    assert man.original_issue.name == "Wolverine (2003) #56"

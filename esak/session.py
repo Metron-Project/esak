@@ -372,6 +372,82 @@ class Session:
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
+    def creator_comics(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> com.ComicsList:
+        """
+        Request a list of comics from a creator.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Comic` objects.
+        :rtype: ComicsList
+        """
+        if params is None:
+            params = {}
+
+        return com.ComicsList(self._call(["creators", _id, "comics"], params=params))
+
+    def creator_events(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> ev.EventsList:
+        """
+        Request a list of events from a creator.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Event` objects.
+        :rtype: EventsList
+        """
+        if params is None:
+            params = {}
+
+        return ev.EventsList(self._call(["creators", _id, "events"], params=params))
+
+    def creator_series(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> ser.SeriesList:
+        """
+        Request a list of series by a creator.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Series` objects.
+        :rtype: SeriesList
+        """
+        if params is None:
+            params = {}
+
+        return ser.SeriesList(self._call(["creators", _id, "series"], params=params))
+
+    def creator_stories(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> stories.StoriesList:
+        """
+        Request a list of stories from a creator.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Stories` objects.
+        :rtype: StoriesList
+        """
+        if params is None:
+            params = {}
+
+        return stories.StoriesList(self._call(["creators", _id, "stories"], params=params))
+
     def creators_list(self, params: Optional[Dict[str, Any]] = None) -> cr.CreatorsList:
         """
         Request a list of creators.

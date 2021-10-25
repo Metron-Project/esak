@@ -45,16 +45,16 @@ class EventSchema(Schema):
     resourceURI = fields.Str(attribute="resource_uri")
     # urls
     modified = fields.DateTime()
-    start = fields.Date()
-    end = fields.Date()
+    start = fields.Date(allow_none=True)
+    end = fields.Date(allow_none=True)
     thumbnail = fields.Url()
     comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
     stories = fields.Nested(story_summary.StorySummarySchema, many=True)
     series = fields.Nested(series_summary.SeriesSummarySchema, many=True)
     characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
     creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
-    next = fields.Nested(event_summary.EventSummarySchema)
-    previous = fields.Nested(event_summary.EventSummarySchema)
+    next = fields.Nested(event_summary.EventSummarySchema, allow_none=True)
+    previous = fields.Nested(event_summary.EventSummarySchema, allow_none=True)
 
     class Meta:
         """Any unknown fields will be included."""
