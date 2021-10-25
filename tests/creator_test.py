@@ -108,3 +108,18 @@ def test_creator_series(talker):
     assert ax.title == "A+X (2012 - 2014)"
     assert ax.next is None
     assert ax.previous is None
+
+
+def test_creator_stories(talker):
+    jason = talker.creator_stories(11463)
+    assert len(jason.stories) == 20
+    man = jason.stories[0]
+    assert man.id == 32907
+    assert man.title == "Man In The Pit 1 of 1"
+    assert man.type == "story"
+    assert man.resource_uri == "http://gateway.marvel.com/v1/public/stories/32907"
+    assert len(man.characters) == 2
+    assert len(man.comics) == 1
+    assert len(man.creators) == 4
+    assert man.original_issue.id == 16112
+    assert man.original_issue.name == "Wolverine (2003) #56"
