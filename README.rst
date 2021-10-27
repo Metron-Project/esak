@@ -9,7 +9,10 @@ esak - Marvel API wrapper for python 3
     :target: https://pypi.org/project/esak
 
 .. image:: https://img.shields.io/github/license/bpepple/esak
-    :target: https://opensource.org/licenses/GPL-3.0  
+    :target: https://opensource.org/licenses/GPL-3.0
+
+.. image:: https://codecov.io/gh/bpepple/esak/branch/master/graph/badge.svg?token=L1EGNX24I2
+    :target: https://codecov.io/gh/bpepple/esak
 
 .. image:: https://img.shields.io/badge/Code%20Style-Black-000000.svg?style=flat-square
     :target: https://github.com/psf/black
