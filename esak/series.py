@@ -11,7 +11,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import creator_summary, exceptions, generic_summary
+from esak import exceptions, generic_summary
 
 
 class Series:
@@ -44,7 +44,7 @@ class SeriesSchema(Schema):
     stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
+    creators = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     next = fields.Nested(generic_summary.GenericSummarySchema, allow_none=True)
     previous = fields.Nested(generic_summary.GenericSummarySchema, allow_none=True)
 

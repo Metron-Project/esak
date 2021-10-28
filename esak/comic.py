@@ -12,7 +12,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import creator_summary, dates, exceptions, generic_summary, prices, series, urls
+from esak import dates, exceptions, generic_summary, prices, series, urls
 
 
 class Comic:
@@ -58,7 +58,7 @@ class ComicSchema(Schema):
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)
     # thumbnail
     images = fields.List(fields.Url)
-    creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
+    creators = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
