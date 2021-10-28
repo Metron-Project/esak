@@ -12,14 +12,6 @@ esak.character module
    :undoc-members:
    :show-inheritance:
 
-esak.character\_summary module
-------------------------------
-
-.. automodule:: esak.character_summary
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 esak.comic module
 -----------------
 
@@ -28,26 +20,10 @@ esak.comic module
    :undoc-members:
    :show-inheritance:
 
-esak.comic\_summary module
---------------------------
-
-.. automodule:: esak.comic_summary
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 esak.creator module
 -------------------
 
 .. automodule:: esak.creator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-esak.creator\_summary module
-----------------------------
-
-.. automodule:: esak.creator_summary
    :members:
    :undoc-members:
    :show-inheritance:
@@ -68,18 +44,18 @@ esak.event module
    :undoc-members:
    :show-inheritance:
 
-esak.event\_summary module
---------------------------
-
-.. automodule:: esak.event_summary
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 esak.exceptions module
 ----------------------
 
 .. automodule:: esak.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+esak.generic\_summary module
+----------------------------
+
+.. automodule:: esak.generic_summary
    :members:
    :undoc-members:
    :show-inheritance:
@@ -96,14 +72,6 @@ esak.series module
 ------------------
 
 .. automodule:: esak.series
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-esak.series\_summary module
----------------------------
-
-.. automodule:: esak.series_summary
    :members:
    :undoc-members:
    :show-inheritance:
@@ -128,14 +96,6 @@ esak.stories module
 -------------------
 
 .. automodule:: esak.stories
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-esak.story\_summary module
---------------------------
-
-.. automodule:: esak.story_summary
    :members:
    :undoc-members:
    :show-inheritance:

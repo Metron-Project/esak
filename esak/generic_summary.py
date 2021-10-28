@@ -1,37 +1,39 @@
 """
-Story Summary module.
+Generic Summary module.
 
 This module provides the following classes:
 
-- StorySummary
-- StorySummarySchema
+- GenericSummary
+- GenericSummarySchema
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 
-class StorySummary:
+class GenericSummary:
     """
-    The StorySummary object contains basic information for Stories.
+    The GenericSummary object contains basic information.
 
-    :param `**kwargs`: The keyword arguments used for setting story data from Marvel.
+    :param `**kwargs`: The keyword arguments used for getting data from Marvel.
     """
 
-    def __init__(self, id=None, name=None, type=None, resource_uri=None, **kwargs):
-        """Intialize a new StorySummary."""
+    def __init__(self, id=None, name=None, resource_uri=None, type=None, role=None, **kwargs):
+        """Intialize a new GenericSummary."""
         self.id = id
         self.name = name
-        self.type = type
         self.resource_uri = resource_uri
+        self.type = type
+        self.role = role
         self.unknown = kwargs
 
 
-class StorySummarySchema(Schema):
-    """Schema for the StorySummary."""
+class GenericSummarySchema(Schema):
+    """Schema for the GenericSummary."""
 
     id = fields.Int()
     name = fields.Str()
     resourceURI = fields.Str(attribute="resource_uri")
     type = fields.Str()
+    role = fields.Str()
 
     class Meta:
         """Any unknown fields will be included."""
@@ -40,18 +42,18 @@ class StorySummarySchema(Schema):
 
     @pre_load
     def process_input(self, data, **kwargs):
-        """Extract the Story Summary id."""
+        """Extract the summary id."""
         data["id"] = data["resourceURI"].split("/")[-1]
         return data
 
     @post_load
     def make(self, data, **kwargs):
         """
-        Make the StorySummary object.
+        Make the GenericSummary object.
 
         :param data: Data from Marvel response.
 
-        :returns: :class:`StorySummary` object
-        :rtype: StorySummary
+        :returns: :class:`GenericSummary` object
+        :rtype: GenericSummary
         """
-        return StorySummary(**data)
+        return GenericSummary(**data)
