@@ -12,18 +12,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import (
-    character_summary,
-    comic_summary,
-    creator_summary,
-    dates,
-    event_summary,
-    exceptions,
-    prices,
-    series,
-    story_summary,
-    urls,
-)
+from esak import creator_summary, dates, exceptions, generic_summary, prices, series, urls
 
 
 class Comic:
@@ -60,19 +49,19 @@ class ComicSchema(Schema):
     resourceURI = fields.Url(attribute="resource_uri")
     urls = fields.Nested(urls.UrlsSchema)
     series = fields.Nested(series.SeriesSchema)
-    variants = fields.Nested(comic_summary.ComicSummarySchema, many=True)
-    collections = fields.Nested(comic_summary.ComicSummarySchema, many=True)
+    variants = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    collections = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     collectedIssues = fields.Nested(
-        comic_summary.ComicSummarySchema, attribute="collected_issues", many=True
+        generic_summary.GenericSummarySchema, attribute="collected_issues", many=True
     )
     dates = fields.Nested(dates.DatesSchema)
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)
     # thumbnail
     images = fields.List(fields.Url)
     creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
-    characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
-    stories = fields.Nested(story_summary.StorySummarySchema, many=True)
-    events = fields.Nested(event_summary.EventSummarySchema, many=True)
+    characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""

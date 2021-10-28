@@ -11,7 +11,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import comic_summary, event_summary, exceptions, series_summary, story_summary, urls
+from esak import exceptions, generic_summary, urls
 
 
 class Character:
@@ -37,10 +37,10 @@ class CharacterSchema(Schema):
     resourceURI = fields.Str(attribute="resource_uri")
     urls = fields.Nested(urls.UrlsSchema)
     thumbnail = fields.Url()
-    comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
-    stories = fields.Nested(story_summary.StorySummarySchema, many=True)
-    events = fields.Nested(event_summary.EventSummarySchema, many=True)
-    series = fields.Nested(series_summary.SeriesSummarySchema, many=True)
+    comics = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    series = fields.Nested(generic_summary.GenericSummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""

@@ -11,15 +11,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import (
-    character_summary,
-    comic_summary,
-    creator_summary,
-    event_summary,
-    exceptions,
-    series_summary,
-    story_summary,
-)
+from esak import creator_summary, exceptions, generic_summary
 
 
 class Series:
@@ -48,13 +40,13 @@ class SeriesSchema(Schema):
     rating = fields.Str(allow_none=True)
     modified = fields.DateTime()
     thumbnail = fields.URL(allow_none=True)
-    comics = fields.Nested(comic_summary.ComicSummarySchema, many=True)
-    stories = fields.Nested(story_summary.StorySummarySchema, many=True)
-    events = fields.Nested(event_summary.EventSummarySchema, many=True)
-    characters = fields.Nested(character_summary.CharacterSummarySchema, many=True)
+    comics = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     creators = fields.Nested(creator_summary.CreatorSummarySchema, many=True)
-    next = fields.Nested(series_summary.SeriesSummarySchema, allow_none=True)
-    previous = fields.Nested(series_summary.SeriesSummarySchema, allow_none=True)
+    next = fields.Nested(generic_summary.GenericSummarySchema, allow_none=True)
+    previous = fields.Nested(generic_summary.GenericSummarySchema, allow_none=True)
 
     class Meta:
         """Any unknown fields will be included."""
