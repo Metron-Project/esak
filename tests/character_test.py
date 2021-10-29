@@ -72,3 +72,18 @@ def test_character_comics(talker):
     assert len(af2.stories) == 2
     assert len(af2.events) == 0
     assert len(af2.creators) == 3
+
+
+def test_character_events(talker):
+    cap = talker.character_events(1009220)
+    assert len(cap.events) == 20
+    fall = cap.events[9]
+    assert fall.id == 248
+    assert fall.title == "Fall of the Mutants"
+    assert fall.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/8/a0/51cb2f521ae35.jpg"
+    assert fall.start == date(1988, 1, 10)
+    assert fall.end == date(2007, 1, 17)
+    assert fall.next.id == 252
+    assert fall.next.name == "Inferno"
+    assert fall.previous.id == 246
+    assert fall.previous.name == "Evolutionary War"
