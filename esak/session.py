@@ -252,7 +252,7 @@ class Session:
         """
         Request a list of characters from a series.
 
-        :param int _id: The comic id.
+        :param int _id: The series id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -271,7 +271,7 @@ class Session:
         """
         Request a list of comics from a series.
 
-        :param int _id: The comic id.
+        :param int _id: The series id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -290,7 +290,7 @@ class Session:
         """
         Request a list of creators from a series.
 
-        :param int _id: The comic id.
+        :param int _id: The series id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -309,7 +309,7 @@ class Session:
         """
         Request a list of events from a series.
 
-        :param int _id: The comic id.
+        :param int _id: The series id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -328,7 +328,7 @@ class Session:
         """
         Request a list of stories from a series.
 
-        :param int _id: The comic id.
+        :param int _id: The series id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -378,7 +378,7 @@ class Session:
         """
         Request a list of comics from a creator.
 
-        :param int _id: The comic id.
+        :param int _id: The creator id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -397,7 +397,7 @@ class Session:
         """
         Request a list of events from a creator.
 
-        :param int _id: The comic id.
+        :param int _id: The creator id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -416,7 +416,7 @@ class Session:
         """
         Request a list of series by a creator.
 
-        :param int _id: The comic id.
+        :param int _id: The creator id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -435,7 +435,7 @@ class Session:
         """
         Request a list of stories from a creator.
 
-        :param int _id: The comic id.
+        :param int _id: The creator id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -485,7 +485,7 @@ class Session:
         """
         Request a list of comics for a character.
 
-        :param int _id: The comic id.
+        :param int _id: The character id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -504,7 +504,7 @@ class Session:
         """
         Request a list of events for a character.
 
-        :param int _id: The comic id.
+        :param int _id: The character id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -523,7 +523,7 @@ class Session:
         """
         Request a list of series for a character.
 
-        :param int _id: The comic id.
+        :param int _id: The character id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -542,7 +542,7 @@ class Session:
         """
         Request a list of stories for a character.
 
-        :param int _id: The comic id.
+        :param int _id: The character id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
