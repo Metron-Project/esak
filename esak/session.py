@@ -479,6 +479,25 @@ class Session:
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
+    def character_comics(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> com.ComicsList:
+        """
+        Request a list of comics for a character.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Comic` objects.
+        :rtype: ComicsList
+        """
+        if params is None:
+            params = {}
+
+        return com.ComicsList(self._call(["characters", _id, "comics"], params=params))
+
     def characters_list(self, params: Optional[Dict[str, Any]] = None) -> ch.CharactersList:
         """
         Request a list of characters.

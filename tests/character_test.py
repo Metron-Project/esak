@@ -2,6 +2,8 @@
 Test Characters module.
 This module contains tests for Character objects.
 """
+from datetime import date
+
 import pytest
 
 from esak import exceptions
@@ -50,3 +52,23 @@ def test_pulls_verbose(talker):
     assert (next(c_iter).name) == "The Phantom"
     assert (next(c_iter).name) == "Nextwave"
     assert len(characters) > 0
+
+
+def test_character_comics(talker):
+    cap = talker.character_comics(1009220)
+    assert len(cap.comics) == 20
+    af2 = cap.comics[10]
+    assert af2.id == 71246
+    assert af2.title == "Amazing Fantasy (2021) #2"
+    assert af2.issue_number == 2
+    assert af2.page_count == 32
+    assert af2.upc == "75960609104100211"
+    assert af2.format == "Comic"
+    assert af2.series.id == 25984
+    assert af2.series.name == "Amazing Fantasy (2021 - Present)"
+    assert af2.series.resource_uri == "http://gateway.marvel.com/v1/public/series/25984"
+    assert af2.dates.foc == date(2021, 8, 2)
+    assert af2.dates.on_sale == date(2021, 8, 25)
+    assert len(af2.stories) == 2
+    assert len(af2.events) == 0
+    assert len(af2.creators) == 3
