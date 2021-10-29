@@ -102,3 +102,20 @@ def test_character_series(talker):
     assert len(af.creators) == 7
     assert af.next is None
     assert af.previous is None
+
+
+def test_character_stories(talker):
+    cap = talker.character_stories(1009220)
+    assert len(cap.stories) == 20
+    av_503 = cap.stories[5]
+    assert av_503.id == 1042
+    assert av_503.title == "Avengers (1998) #503"
+    assert av_503.type == "cover"
+    assert len(av_503.characters) == 1
+    assert len(av_503.comics) == 1
+    assert len(av_503.creators) == 1
+    assert av_503.original_issue.id == 923
+    assert av_503.original_issue.name == "Avengers (1998) #503"
+    assert (
+        av_503.original_issue.resource_uri == "http://gateway.marvel.com/v1/public/comics/923"
+    )
