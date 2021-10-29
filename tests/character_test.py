@@ -87,3 +87,18 @@ def test_character_events(talker):
     assert fall.next.name == "Inferno"
     assert fall.previous.id == 246
     assert fall.previous.name == "Evolutionary War"
+
+
+def test_character_series(talker):
+    cap = talker.character_series(1009220)
+    assert len(cap.series) == 20
+    af = cap.series[12]
+    assert af.title == "Amazing Fantasy (2021 - Present)"
+    assert af.id == 25984
+    assert af.start_year == 2021
+    assert af.end_year == 2099
+    assert len(af.comics) == 14
+    assert len(af.characters) == 3
+    assert len(af.creators) == 7
+    assert af.next is None
+    assert af.previous is None
