@@ -7,8 +7,6 @@ This module provides the following classes:
 - ComicSchema
 - ComicsList
 """
-import itertools
-
 from marshmallow import EXCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
@@ -155,9 +153,6 @@ class ComicsList:
         """Return the length of the object."""
         return len(self.comics)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         """Return the object of a at index."""
-        try:
-            return next(itertools.islice(self.comics, index, index + 1))
-        except TypeError:
-            return list(itertools.islice(self.comics, index.start, index.stop, index.step))
+        return self.comics[index]

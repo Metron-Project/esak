@@ -6,8 +6,6 @@ This module provides the following classes:
 - Series
 - SeriesSchema
 """
-import itertools
-
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
@@ -126,9 +124,6 @@ class SeriesList:
         """Return the length of the object."""
         return len(self.series)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         """Return the object of a at index."""
-        try:
-            return next(itertools.islice(self.series, index, index + 1))
-        except TypeError:
-            return list(itertools.islice(self.series, index.start, index.stop, index.step))
+        return self.series[index]

@@ -20,6 +20,7 @@ def test_pulls_verbose(talker):
     assert next(c_iter).id == 93316
     assert next(c_iter).id == 93320
     assert len(week) > 0
+    assert week[1].id == 93316
 
 
 def test_pulls_simple(talker):

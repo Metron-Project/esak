@@ -71,3 +71,4 @@ def test_stories_list(talker):
     assert (next(stories_iter).id) == 41777
     assert (next(stories_iter).id) == 8186
     assert len(stories_lst) == 20
+    assert stories_lst[2].id == 8186
