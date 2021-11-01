@@ -9,7 +9,7 @@ This module provides the following classes:
 """
 import itertools
 
-from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
+from marshmallow import EXCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
 from esak import dates, exceptions, generic_summary, prices, series, text_object, urls
@@ -66,9 +66,9 @@ class ComicSchema(Schema):
     events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
 
     class Meta:
-        """Any unknown fields will be included."""
+        """Any unknown fields will be excluded."""
 
-        unknown = INCLUDE
+        unknown = EXCLUDE
 
     @pre_load
     def process_input(self, data, **kwargs):
