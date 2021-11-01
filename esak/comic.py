@@ -111,9 +111,6 @@ class ComicSchema(Schema):
         if "characters" in data:
             data["characters"] = data["characters"]["items"]
 
-        # if "textObjects" in data:
-        #     data["text_objects"] = data["textObjects"]["items"]
-
         if "images" in data:
             data["images"] = [f"{img['path']}.{img['extension']}" for img in data["images"]]
 
