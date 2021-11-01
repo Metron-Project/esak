@@ -29,7 +29,14 @@ class Comic:
 
 
 class ComicSchema(Schema):
-    """Schema for the Comic API."""
+    """
+    Schema for the Comic API.
+
+    .. versionchanged:: 1.3.0
+
+        - Added ``thumbnail`` and ``text_objects`` fields.
+        - Unknowns fields will now be **excluded**.
+    """
 
     id = fields.Int()
     digital_id = fields.Int(data_key="digitalId")
