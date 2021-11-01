@@ -28,8 +28,8 @@ class Prices:
 class PriceSchemas(Schema):
     """Schema for the Prices."""
 
-    printPrice = fields.Decimal(places=2, attribute="print")
-    digitalPurchasePrice = fields.Decimal(places=2, attribute="digital")
+    print = fields.Decimal(places=2, data_key="printPrice")
+    digital = fields.Decimal(places=2, data_key="digitalPurchasePrice")
 
     class Meta:
         """Any unknown fields will be included."""

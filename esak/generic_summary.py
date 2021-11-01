@@ -31,7 +31,7 @@ class GenericSummarySchema(Schema):
 
     id = fields.Int()
     name = fields.Str()
-    resourceURI = fields.Str(attribute="resource_uri")
+    resource_uri = fields.Str(data_key="resourceURI")
     type = fields.Str()
     role = fields.Str()
 

@@ -45,10 +45,10 @@ class Urls:
 class UrlsSchema(Schema):
     """Schema for the Urls."""
 
-    digitalPurchaseDate = fields.Url(attribute="digital_purchase_date")
-    focDate = fields.Url(attribute="foc_date")
-    onsaleDate = fields.Url(attribute="onsale_date")
-    unlimitedDate = fields.Url(attribute="unlimited_date")
+    digital_purchase_date = fields.Url(data_key="digitalPurchaseDate")
+    foc_date = fields.Url(data_key="focDate")
+    onsale_date = fields.Url(data_key="onsaleDate")
+    unlimited_date = fields.Url(data_key="unlimitedDate")
     # Should these go into a separate class like CharacterUrls?
     # For now let's put them here, but it may be something to consider to split them.
     wiki = fields.Url()

@@ -32,27 +32,27 @@ class ComicSchema(Schema):
     """Schema for the Comic API."""
 
     id = fields.Int()
-    digitalId = fields.Int(attribute="digital_id")
+    digital_id = fields.Int(data_key="digitalId")
     title = fields.Str()
-    issueNumber = fields.Int(attribute="issue_number")
-    variantDescription = fields.Str(attribute="variant_description")
+    issue_number = fields.Int(data_key="issueNumber")
+    variant_description = fields.Str(data_key="variantDescription")
     description = fields.Str(allow_none=True)
     modified = fields.DateTime()
     isbn = fields.Str()
     upc = fields.Str()
-    diamondCode = fields.Str(attribute="diamond_code")
+    diamond_code = fields.Str(data_key="diamondCode")
     ean = fields.Str()
     issn = fields.Str()
     format = fields.Str()
-    pageCount = fields.Int(attribute="page_count")
+    page_count = fields.Int(data_key="pageCount")
     # textObjects
-    resourceURI = fields.Url(attribute="resource_uri")
+    resource_uri = fields.Str(data_key="resourceURI")
     urls = fields.Nested(urls.UrlsSchema)
     series = fields.Nested(series.SeriesSchema)
     variants = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     collections = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    collectedIssues = fields.Nested(
-        generic_summary.GenericSummarySchema, attribute="collected_issues", many=True
+    collected_issues = fields.Nested(
+        generic_summary.GenericSummarySchema, data_key="collectedIssues", many=True
     )
     dates = fields.Nested(dates.DatesSchema)
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)

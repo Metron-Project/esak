@@ -33,10 +33,10 @@ class SeriesSchema(Schema):
     id = fields.Int()
     title = fields.Str()
     description = fields.Str(allow_none=True)
-    resourceURI = fields.Str(attribute="resource_uri")
+    resource_uri = fields.Str(data_key="resourceURI")
     # urls
-    startYear = fields.Int(attribute="start_year", allow_none=True)
-    endYear = fields.Int(attribute="end_year", allow_none=True)
+    start_year = fields.Int(data_key="startYear", allow_none=True)
+    end_year = fields.Int(data_key="endYear", allow_none=True)
     rating = fields.Str(allow_none=True)
     modified = fields.DateTime()
     thumbnail = fields.URL(allow_none=True)

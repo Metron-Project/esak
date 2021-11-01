@@ -34,7 +34,7 @@ class CharacterSchema(Schema):
     name = fields.Str()
     description = fields.Str()
     modified = fields.DateTime()
-    resourceURI = fields.Str(attribute="resource_uri")
+    resource_uri = fields.Str(data_key="resourceURI")
     urls = fields.Nested(urls.UrlsSchema)
     thumbnail = fields.Url()
     comics = fields.Nested(generic_summary.GenericSummarySchema, many=True)
