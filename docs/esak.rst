@@ -100,6 +100,14 @@ esak.stories module
    :undoc-members:
    :show-inheritance:
 
+esak.text\_object module
+------------------------
+
+.. automodule:: esak.text_object
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 esak.urls module
 ----------------
 

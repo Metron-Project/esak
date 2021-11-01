@@ -34,7 +34,7 @@ class StoriesSchema(Schema):
     id = fields.Int()
     title = fields.Str()
     descriptions = fields.Str()
-    resourceURI = fields.Str(attribute="resource_uri")
+    resource_uri = fields.Str(data_key="resourceURI")
     type = fields.Str()
     modified = fields.DateTime()
     thumbnail = fields.Url(allow_none=True)
@@ -43,8 +43,8 @@ class StoriesSchema(Schema):
     events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     creators = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    originalIssue = fields.Nested(
-        generic_summary.GenericSummarySchema, attribute="original_issue"
+    original_issue = fields.Nested(
+        generic_summary.GenericSummarySchema, data_key="originalIssue"
     )
 
     class Meta:

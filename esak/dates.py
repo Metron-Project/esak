@@ -30,9 +30,9 @@ class Dates:
 class DatesSchema(Schema):
     """Schema for the Dates."""
 
-    onsaleDate = fields.Date(attribute="on_sale")
-    focDate = fields.Date(attribute="foc")
-    unlimitedDate = fields.Date(attribute="unlimited")
+    on_sale = fields.Date(data_key="onsaleDate")
+    foc = fields.Date(data_key="focDate")
+    unlimited = fields.Date(data_key="unlimitedDate")
 
     class Meta:
         """Any unknown fields will be included."""

@@ -39,6 +39,7 @@ def test_known_comic(talker):
     assert af15.description is None
     assert af15.format == "Comic"
     assert af15.id == 16926
+    assert af15.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/f/10/598363848588e.jpg"
     assert "Spider-Man (Peter Parker)" in [c.name for c in af15.characters]
     assert "Foo" not in [c.name for c in af15.characters]
     assert "Steve Ditko" in [s.name for s in af15.creators]
@@ -66,6 +67,16 @@ def test_known_comic(talker):
     )
     assert len(af15.collected_issues) < 1
     assert len(af15.variants) < 1
+    assert len(af15.text_objects) == 1
+    assert af15.text_objects[0].type == "70th_winner_desc"
+    assert af15.text_objects[0].language == "en-us"
+    assert (
+        af15.text_objects[0].text
+        == "Jack Kirby and Steve Ditko collaborated on this cover to create what "
+        "is quite possibly the most iconic image in Marvel Comics' history.  Before "
+        "all the clones, symbiotes and civil wars we see Spider-Man in a simpler time "
+        "doing what he does best, catching crooks and saving the day."
+    )
 
 
 def test_invalid_isbn(talker):

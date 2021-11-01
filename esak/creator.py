@@ -31,13 +31,13 @@ class CreatorsSchema(Schema):
     """Schema for the Creator API."""
 
     id = fields.Int()
-    firstName = fields.Str(attribute="first_name")
-    middleName = fields.Str(attribute="middle_name")
-    lastName = fields.Str(attribute="last_name")
+    first_name = fields.Str(data_key="firstName")
+    middle_name = fields.Str(data_key="middleName")
+    last_name = fields.Str(data_key="lastName")
     suffix = fields.Str()
-    fullName = fields.Str(attribute="full_name")
+    full_name = fields.Str(data_key="fullName")
     modified = fields.DateTime()
-    resourceURI = fields.Str(attribute="resource_uri")
+    resource_uri = fields.Str(data_key="resourceURI")
     # urls
     thumbnail = fields.Url()
     series = fields.Nested(generic_summary.GenericSummarySchema, many=True)

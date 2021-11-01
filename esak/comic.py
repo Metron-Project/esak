@@ -9,10 +9,10 @@ This module provides the following classes:
 """
 import itertools
 
-from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
+from marshmallow import EXCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import dates, exceptions, generic_summary, prices, series, urls
+from esak import dates, exceptions, generic_summary, prices, series, text_object, urls
 
 
 class Comic:
@@ -29,34 +29,43 @@ class Comic:
 
 
 class ComicSchema(Schema):
-    """Schema for the Comic API."""
+    """
+    Schema for the Comic API.
+
+    .. versionchanged:: 1.3.0
+
+        - Added ``thumbnail`` and ``text_objects`` fields.
+        - Unknowns fields will now be **excluded**.
+    """
 
     id = fields.Int()
-    digitalId = fields.Int(attribute="digital_id")
+    digital_id = fields.Int(data_key="digitalId")
     title = fields.Str()
-    issueNumber = fields.Int(attribute="issue_number")
-    variantDescription = fields.Str(attribute="variant_description")
+    issue_number = fields.Int(data_key="issueNumber")
+    variant_description = fields.Str(data_key="variantDescription")
     description = fields.Str(allow_none=True)
     modified = fields.DateTime()
     isbn = fields.Str()
     upc = fields.Str()
-    diamondCode = fields.Str(attribute="diamond_code")
+    diamond_code = fields.Str(data_key="diamondCode")
     ean = fields.Str()
     issn = fields.Str()
     format = fields.Str()
-    pageCount = fields.Int(attribute="page_count")
-    # textObjects
-    resourceURI = fields.Url(attribute="resource_uri")
+    page_count = fields.Int(data_key="pageCount")
+    text_objects = fields.Nested(
+        text_object.TextObjectSchema, data_key="textObjects", many=True
+    )
+    resource_uri = fields.Str(data_key="resourceURI")
     urls = fields.Nested(urls.UrlsSchema)
     series = fields.Nested(series.SeriesSchema)
     variants = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     collections = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    collectedIssues = fields.Nested(
-        generic_summary.GenericSummarySchema, attribute="collected_issues", many=True
+    collected_issues = fields.Nested(
+        generic_summary.GenericSummarySchema, data_key="collectedIssues", many=True
     )
     dates = fields.Nested(dates.DatesSchema)
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)
-    # thumbnail
+    thumbnail = fields.Url()
     images = fields.List(fields.Url)
     creators = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
@@ -64,9 +73,9 @@ class ComicSchema(Schema):
     events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
 
     class Meta:
-        """Any unknown fields will be included."""
+        """Any unknown fields will be excluded."""
 
-        unknown = INCLUDE
+        unknown = EXCLUDE
 
     @pre_load
     def process_input(self, data, **kwargs):
@@ -110,6 +119,11 @@ class ComicSchema(Schema):
 
         if "diamondCode" in data:
             data["diamondCode"] = str(data["diamondCode"])
+
+        if "thumbnail" in data and data["thumbnail"] is not None:
+            data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
+        else:
+            data["thumbnail"] = None
 
         return data
 

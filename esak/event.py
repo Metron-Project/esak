@@ -34,7 +34,7 @@ class EventSchema(Schema):
     id = fields.Int()
     title = fields.Str()
     description = fields.Str()
-    resourceURI = fields.Str(attribute="resource_uri")
+    resource_uri = fields.Str(data_key="resourceURI")
     # urls
     modified = fields.DateTime()
     start = fields.Date(allow_none=True)
