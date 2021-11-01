@@ -68,17 +68,10 @@ class CharacterSchema(Schema):
         else:
             data["thumbnail"] = None
 
-        if "events" in data:
-            data["events"] = data["events"]["items"]
-
-        if "series" in data:
-            data["series"] = data["series"]["items"]
-
-        if "stories" in data:
-            data["stories"] = data["stories"]["items"]
-
-        if "comics" in data:
-            data["comics"] = data["comics"]["items"]
+        resources = ["events", "series", "stories", "comics"]
+        for i in resources:
+            if i in data:
+                data[i] = data[i]["items"]
 
         data["id"] = data["resourceURI"].split("/")[-1]
 

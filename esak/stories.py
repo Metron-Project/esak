@@ -73,20 +73,10 @@ class StoriesSchema(Schema):
         else:
             data["thumbnail"] = None
 
-        if "series" in data:
-            data["series"] = data["series"]["items"]
-
-        if "events" in data:
-            data["events"] = data["events"]["items"]
-
-        if "creators" in data:
-            data["creators"] = data["creators"]["items"]
-
-        if "characters" in data:
-            data["characters"] = data["characters"]["items"]
-
-        if "comics" in data:
-            data["comics"] = data["comics"]["items"]
+        resources = ["series", "events", "creators", "characters", "comics"]
+        for i in resources:
+            if i in data:
+                data[i] = data[i]["items"]
 
         data["id"] = data["resourceURI"].split("/")[-1]
 

@@ -99,26 +99,18 @@ class ComicSchema(Schema):
         if data.get("modified", " ")[0] == "-":
             del data["modified"]
 
-        if "stories" in data:
-            data["stories"] = data["stories"]["items"]
+        resources = ["stories", "events", "creators", "characters"]
+        for i in resources:
+            if i in data:
+                data[i] = data[i]["items"]
 
-        if "events" in data:
-            data["events"] = data["events"]["items"]
-
-        if "creators" in data:
-            data["creators"] = data["creators"]["items"]
-
-        if "characters" in data:
-            data["characters"] = data["characters"]["items"]
+        resources = ["isbn", "diamondCode"]
+        for i in resources:
+            if i in data:
+                data[i] = str(data[i])
 
         if "images" in data:
             data["images"] = [f"{img['path']}.{img['extension']}" for img in data["images"]]
-
-        if "isbn" in data:
-            data["isbn"] = str(data["isbn"])
-
-        if "diamondCode" in data:
-            data["diamondCode"] = str(data["diamondCode"])
 
         if "thumbnail" in data and data["thumbnail"] is not None:
             data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
