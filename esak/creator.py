@@ -69,19 +69,13 @@ class CreatorsSchema(Schema):
         if "thumbnail" in data:
             data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
 
-        if "events" in data:
-            data["events"] = data["events"]["items"]
-
-        if "series" in data:
-            data["series"] = data["series"]["items"]
-
-        if "stories" in data:
-            data["stories"] = data["stories"]["items"]
-
-        if "comics" in data:
-            data["comics"] = data["comics"]["items"]
-
         data["id"] = data["resourceURI"].split("/")[-1]
+
+        resources = ["events", "series", "stories", "comics"]
+        for i in resources:
+            if i in data:
+                data[i] = data[i]["items"]
+
         return data
 
     @post_load

@@ -83,20 +83,10 @@ class SeriesSchema(Schema):
         else:
             data["thumbnail"] = None
 
-        if "comics" in data:
-            data["comics"] = data["comics"]["items"]
-
-        if "stories" in data:
-            data["stories"] = data["stories"]["items"]
-
-        if "events" in data:
-            data["events"] = data["events"]["items"]
-
-        if "characters" in data:
-            data["characters"] = data["characters"]["items"]
-
-        if "creators" in data:
-            data["creators"] = data["creators"]["items"]
+        resources = ["comics", "stories", "events", "characters", "creators"]
+        for i in resources:
+            if i in data:
+                data[i] = data[i]["items"]
 
         return data
 

@@ -70,20 +70,10 @@ class EventSchema(Schema):
         if "status" in data:
             data = data["data"]["results"][0]
 
-        if "stories" in data:
-            data["stories"] = data["stories"]["items"]
-
-        if "characters" in data:
-            data["characters"] = data["characters"]["items"]
-
-        if "creators" in data:
-            data["creators"] = data["creators"]["items"]
-
-        if "comics" in data:
-            data["comics"] = data["comics"]["items"]
-
-        if "series" in data:
-            data["series"] = data["series"]["items"]
+        resources = ["stories", "characters", "creators", "comics", "series"]
+        for i in resources:
+            if i in data:
+                data[i] = data[i]["items"]
 
         if "thumbnail" in data:
             data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
