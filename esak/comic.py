@@ -56,7 +56,7 @@ class ComicSchema(Schema):
     )
     dates = fields.Nested(dates.DatesSchema)
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)
-    # thumbnail
+    thumbnail = fields.Url()
     images = fields.List(fields.Url)
     creators = fields.Nested(generic_summary.GenericSummarySchema, many=True)
     characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
@@ -110,6 +110,11 @@ class ComicSchema(Schema):
 
         if "diamondCode" in data:
             data["diamondCode"] = str(data["diamondCode"])
+
+        if "thumbnail" in data and data["thumbnail"] is not None:
+            data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
+        else:
+            data["thumbnail"] = None
 
         return data
 

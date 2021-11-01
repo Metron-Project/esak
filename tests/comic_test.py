@@ -39,6 +39,7 @@ def test_known_comic(talker):
     assert af15.description is None
     assert af15.format == "Comic"
     assert af15.id == 16926
+    assert af15.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/f/10/598363848588e.jpg"
     assert "Spider-Man (Peter Parker)" in [c.name for c in af15.characters]
     assert "Foo" not in [c.name for c in af15.characters]
     assert "Steve Ditko" in [s.name for s in af15.creators]
