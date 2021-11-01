@@ -52,6 +52,7 @@ def test_pulls_verbose(talker):
     assert (next(c_iter).name) == "The Phantom"
     assert (next(c_iter).name) == "Nextwave"
     assert len(characters) > 0
+    assert characters[1].name == "The Phantom"
 
 
 def test_character_comics(talker):

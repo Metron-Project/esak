@@ -6,8 +6,6 @@ This module provides the following classes:
 - Character
 - CharacterSchema
 """
-import itertools
-
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
@@ -113,9 +111,6 @@ class CharactersList:
         """Return the length of the object."""
         return len(self.character)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         """Return the object of a at index."""
-        try:
-            return next(itertools.islice(self.character, index, index + 1))
-        except TypeError:
-            return list(itertools.islice(self.character, index.start, index.stop, index.step))
+        return self.character[index]

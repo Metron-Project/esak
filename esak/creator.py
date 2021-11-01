@@ -6,8 +6,6 @@ This module provides the following classes:
 - Creator
 - CreatorSchema
 """
-import itertools
-
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
@@ -114,9 +112,6 @@ class CreatorsList:
         """Return the length of the object."""
         return len(self.creator)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         """Return the object of a at index."""
-        try:
-            return next(itertools.islice(self.creator, index, index + 1))
-        except TypeError:
-            return list(itertools.islice(self.creator, index.start, index.stop, index.step))
+        return self.creator[index]

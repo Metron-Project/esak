@@ -96,6 +96,7 @@ def test_pulls_verbose(talker):
     assert next(s_iter).id == 26024
     assert next(s_iter).id == 18454
     assert len(series) > 0
+    assert series[1].id == 26024
 
 
 def test_series_characters(talker):

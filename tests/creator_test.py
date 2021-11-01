@@ -52,9 +52,10 @@ def test_pulls_verbose(talker):
     )
     c_iter = iter(creators)
     assert next(c_iter).full_name == "Sean Cooke"
-    assert next(c_iter).full_name, "Mark Shultz"
-    assert next(c_iter).full_name, "Miles Lane"
+    assert next(c_iter).full_name == "Mark Shultz"
+    assert next(c_iter).full_name == "Miles Lane"
     assert len(creators) > 0
+    assert creators[1].full_name == "Mark Shultz"
 
 
 def test_creator_comics(talker):

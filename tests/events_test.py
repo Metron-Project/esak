@@ -69,3 +69,4 @@ def test_events_list(talker):
     assert (next(stories_iter).id) == 302
     assert (next(stories_iter).id) == 233
     assert len(events_lst) == 20
+    assert events_lst[1].id == 302
