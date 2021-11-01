@@ -12,7 +12,7 @@ import itertools
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import dates, exceptions, generic_summary, prices, series, urls
+from esak import dates, exceptions, generic_summary, prices, series, text_object, urls
 
 
 class Comic:
@@ -45,7 +45,9 @@ class ComicSchema(Schema):
     issn = fields.Str()
     format = fields.Str()
     page_count = fields.Int(data_key="pageCount")
-    # textObjects
+    text_objects = fields.Nested(
+        text_object.TextObjectSchema, data_key="textObjects", many=True
+    )
     resource_uri = fields.Str(data_key="resourceURI")
     urls = fields.Nested(urls.UrlsSchema)
     series = fields.Nested(series.SeriesSchema)
@@ -101,6 +103,9 @@ class ComicSchema(Schema):
 
         if "characters" in data:
             data["characters"] = data["characters"]["items"]
+
+        # if "textObjects" in data:
+        #     data["text_objects"] = data["textObjects"]["items"]
 
         if "images" in data:
             data["images"] = [f"{img['path']}.{img['extension']}" for img in data["images"]]

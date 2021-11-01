@@ -67,6 +67,16 @@ def test_known_comic(talker):
     )
     assert len(af15.collected_issues) < 1
     assert len(af15.variants) < 1
+    assert len(af15.text_objects) == 1
+    assert af15.text_objects[0].type == "70th_winner_desc"
+    assert af15.text_objects[0].language == "en-us"
+    assert (
+        af15.text_objects[0].text
+        == "Jack Kirby and Steve Ditko collaborated on this cover to create what "
+        "is quite possibly the most iconic image in Marvel Comics' history.  Before "
+        "all the clones, symbiotes and civil wars we see Spider-Man in a simpler time "
+        "doing what he does best, catching crooks and saving the day."
+    )
 
 
 def test_invalid_isbn(talker):
