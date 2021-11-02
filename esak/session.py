@@ -623,7 +623,7 @@ class Session:
         """
         Request a list of characters from an event.
 
-        :param int _id: The comic id.
+        :param int _id: The event id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -642,7 +642,7 @@ class Session:
         """
         Request a list of comics for an event.
 
-        :param int _id: The character id.
+        :param int _id: The event id.
 
         :param params: Parameters to add to the request.
         :type params: dict, optional
@@ -654,6 +654,25 @@ class Session:
             params = {}
 
         return com.ComicsList(self._call(["events", _id, "comics"], params=params))
+
+    def event_creators(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> cr.CreatorsList:
+        """
+        Request a list of creators from an event.
+
+        :param int _id: The event id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Creator` objects.
+        :rtype: CreatorsList
+        """
+        if params is None:
+            params = {}
+
+        return cr.CreatorsList(self._call(["events", _id, "creators"], params=params))
 
     def events_list(self, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
         """

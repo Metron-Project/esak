@@ -112,3 +112,15 @@ def test_event_comics(talker):
         "Peter must use the full force of his company to stop Ock and Hydra, "
         "but WILL IT BE ENOUGH?!"
     )
+
+
+def test_event_creators(talker):
+    se = talker.event_creators(336)
+    assert len(se) == 20
+    chuck = se[10]
+    assert chuck.id == 13000
+    assert chuck.full_name == "Charles Beacham"
+    assert (
+        chuck.thumbnail
+        == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+    )
