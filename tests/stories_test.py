@@ -72,3 +72,57 @@ def test_stories_list(talker):
     assert (next(stories_iter).id) == 8186
     assert len(stories_lst) == 20
     assert stories_lst[2].id == 8186
+
+
+def test_story_characters(talker):
+    sm = talker.story_characters(35505)
+    assert len(sm) == 1
+    peter = sm[0]
+    assert peter.id == 1009610
+    assert peter.name == "Spider-Man (Peter Parker)"
+    assert len(peter.comics) == 20
+    assert len(peter.events) == 20
+    assert len(peter.series) == 20
+    assert len(peter.stories) == 20
+
+
+def test_story_comics(talker):
+    sm = talker.story_comics(35505)
+    assert len(sm) == 2
+    af = sm[1]
+    assert af.id == 16926
+    assert af.format == "Comic"
+    assert af.issue_number == 15
+    assert af.title == "Amazing Fantasy (1962) #15"
+
+
+def test_story_creators(talker):
+    sm = talker.story_creators(35505)
+    assert len(sm) == 4
+    ditko = sm[0]
+    assert ditko.id == 32
+    assert ditko.full_name == "Steve Ditko"
+    assert len(ditko.comics) == 20
+    assert len(ditko.events) == 1
+    assert len(ditko.series) == 20
+    assert len(ditko.stories) == 20
+
+
+def test_story_events(talker):
+    sm = talker.story_events(113981)
+    assert len(sm) == 1
+    sw = sm[0]
+    assert sw.id == 323
+    assert sw.title == "Secret Wars (2015)"
+    assert sw.next.id == 332
+    assert sw.previous.id == 321
+
+
+def test_story_series(talker):
+    sm = talker.story_series(35505)
+    assert len(sm) == 2
+    af = sm[0]
+    assert af.id == 2987
+    assert af.start_year == 1962
+    assert af.end_year == 1962
+    assert af.title == "Amazing Fantasy (1962)"
