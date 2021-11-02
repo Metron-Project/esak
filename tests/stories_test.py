@@ -72,3 +72,15 @@ def test_stories_list(talker):
     assert (next(stories_iter).id) == 8186
     assert len(stories_lst) == 20
     assert stories_lst[2].id == 8186
+
+
+def test_story_characters(talker):
+    sm = talker.story_characters(35505)
+    assert len(sm) == 1
+    peter = sm[0]
+    assert peter.id == 1009610
+    assert peter.name == "Spider-Man (Peter Parker)"
+    assert len(peter.comics) == 20
+    assert len(peter.events) == 20
+    assert len(peter.series) == 20
+    assert len(peter.stories) == 20
