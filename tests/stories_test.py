@@ -84,3 +84,13 @@ def test_story_characters(talker):
     assert len(peter.events) == 20
     assert len(peter.series) == 20
     assert len(peter.stories) == 20
+
+
+def test_story_comics(talker):
+    sm = talker.story_comics(35505)
+    assert len(sm) == 2
+    af = sm[1]
+    assert af.id == 16926
+    assert af.format == "Comic"
+    assert af.issue_number == 15
+    assert af.title == "Amazing Fantasy (1962) #15"
