@@ -134,3 +134,18 @@ def test_event_series(talker):
     assert champs.start_year == 2016
     assert champs.end_year == 2019
     assert champs.title == "Champions (2016 - 2019)"
+
+
+def test_event_stories(talker):
+    se = talker.event_stories(336)
+    assert len(se) == 20
+    dp = se[1]
+    assert dp.id == 109336
+    assert dp.type == "story"
+    assert len(dp.characters) == 0
+    assert len(dp.comics) == 1
+    assert len(dp.creators) == 3
+    assert len(dp.events) == 2
+    assert len(dp.series) == 1
+    assert dp.original_issue.id == 48620
+    assert dp.original_issue.name == "Deadpool (2012) #32"
