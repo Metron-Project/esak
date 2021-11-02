@@ -70,3 +70,16 @@ def test_events_list(talker):
     assert (next(stories_iter).id) == 233
     assert len(events_lst) == 20
     assert events_lst[1].id == 302
+
+
+def test_event_characters(talker):
+    se = talker.event_characters(336)
+    assert len(se) == 20
+    ben = se[6]
+    assert ben.id == 1010782
+    assert ben.name == "Ben Urich"
+    assert ben.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/5/90/4c00373d10e5e.jpg"
+    assert len(ben.comics) == 20
+    assert len(ben.events) == 4
+    assert len(ben.series) == 20
+    assert len(ben.stories) == 20

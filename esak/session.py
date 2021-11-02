@@ -617,6 +617,25 @@ class Session:
         except ValidationError as error:
             raise exceptions.ApiError(error)
 
+    def event_characters(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> ch.CharactersList:
+        """
+        Request a list of characters from an event.
+
+        :param int _id: The comic id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Character` objects.
+        :rtype: CharactersList
+        """
+        if params is None:
+            params = {}
+
+        return ch.CharactersList(self._call(["events", _id, "characters"], params=params))
+
     def events_list(self, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
         """
         Request a list of events.
