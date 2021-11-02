@@ -10,7 +10,7 @@ This module provides the following classes:
 from marshmallow import EXCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import dates, exceptions, generic_summary, prices, series, text_object, urls
+from esak import dates, exceptions, generic_summary, prices, series, text_object, urls, utils
 
 
 class Comic:
@@ -91,11 +91,7 @@ class ComicSchema(Schema):
         if "status" in data:
             data = data["data"]["results"][0]
 
-        # Marvel comic 1768, and maybe others, returns a modified of
-        # "-0001-11-30T00:00:00-0500". The best way to handle this is
-        # probably just to ignore it, since I don't know how to fix it.
-        if data.get("modified", " ")[0] == "-":
-            del data["modified"]
+        data = utils.check_mod_date(data)
 
         resources = ["stories", "events", "creators", "characters"]
         for i in resources:

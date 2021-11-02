@@ -10,7 +10,7 @@ This module provides the following classes:
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import exceptions, generic_summary
+from esak import exceptions, generic_summary, utils
 
 
 class Events:
@@ -67,6 +67,8 @@ class EventSchema(Schema):
 
         if "status" in data:
             data = data["data"]["results"][0]
+
+        data = utils.check_mod_date(data)
 
         resources = ["stories", "characters", "creators", "comics", "series"]
         for i in resources:

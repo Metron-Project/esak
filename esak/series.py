@@ -9,7 +9,7 @@ This module provides the following classes:
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import exceptions, generic_summary
+from esak import exceptions, generic_summary, utils
 
 
 class Series:
@@ -66,6 +66,8 @@ class SeriesSchema(Schema):
 
         if "status" in data:
             data = data["data"]["results"][0]
+
+        data = utils.check_mod_date(data)
 
         # Marvel series 6664, and maybe others, returns a modified of
         # "-0001-11-30T00:00:00-0500". The best way to handle this is
