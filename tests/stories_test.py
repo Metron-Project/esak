@@ -106,3 +106,13 @@ def test_story_creators(talker):
     assert len(ditko.events) == 1
     assert len(ditko.series) == 20
     assert len(ditko.stories) == 20
+
+
+def test_story_events(talker):
+    sm = talker.story_events(113981)
+    assert len(sm) == 1
+    sw = sm[0]
+    assert sw.id == 323
+    assert sw.title == "Secret Wars (2015)"
+    assert sw.next.id == 332
+    assert sw.previous.id == 321
