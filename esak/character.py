@@ -61,6 +61,12 @@ class CharacterSchema(Schema):
         if "status" in data:
             data = data["data"]["results"][0]
 
+        # Marvel comic 1768, and maybe others, returns a modified of
+        # "-0001-11-30T00:00:00-0500". The best way to handle this is
+        # probably just to ignore it, since I don't know how to fix it.
+        if data.get("modified", " ")[0] == "-":
+            del data["modified"]
+
         if "thumbnail" in data and data["thumbnail"] is not None:
             data["thumbnail"] = f"{data['thumbnail']['path']}.{data['thumbnail']['extension']}"
         else:
