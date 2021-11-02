@@ -116,6 +116,14 @@ esak.urls module
    :undoc-members:
    :show-inheritance:
 
+esak.utils module
+-----------------
+
+.. automodule:: esak.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
