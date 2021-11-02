@@ -674,6 +674,25 @@ class Session:
 
         return cr.CreatorsList(self._call(["events", _id, "creators"], params=params))
 
+    def event_series(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> ser.SeriesList:
+        """
+        Request a list of series for an event.
+
+        :param int _id: The event id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Series` objects.
+        :rtype: SeriesList
+        """
+        if params is None:
+            params = {}
+
+        return ser.SeriesList(self._call(["events", _id, "series"], params=params))
+
     def events_list(self, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
         """
         Request a list of events.

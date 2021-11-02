@@ -124,3 +124,13 @@ def test_event_creators(talker):
         chuck.thumbnail
         == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
     )
+
+
+def test_event_series(talker):
+    se = talker.event_series(336)
+    assert len(se) == 20
+    champs = se[5]
+    assert champs.id == 22552
+    assert champs.start_year == 2016
+    assert champs.end_year == 2019
+    assert champs.title == "Champions (2016 - 2019)"
