@@ -4,6 +4,7 @@ Test Events module.
 This module contains tests for Event objects.
 """
 import datetime
+from decimal import Decimal
 
 import pytest
 
@@ -83,3 +84,31 @@ def test_event_characters(talker):
     assert len(ben.events) == 4
     assert len(ben.series) == 20
     assert len(ben.stories) == 20
+
+
+def test_event_comics(talker):
+    se = talker.event_comics(336)
+    assert len(se) == 20
+    sm = se[12]
+    assert sm.id == 60539
+    assert sm.issue_number == 31
+    assert sm.page_count == 32
+    assert sm.upc == "75960608297103111"
+    assert sm.title == "The Amazing Spider-Man (2015) #31"
+    assert sm.prices.digital == Decimal("3.99")
+    assert sm.prices.print == Decimal("3.99")
+    assert sm.series.id == 20432
+    assert sm.series.name == "The Amazing Spider-Man (2015 - 2018)"
+    assert len(sm.characters) == 4
+    assert len(sm.creators) == 7
+    assert len(sm.events) == 1
+    assert len(sm.stories) == 2
+    solit = sm.text_objects[0]
+    assert solit.language == "en-us"
+    assert solit.type == "issue_solicit_text"
+    assert (
+        solit.text == "SECRET EMPIRE TIE-IN! On orders from Captain America, "
+        "the Superior Octopus is taking the fight to Parker Industries. "
+        "Peter must use the full force of his company to stop Ock and Hydra, "
+        "but WILL IT BE ENOUGH?!"
+    )
