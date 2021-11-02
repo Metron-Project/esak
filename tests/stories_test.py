@@ -116,3 +116,13 @@ def test_story_events(talker):
     assert sw.title == "Secret Wars (2015)"
     assert sw.next.id == 332
     assert sw.previous.id == 321
+
+
+def test_story_series(talker):
+    sm = talker.story_series(35505)
+    assert len(sm) == 2
+    af = sm[0]
+    assert af.id == 2987
+    assert af.start_year == 1962
+    assert af.end_year == 1962
+    assert af.title == "Amazing Fantasy (1962)"
