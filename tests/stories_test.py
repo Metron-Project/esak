@@ -94,3 +94,15 @@ def test_story_comics(talker):
     assert af.format == "Comic"
     assert af.issue_number == 15
     assert af.title == "Amazing Fantasy (1962) #15"
+
+
+def test_story_creators(talker):
+    sm = talker.story_creators(35505)
+    assert len(sm) == 4
+    ditko = sm[0]
+    assert ditko.id == 32
+    assert ditko.full_name == "Steve Ditko"
+    assert len(ditko.comics) == 20
+    assert len(ditko.events) == 1
+    assert len(ditko.series) == 20
+    assert len(ditko.stories) == 20

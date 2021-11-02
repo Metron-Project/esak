@@ -624,6 +624,25 @@ class Session:
 
         return com.ComicsList(self._call(["stories", _id, "comics"], params=params))
 
+    def story_creators(
+        self, _id: int, params: Optional[Dict[str, Any]] = None
+    ) -> cr.CreatorsList:
+        """
+        Request a list of creators from a story.
+
+        :param int _id: The story id.
+
+        :param params: Parameters to add to the request.
+        :type params: dict, optional
+
+        :return: A list of :class:`Creator` objects.
+        :rtype: CreatorsList
+        """
+        if params is None:
+            params = {}
+
+        return cr.CreatorsList(self._call(["stories", _id, "creators"], params=params))
+
     def stories_list(self, params: Optional[Dict[str, Any]] = None) -> stories.StoriesList:
         """
         Request a list of stories.
