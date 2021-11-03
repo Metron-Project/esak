@@ -1,4 +1,4 @@
-esak - Marvel API wrapper for python 3
+esak - Python wrapper for Marvel API
 ===========================================
 
 
@@ -20,6 +20,8 @@ esak - Marvel API wrapper for python 3
 - `Code on Github <https://github.com/bpepple/esak>`_
 - `Published on PyPi <https://pypi.python.org/pypi/esak>`_
 - `Marvel API documentation <https://developer.marvel.com/docs>`_
+
+This project is a fork of `marvelous <https://github.com/rkuykendall/marvelous>`_ with the goal of supporting the full Marvel API.
 
 **To install:**
 
@@ -51,7 +53,7 @@ esak - Marvel API wrapper for python 3
     for comic in pulls:
         # Write a line to the file with the name of the issue, and the
         # id of the series
-        print('{} (series #{})'.format(comic.title, comic.series.id))
+        print(f'{comic.title} (series #{comic.series.id})')
 
 Documentation
 -------------
