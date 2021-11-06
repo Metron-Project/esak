@@ -9,7 +9,7 @@ This module provides the following classes:
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import exceptions, generic_summary, utils
+from esak import exceptions, summary, utils
 
 
 class Creator:
@@ -38,10 +38,10 @@ class CreatorsSchema(Schema):
     resource_uri = fields.Str(data_key="resourceURI")
     # urls
     thumbnail = fields.Url()
-    series = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    comics = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    series = fields.Nested(summary.SummarySchema, many=True)
+    stories = fields.Nested(summary.SummarySchema, many=True)
+    events = fields.Nested(summary.SummarySchema, many=True)
+    comics = fields.Nested(summary.SummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be included."""

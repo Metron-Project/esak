@@ -52,14 +52,6 @@ esak.exceptions module
    :undoc-members:
    :show-inheritance:
 
-esak.generic\_summary module
-----------------------------
-
-.. automodule:: esak.generic_summary
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 esak.prices module
 ------------------
 
@@ -96,6 +88,14 @@ esak.stories module
 -------------------
 
 .. automodule:: esak.stories
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+esak.summary module
+-------------------
+
+.. automodule:: esak.summary
    :members:
    :undoc-members:
    :show-inheritance:

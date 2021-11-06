@@ -1,23 +1,23 @@
 """
-Generic Summary module.
+Summary module.
 
 This module provides the following classes:
 
-- GenericSummary
-- GenericSummarySchema
+- Summary
+- SummarySchema
 """
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 
-class GenericSummary:
+class Summary:
     """
-    The GenericSummary object contains basic information.
+    The Summary object contains basic information.
 
     :param `**kwargs`: The keyword arguments used for getting data from Marvel.
     """
 
     def __init__(self, id=None, name=None, resource_uri=None, type=None, role=None, **kwargs):
-        """Intialize a new GenericSummary."""
+        """Intialize a new Summary."""
         self.id = id
         self.name = name
         self.resource_uri = resource_uri
@@ -26,8 +26,8 @@ class GenericSummary:
         self.unknown = kwargs
 
 
-class GenericSummarySchema(Schema):
-    """Schema for the GenericSummary."""
+class SummarySchema(Schema):
+    """Schema for the Summary."""
 
     id = fields.Int()
     name = fields.Str()
@@ -49,11 +49,11 @@ class GenericSummarySchema(Schema):
     @post_load
     def make(self, data, **kwargs):
         """
-        Make the GenericSummary object.
+        Make the Summary object.
 
         :param data: Data from Marvel response.
 
-        :returns: :class:`GenericSummary` object
-        :rtype: GenericSummary
+        :returns: :class:`Summary` object
+        :rtype: Summary
         """
-        return GenericSummary(**data)
+        return Summary(**data)
