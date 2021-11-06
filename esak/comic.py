@@ -10,7 +10,7 @@ This module provides the following classes:
 from marshmallow import EXCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import dates, exceptions, generic_summary, prices, series, text_object, urls, utils
+from esak import dates, exceptions, prices, series, summary, text_object, urls, utils
 
 
 class Comic:
@@ -56,19 +56,19 @@ class ComicSchema(Schema):
     resource_uri = fields.Str(data_key="resourceURI")
     urls = fields.Nested(urls.UrlsSchema)
     series = fields.Nested(series.SeriesSchema)
-    variants = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    collections = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    variants = fields.Nested(summary.SummarySchema, many=True)
+    collections = fields.Nested(summary.SummarySchema, many=True)
     collected_issues = fields.Nested(
-        generic_summary.GenericSummarySchema, data_key="collectedIssues", many=True
+        summary.SummarySchema, data_key="collectedIssues", many=True
     )
     dates = fields.Nested(dates.DatesSchema)
     prices = fields.Nested(prices.PriceSchemas, allow_none=True)
     thumbnail = fields.Url()
     images = fields.List(fields.Url)
-    creators = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    events = fields.Nested(generic_summary.GenericSummarySchema, many=True)
+    creators = fields.Nested(summary.SummarySchema, many=True)
+    characters = fields.Nested(summary.SummarySchema, many=True)
+    stories = fields.Nested(summary.SummarySchema, many=True)
+    events = fields.Nested(summary.SummarySchema, many=True)
 
     class Meta:
         """Any unknown fields will be excluded."""

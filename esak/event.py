@@ -10,7 +10,7 @@ This module provides the following classes:
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 
-from esak import exceptions, generic_summary, utils
+from esak import exceptions, summary, utils
 
 
 class Events:
@@ -38,13 +38,13 @@ class EventSchema(Schema):
     start = fields.Date(allow_none=True)
     end = fields.Date(allow_none=True)
     thumbnail = fields.Url()
-    comics = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    stories = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    series = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    characters = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    creators = fields.Nested(generic_summary.GenericSummarySchema, many=True)
-    next = fields.Nested(generic_summary.GenericSummarySchema, allow_none=True)
-    previous = fields.Nested(generic_summary.GenericSummarySchema, allow_none=True)
+    comics = fields.Nested(summary.SummarySchema, many=True)
+    stories = fields.Nested(summary.SummarySchema, many=True)
+    series = fields.Nested(summary.SummarySchema, many=True)
+    characters = fields.Nested(summary.SummarySchema, many=True)
+    creators = fields.Nested(summary.SummarySchema, many=True)
+    next = fields.Nested(summary.SummarySchema, allow_none=True)
+    previous = fields.Nested(summary.SummarySchema, allow_none=True)
 
     class Meta:
         """Any unknown fields will be included."""
