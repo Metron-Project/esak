@@ -24,27 +24,27 @@ class Character:
     Attributes
     ----------
     id: int
-        The Marvel id for the character.
+        The unique ID of the character resource.
     name: str
-        The character name.
+        The name of the character.
     description: str
-        The character description.
+        A short bio or description of the character.
     modified: datetime
-        The date and time the character data was modified.
+        The date the resource was most recently modified.
     resource_uri: str
-        The url for the character.
+        The canonical URL identifier for this resource.
     urls: list(Urls)
-        A list of urls for the character.
+        A set of public web site URLs for the resource.
     thumbnail: str
-        The url for the character thumbnail image.
+        The representative image for this character.
     comics: list(Comic)
-        A list of comics the character appeared in.
+        A resource list containing comics which feature this character.
     stories: list(Summary)
-        A list of story summaries for the character.
+        A resource list of stories in which this character appears.
     events: list(Summary)
-        A list of event summaries for the character.
+        A resource list of events in which this character appears.
     series: list(Summary)
-        A list of series summaries for the character.
+        A resource list of series in which this character appears.
     """
 
     def __init__(self, **kwargs):
