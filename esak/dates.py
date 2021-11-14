@@ -13,10 +13,25 @@ class Dates:
     """
     The Dates object contains common dates.
 
-    :param `on_sale`: The date the comic went on sale.
-    :param `foc`: The final order cutoff date.
-    :param `unlimited`: The date it was release on Marvel Unlimited.
-    :param `**kwargs`: The keyword arguments used for setting any other date from Marvel.
+    Parameters
+    ----------
+    on_sale: date
+        The date the comic went on sale.
+    foc: date
+        The final order cutoff date.
+    unlimited: date
+        The date it was release on Marvel Unlimited.
+    **kwargs
+        The keyword arguments used for setting any other date from Marvel.
+
+    Attributes
+    ----------
+    on_sale: date
+        The date the comic went on sale.
+    foc: date
+        The final order cutoff date.
+    unlimited: date
+        The date it was release on Marvel Unlimited.
     """
 
     def __init__(self, on_sale=None, foc=None, unlimited=None, **kwargs):
@@ -53,9 +68,14 @@ class DatesSchema(Schema):
         """
         Make the dates object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Dates` object
-        :rtype: Dates
+        Returns
+        -------
+        Dates
+            A Date object
         """
         return Dates(**data)
