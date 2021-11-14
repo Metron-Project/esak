@@ -17,7 +17,43 @@ class Events:
     """
     The Event object contains information for events.
 
-    :param `**kwargs`: The keyword arguments is used for setting event data from Marvel.
+    Parameters
+    ----------
+    **kwargs
+        The keyword arguments used for setting data from Marvel.
+
+    Attributes
+    ----------
+    id: int
+        The unique ID of the event resource.
+    title: str
+        The title of the event.
+    description: str
+        A description of the event.
+    resource_uri: url
+        The canonical URL identifier for this resource.
+    modified: datetime
+        The date the resource was most recently modified.
+    start: date
+        The date of publication of the first issue in this event.
+    end: date
+        The date of publication of the last issue in this event.
+    thumbnail: url
+        The representative image for this event.
+    comics: list(Summary)
+        A resource list containing the comics in this event.
+    stories: list(Summary)
+        A resource list containing the stories in this event.
+    series: list(Summary)
+        A resource list containing the series in this event.
+    characters: list(Summary)
+        A resource list containing the characters which appear in this event.
+    creators: list(Summary)
+        A resource list containing creators whose work appears in this event.
+    next: list(Summary)
+        A summary representation of the event which follows this event.
+    previous: list(Summary)
+        A summary representation of the event which preceded this event.
     """
 
     def __init__(self, **kwargs) -> None:
@@ -32,7 +68,7 @@ class EventSchema(Schema):
     id = fields.Int()
     title = fields.Str()
     description = fields.Str()
-    resource_uri = fields.Str(data_key="resourceURI")
+    resource_uri = fields.Url(data_key="resourceURI")
     # urls
     modified = fields.DateTime()
     start = fields.Date(allow_none=True)
@@ -57,10 +93,15 @@ class EventSchema(Schema):
         """
         Clean the data from Marvel.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel api response.
 
-        :returns: Marvel Response
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Marvel response.
         """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
@@ -85,10 +126,15 @@ class EventSchema(Schema):
         """
         Make the events object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Events` object
-        :rtype: Events
+        Returns
+        -------
+        Event
+            A Event object
         """
         return Events(**data)
 
