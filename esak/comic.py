@@ -17,7 +17,76 @@ class Comic:
     """
     The Comic object contains information for a comic.
 
-    :param `**kwargs`: The keyword arguments is used for setting comic data from Marvel.
+    Parameters
+    ----------
+    **kwargs
+        The keyword arguments used for setting data from Marvel.
+
+    Attributes
+    ----------
+    id: int
+        The unique ID of the comic resource.
+    digital_id: int
+        The ID of the digital comic representation of this comic. Will be 0 if the comic is not
+        available digitally.
+    title: str
+        The canonical title of the comic.
+    issue_number: int
+        The number of the issue in the series (will generally be 0 for collection formats).
+    variant_description: str
+        If the issue is a variant (e.g. an alternate cover, second printing,
+        or director’s cut), a text description of the variant.
+    description: str, optional
+        The preferred description of the comic.
+    modified: datetime
+        The date the resource was most recently modified.
+    isbn: str
+        The ISBN for the comic (generally only populated for collection formats).
+    upc: str
+        The UPC barcode number for the comic (generally only populated for periodical formats).
+    diamond_code: str
+        The Diamond code for the comic.
+    ean: str
+        The EAN barcode for the comic.
+    issn: str
+        The ISSN barcode for the comic.
+    format: str
+        The publication format of the comic e.g. comic, hardcover, trade paperback.
+    page_count: int
+        The number of story pages in the comic.
+    text_objects: list(TextObject)
+        A set of descriptive text blurbs for the comic.
+    resource_uri: url
+        The canonical URL identifier for this resource.
+    urls: list(Urls)
+        A set of public web site URLs for the resource.
+    series: list(Series)
+        A summary representation of the series to which this comic belongs.
+    variants: list(Summary)
+        A list of variant issues for this comic (includes the "original" issue if the current
+        issue is a variant).
+    collections: list(Summary)
+        A list of collections which include this comic (will generally be empty if the comic's
+        format is a collection).
+    collected_issues: list(Summary)
+        A list of issues collected in this comic (will generally be empty for periodical
+        formats such as "comic" or "magazine").
+    dates: list(Dates)
+        A list of key dates for this comic.
+    prices: list(Price)
+        A list of prices for this comic.
+    thumbnail: url
+        The representative image for this comic.
+    images: list(url)
+        A list of promotional images associated with this comic.
+    creators: list(Summary)
+        A resource list containing the creators associated with this comic.
+    characters: list(Summary)
+        A resource list containing the characters which appear in this comic.
+    stories: list(Summary)
+        A resource list containing the stories which appear in this comic.
+    events: list(Summary)
+        A resource list containing the events in which this comic appears.
     """
 
     def __init__(self, **kwargs):
@@ -80,10 +149,15 @@ class ComicSchema(Schema):
         """
         Clean the data from Marvel.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel api response.
 
-        :returns: Marvel Response
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Marvel response.
         """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
@@ -118,10 +192,15 @@ class ComicSchema(Schema):
         """
         Make the Comic object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Comic` object
-        :rtype: Comic
+        Returns
+        -------
+        Comic
+            A Comic object
         """
         return Comic(**data)
 
