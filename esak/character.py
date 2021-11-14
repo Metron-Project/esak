@@ -16,7 +16,35 @@ class Character:
     """
     The Character object contains information for characters.
 
-    :param `**kwargs`: The keyword arguments is used for setting character data from Marvel.
+    Parameters
+    ----------
+    **kwargs
+        The keyword arguments used for setting character data from Marvel.
+
+    Attributes
+    ----------
+    id: int
+        The Marvel id for the character.
+    name: str
+        The character name.
+    description: str
+        The character description.
+    modified: datetime
+        The date and time the character data was modified.
+    resource_uri: str
+        The url for the character.
+    urls: list(Urls)
+        A list of urls for the character.
+    thumbnail: str
+        The url for the character thumbnail image.
+    comics: list(Comic)
+        A list of comics the character appeared in.
+    stories: list(Summary)
+        A list of story summaries for the character.
+    events: list(Summary)
+        A list of event summaries for the character.
+    series: list(Summary)
+        A list of series summaries for the character.
     """
 
     def __init__(self, **kwargs):
@@ -32,7 +60,7 @@ class CharacterSchema(Schema):
     name = fields.Str()
     description = fields.Str()
     modified = fields.DateTime()
-    resource_uri = fields.Str(data_key="resourceURI")
+    resource_uri = fields.Url(data_key="resourceURI")
     urls = fields.Nested(urls.UrlsSchema)
     thumbnail = fields.Url()
     comics = fields.Nested(summary.SummarySchema, many=True)
@@ -50,10 +78,15 @@ class CharacterSchema(Schema):
         """
         Clean the data from Marvel.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel api response.
 
-        :returns: Marvel Response
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Marvel response.
         """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
@@ -82,10 +115,15 @@ class CharacterSchema(Schema):
         """
         Make the character object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Character` object
-        :rtype: Character
+        Returns
+        -------
+        Character
+            A Character object
         """
         return Character(**data)
 
