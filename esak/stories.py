@@ -64,7 +64,7 @@ class StoriesSchema(Schema):
     id = fields.Int()
     title = fields.Str()
     descriptions = fields.Str()
-    resource_uri = fields.Str(data_key="resourceURI")
+    resource_uri = fields.Url(data_key="resourceURI")
     type = fields.Str()
     modified = fields.DateTime()
     thumbnail = fields.Url(allow_none=True)
