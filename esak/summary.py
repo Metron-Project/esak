@@ -13,7 +13,23 @@ class Summary:
     """
     The Summary object contains basic information.
 
-    :param `**kwargs`: The keyword arguments used for getting data from Marvel.
+    Parameters
+    ----------
+    **kwargs
+        The keyword arguments used for setting summary data from Marvel.
+
+    Attributes
+    ----------
+    id: int
+        The unique ID of the summary resource.
+    name: str
+        The name of the summary.
+    resource_uri: url
+        The path to the individual summary resource.
+    type: str
+        The summary type.
+    role: str
+        The role of the summary in the parent entity.
     """
 
     def __init__(self, id=None, name=None, resource_uri=None, type=None, role=None, **kwargs):
@@ -31,7 +47,7 @@ class SummarySchema(Schema):
 
     id = fields.Int()
     name = fields.Str()
-    resource_uri = fields.Str(data_key="resourceURI")
+    resource_uri = fields.Url(data_key="resourceURI")
     type = fields.Str()
     role = fields.Str()
 
@@ -51,9 +67,14 @@ class SummarySchema(Schema):
         """
         Make the Summary object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Summary` object
-        :rtype: Summary
+        Returns
+        -------
+        Summary
+            A Summary object
         """
         return Summary(**data)
