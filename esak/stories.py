@@ -20,7 +20,7 @@ class Stories:
     Parameters
     ----------
     **kwargs
-        The keyword arguments used for setting character data from Marvel.
+        The keyword arguments used for setting stories data from Marvel.
 
     Attributes
     ----------
