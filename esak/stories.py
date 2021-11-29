@@ -17,7 +17,39 @@ class Stories:
     """
     The Stories object contains information for stories.
 
-    :param `**kwargs`: The keyword arguments is used for setting stories data from Marvel.
+    Parameters
+    ----------
+    **kwargs
+        The keyword arguments used for setting character data from Marvel.
+
+    Attributes
+    ----------
+    id: int
+        The unique ID of the story resource.
+    title: str
+        The story title.
+    descriptions: str
+        A short description of the story.
+    resource_uri: url
+        The canonical URL identifier for this resource.
+    type: str
+        The story type e.g. interior story, cover, text story.
+    modified: datetime
+        The date the resource was most recently modified.
+    thumbnail: url
+        The representative image for this story.
+    comics: list(Summary)
+        A resource list containing comics in which this story takes place.
+    series: list(Summary)
+        A resource list containing series in which this story appears.
+    events: list(Summary)
+        A resource list of the events in which this story appears.
+    characters: list(Summary)
+        A resource list of characters which appear in this story.
+    creators: list(Summary)
+        A resource list of creators who worked on this story.
+    original_issue: list(Summary)
+        A summary representation of the issue in which this story was originally published.
     """
 
     def __init__(self, **kwargs) -> None:
@@ -53,10 +85,15 @@ class StoriesSchema(Schema):
         """
         Clean the data from Marvel.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel api response.
 
-        :returns: Marvel Response
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Marvel response.
         """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
@@ -85,10 +122,15 @@ class StoriesSchema(Schema):
         """
         Make the stories object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Stories` object
-        :rtype: Stories
+        Returns
+        -------
+        Stories
+            A Stories object
         """
         return Stories(**data)
 
