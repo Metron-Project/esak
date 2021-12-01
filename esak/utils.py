@@ -11,10 +11,10 @@ def check_mod_date(data):
     """
     Remove a bad modification date from json data.
 
-    :param data: Data from Marvel response.
-
-    :returns: Marvel Response
-    :rtype: dict
+    Parameters
+    ----------
+    data
+        Data from a Marvel API response.
     """
     # Marvel comic 1768, and maybe others, returns a modified of
     # "-0001-11-30T00:00:00-0500". The best way to handle this is
