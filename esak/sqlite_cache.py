@@ -14,7 +14,15 @@ class SqliteCache:
     """
     The SqliteCache object to cache search results from Marvel.
 
-    :param str db_name: Path and database name to use.
+    Parameters
+    ----------
+    db_name: str
+        Path and database name to use.
+
+    Returns
+    -------
+    SqliteCache
+        A SqliteCache Object.
     """
 
     def __init__(self, db_name: str = "esak_cache.db") -> None:
@@ -27,7 +35,10 @@ class SqliteCache:
         """
         Retrieve data from the cache database.
 
-        :param str key: value to search for.
+        Parameters
+        ----------
+        key: str
+            value to search for.
         """
         self.cur.execute("SELECT json FROM responses WHERE key = ?", (key,))
         result = self.cur.fetchone()
@@ -41,8 +52,12 @@ class SqliteCache:
         """
         Save data to the cache database.
 
-        :param str key: Item id.
-        :param str value: data to save.
+        Parameters
+        ----------
+        key: str
+            Item id.
+        value: str
+            data to save.
         """
         self.cur.execute(
             "INSERT INTO responses(key, json) VALUES(?, ?)", (key, json.dumps(value))
