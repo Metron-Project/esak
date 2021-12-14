@@ -272,12 +272,20 @@ class Session:
         """
         Request data for a series based on it's ``_id``.
 
-        :param int _id: The series id.
+        Parameters
+        ----------
+        _id: int
+            The series id.
 
-        :return: :class:`Series` object
-        :rtype: Series
+        Returns
+        -------
+        Series
+            :class:`Series` object
 
-        :raises: :class:`ApiError`
+        Raises
+        ------
+        ApiError
+            If requested information is not valid.
         """
         try:
             return ser.SeriesSchema().load(self._call(["series", _id]))
@@ -290,13 +298,17 @@ class Session:
         """
         Request a list of characters from a series.
 
-        :param int _id: The series id.
+        Parameters
+        ----------
+        _id: int
+            The series id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Character` objects.
-        :rtype: CharactersList
+        Returns
+        -------
+        CharactersList
+            A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
@@ -309,13 +321,17 @@ class Session:
         """
         Request a list of comics from a series.
 
-        :param int _id: The series id.
+        Parameters
+        ----------
+        _id: int
+            The series id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Comic` objects.
-        :rtype: ComicsList
+        Returns
+        -------
+        ComicsList
+            A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
@@ -328,13 +344,17 @@ class Session:
         """
         Request a list of creators from a series.
 
-        :param int _id: The series id.
+        Parameters
+        ----------
+        _id: int
+            The series id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Creator` objects.
-        :rtype: CreatorsList
+        Returns
+        -------
+        CreatorsList
+            A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
@@ -347,13 +367,17 @@ class Session:
         """
         Request a list of events from a series.
 
-        :param int _id: The series id.
+        Parameters
+        ----------
+        _id: int
+            The series id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Event` objects.
-        :rtype: EventsList
+        Returns
+        -------
+        EventsList
+            A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
@@ -366,13 +390,17 @@ class Session:
         """
         Request a list of stories from a series.
 
-        :param int _id: The series id.
+        Parameters
+        ----------
+        _id: int
+            The series id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Stories` objects.
-        :rtype: StoriesList
+        Returns
+        -------
+        StoriesList
+            A list of :class:`Stories` objects.
         """
         if params is None:
             params = {}
@@ -383,11 +411,15 @@ class Session:
         """
         Request a list of series.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
+        Parameters
+        ----------
+        params: dict, optional
+            Parameters to add to the request.
 
-        :return: A list of :class:`Series` objects.
-        :rtype: SeriesList
+        Returns
+        -------
+        SeriesList
+            A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
@@ -398,12 +430,20 @@ class Session:
         """
         Request data for a creator based on it's ``_id``.
 
-        :param int _id: The creator id.
+        Parameters
+        ----------
+        _id: int
+            The creator id.
 
-        :return: :class:`Creator` object
-        :rtype: Creator
+        Returns
+        -------
+        Creator
+            :class:`Creator` object
 
-        :raises: :class:`ApiError`
+        Raises
+        ------
+        ApiError
+            If requested information is not valid.
         """
         try:
             return cr.CreatorsSchema().load(self._call(["creators", _id]))
@@ -416,13 +456,17 @@ class Session:
         """
         Request a list of comics from a creator.
 
-        :param int _id: The creator id.
+        Parameters
+        ----------
+        _id: int
+            The creator id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Comic` objects.
-        :rtype: ComicsList
+        Returns
+        -------
+        ComicsList
+            A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
@@ -435,13 +479,17 @@ class Session:
         """
         Request a list of events from a creator.
 
-        :param int _id: The creator id.
+        Parameters
+        ----------
+        _id: int
+            The creator id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Event` objects.
-        :rtype: EventsList
+        Returns
+        -------
+        EventsList
+            A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
@@ -454,13 +502,17 @@ class Session:
         """
         Request a list of series by a creator.
 
-        :param int _id: The creator id.
+        Parameters
+        ----------
+        _id: int
+            The creator id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Series` objects.
-        :rtype: SeriesList
+        Returns
+        -------
+        SeriesList
+            A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
@@ -473,13 +525,17 @@ class Session:
         """
         Request a list of stories from a creator.
 
-        :param int _id: The creator id.
+        Parameters
+        ----------
+        _id: int
+            The creator id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Stories` objects.
-        :rtype: StoriesList
+        Returns
+        -------
+        StoriesList
+            A list of :class:`Stories` objects.
         """
         if params is None:
             params = {}
@@ -490,11 +546,17 @@ class Session:
         """
         Request a list of creators.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
+        Parameters
+        ----------
+        _id: int
+            The creator id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :return: A list of :class:`Creator` objects.
-        :rtype: CreatorsList
+        Returns
+        -------
+        CreatorsList
+            A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
@@ -505,12 +567,20 @@ class Session:
         """
         Request data for a character based on it's ``_id``.
 
-        :param int _id: The character id.
+        Parameters
+        ----------
+        _id: int
+            The character id.
 
-        :return: :class:`Character` object
-        :rtype: Character
+        Returns
+        -------
+        Character
+            A :class:`Character` object.
 
-        :raises: :class:`ApiError`
+        Raises
+        ------
+        ApiError
+            If requested information is not valid.
         """
         try:
             return ch.CharacterSchema().load(self._call(["characters", _id]))
@@ -523,13 +593,17 @@ class Session:
         """
         Request a list of comics for a character.
 
-        :param int _id: The character id.
+        Parameters
+        ----------
+        _id: int
+            The character id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Comic` objects.
-        :rtype: ComicsList
+        Returns
+        -------
+        ComicsList
+            A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
@@ -542,13 +616,17 @@ class Session:
         """
         Request a list of events for a character.
 
-        :param int _id: The character id.
+        Parameters
+        ----------
+        _id: int
+            The character id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Event` objects.
-        :rtype: EventsList
+        Returns
+        -------
+        EventsList
+            A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
@@ -561,13 +639,17 @@ class Session:
         """
         Request a list of series for a character.
 
-        :param int _id: The character id.
+        Parameters
+        ----------
+        _id: int
+            The character id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Series` objects.
-        :rtype: SeriesList
+        Returns
+        -------
+        SeriesList
+            A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
@@ -580,13 +662,17 @@ class Session:
         """
         Request a list of stories for a character.
 
-        :param int _id: The character id.
+        Parameters
+        ----------
+        _id: int
+            The character id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Stories` objects.
-        :rtype: StoriesList
+        Returns
+        -------
+        StoriesList
+            A list of :class:`Stories` objects.
         """
         if params is None:
             params = {}
@@ -597,11 +683,17 @@ class Session:
         """
         Request a list of characters.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
+        Parameters
+        ----------
+        _id: int
+            The character id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :return: A list of :class:`Character` objects.
-        :rtype: CharactersList
+        Returns
+        -------
+        CharactersList
+            A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
@@ -615,7 +707,6 @@ class Session:
         :param int _id: The story id.
 
         :return: :class:`Stories` object
-        :rtype: Stories
 
         :raises: :class:`ApiError`
         """
@@ -636,7 +727,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Character` objects.
-        :rtype: CharactersList
         """
         if params is None:
             params = {}
@@ -655,7 +745,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Comic` objects.
-        :rtype: ComicsList
         """
         if params is None:
             params = {}
@@ -674,7 +763,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Creator` objects.
-        :rtype: CreatorsList
         """
         if params is None:
             params = {}
@@ -691,7 +779,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Event` objects.
-        :rtype: EventsList
         """
         if params is None:
             params = {}
@@ -710,7 +797,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Series` objects.
-        :rtype: SeriesList
         """
         if params is None:
             params = {}
@@ -725,7 +811,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Stories` objects.
-        :rtype: StoriesList
         """
         if params is None:
             params = {}
@@ -739,7 +824,6 @@ class Session:
         :param int _id: The event id.
 
         :return: :class:`Event` object
-        :rtype: Event
 
         :raises: :class:`ApiError`
         """
@@ -760,7 +844,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Character` objects.
-        :rtype: CharactersList
         """
         if params is None:
             params = {}
@@ -779,7 +862,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Comic` objects.
-        :rtype: ComicsList
         """
         if params is None:
             params = {}
@@ -798,7 +880,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Creator` objects.
-        :rtype: CreatorsList
         """
         if params is None:
             params = {}
@@ -817,7 +898,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Series` objects.
-        :rtype: SeriesList
         """
         if params is None:
             params = {}
@@ -836,7 +916,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Stories` objects.
-        :rtype: StoriesList
         """
         if params is None:
             params = {}
@@ -851,7 +930,6 @@ class Session:
         :type params: dict, optional
 
         :return: A list of :class:`Event` objects.
-        :rtype: EventsList
         """
         if params is None:
             params = {}
