@@ -22,7 +22,7 @@ class SqliteCache:
     Returns
     -------
     SqliteCache
-        A SqliteCache Object.
+        A :class:`SqliteCache` Object.
     """
 
     def __init__(self, db_name: str = "esak_cache.db") -> None:
