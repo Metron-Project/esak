@@ -16,7 +16,40 @@ class Creator:
     """
     The Creator object contains information for creators.
 
-    :param `**kwargs`: The keyword arguments is used for setting creator data from Marvel.
+    Parameters
+    ----------
+    **kwargs
+        The keyword arguments used for setting character data from Marvel.
+
+    Attributes
+    ----------
+    id: int
+        The unique ID of the creator resource.
+    first_name: str
+        The first name of the creator.
+    middle_name: str
+        The middle name of the creator.
+    last_name: str
+        The last name of the creator.
+    suffix: str
+        The suffix or honorific for the creator.
+    full_name: str
+        The full name of the creator (a space-separated concatenation of the
+        above four fields).
+    modified: datetime
+        The date the resource was most recently modified.
+    resource_uri: url
+        The canonical URL identifier for this resource.
+    thumbnail: url
+        The representative image for this creator.
+    series: list(Summary)
+        A resource list containing the series which feature work by this creator.
+    stories: list(Summary)
+        A resource list containing the stories which feature work by this creator.
+    events: list(Summary)
+        A resource list containing the events which feature work by this creator.
+    comics: list(Summary)
+        A resource list containing the comics which feature work by this creator.
     """
 
     def __init__(self, **kwargs):
@@ -53,10 +86,15 @@ class CreatorsSchema(Schema):
         """
         Clean the data from Marvel.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel api response.
 
-        :returns: Marvel Response
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Marvel response.
         """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
@@ -83,10 +121,15 @@ class CreatorsSchema(Schema):
         """
         Make the Creator object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Creator` object
-        :rtype: Creator
+        Returns
+        -------
+        Creator
+            A Creator object
         """
         return Creator(**data)
 

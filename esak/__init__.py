@@ -13,14 +13,23 @@ def api(
 ) -> session.Session:
     """Entry function the sets login credentials for Marvel's API.
 
-    :param public_key: The username used for metron.cloud.
-    :type public_key: str, optional
-    :param private_key: The password used for metron.cloud.
-    :type private_key: str, optional
-    :param cache: SqliteCache to use
-    :type cache: SqliteCache, optional
+    Parameters
+    ----------
+    public_key: str, optional
+        The user's public key obtained from Marvel.
+    private_key: str, optional
+        The user's private key obtained from Marvel.
+    cache: SqliteCache, optional
+        SqliteCache to use
 
-    :raises: :class:`AuthenticationError`
+    Returns
+    -------
+    Session
+
+    Raises
+    ------
+    AuthenticationError
+        If Marvel credentials are missing.
     """
     if public_key is None:
         raise exceptions.AuthenticationError("Missing public_key.")

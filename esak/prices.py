@@ -13,9 +13,21 @@ class Prices:
     """
     The Prices object contains price information.
 
-    :param `print`: The price of print comic.
-    :param `digital`: The price of digital comic.
-    :param `**kwargs`: The keyword arguments used for setting any other price from Marvel.
+    Parameters
+    ----------
+    print: decimal
+        The price of print comic.
+    digital: decimal
+        The price of digital comic.
+    **kwargs
+        The keyword arguments used for setting any other price from Marvel.
+
+    Attributes
+    ----------
+    print: decimal
+        The price of print comic.
+    digital: decimal
+        The price of digital comic.
     """
 
     def __init__(self, print=None, digital=None, **kwargs):
@@ -46,9 +58,14 @@ class PriceSchemas(Schema):
         """
         Make the prices object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Prices` object
-        :rtype: Prices
+        Returns
+        -------
+        Prices
+            A Prices object
         """
         return Prices(**data)

@@ -13,13 +13,37 @@ class Urls:
     """
     The Urls object contains commonly used urls.
 
-    :param `digital_purchase_date`: The url for the digital_purchase_date
-    :param `foc_date`: The url for the final order cutoff date.
-    :param `onsale_date`: The url for the on sale date.
-    :param `unlimited_date`: The url for the Marvel Unlimited date.
-    :param `wiki`: The url for the wiki entry.
-    :param `detail`: The url for detail information.
-    :param `**kwargs`: The keyword arguments used for setting any other url from Marvel.
+    Parameters
+    ----------
+    digital_purchase_date
+        The url for the digital_purchase_date
+    foc_date
+        The url for the final order cutoff date.
+    onsale_date
+        The url for the on sale date.
+    unlimited_date
+        The url for the Marvel Unlimited date.
+    wiki
+        The url for the wiki entry.
+    detail
+        The url for detail information.
+    **kwargs
+        The keyword arguments used for setting any other url from Marvel.
+
+    Attributes
+    ----------
+    digital_purchase_date: Url
+        The url for the digital_purchase_date
+    foc_date: Url
+        The url for the final order cutoff date.
+    onsale_date: Url
+        The url for the on sale date.
+    unlimited_date: Url
+        The url for the Marvel Unlimited date.
+    wiki: Url
+        The url for the wiki entry.
+    detail: Url
+        The url for detail information.
     """
 
     def __init__(
@@ -69,9 +93,14 @@ class UrlsSchema(Schema):
         """
         Make the urls object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel api response.
 
-        :returns: :class:`Urls` object
-        :rtype: Urls
+        Returns
+        -------
+        Urls
+            A Urls object.
         """
         return Urls(**data)

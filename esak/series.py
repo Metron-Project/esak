@@ -16,7 +16,45 @@ class Series:
     """
     The Series object contains information for a series.
 
-    :param `**kwargs`: The keyword arguments is used for setting series data from Marvel.
+    Parameters
+    ----------
+    **kwargs
+        The keyword arguments used for setting data from Marvel.
+
+    Attributes
+    ----------
+    id: int
+        The unique ID of the series resource.
+    title: str
+        The canonical title of the series.
+    description: str
+        A description of the series.
+    resource_uri: url
+        The canonical URL identifier for this resource.
+    start_year: int
+        The first year of publication for the series.
+    end_year: int
+        The last year of publication for the series (conventionally, 2099 for ongoing series).
+    rating: str
+        The age-appropriateness rating for the series.
+    modified: datetime
+        The date the resource was most recently modified.
+    thumbnail: url
+        The representative image for this series.
+    comics: list(Summary)
+        A resource list containing comics in this series.
+    stories: list(Summary)
+        A resource list containing stories which occur in comics in this series.
+    events: list(Summary)
+        A resource list containing events which take place in comics in this series.
+    characters: list(Summary)
+        A resource list containing characters which appear in comics in this series.
+    creators: list(Summary)
+        A resource list of creators whose work appears in comics in this series.
+    next: list(Summary)
+        A summary representation of the series which follows this series.
+    previous: list(Summary)
+        A summary representation of the series which preceded this series.
     """
 
     def __init__(self, **kwargs):
@@ -31,7 +69,7 @@ class SeriesSchema(Schema):
     id = fields.Int()
     title = fields.Str()
     description = fields.Str(allow_none=True)
-    resource_uri = fields.Str(data_key="resourceURI")
+    resource_uri = fields.Url(data_key="resourceURI")
     # urls
     start_year = fields.Int(data_key="startYear", allow_none=True)
     end_year = fields.Int(data_key="endYear", allow_none=True)
@@ -56,10 +94,15 @@ class SeriesSchema(Schema):
         """
         Clean the data from Marvel.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel api response.
 
-        :returns: Marvel Response
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Marvel response.
         """
         if data.get("code", 200) != 200:
             raise exceptions.ApiError(data.get("status"))
@@ -95,10 +138,15 @@ class SeriesSchema(Schema):
         """
         Make the Series object.
 
-        :param data: Data from Marvel response.
+        Parameters
+        ----------
+        data
+            Data from a Marvel API response.
 
-        :returns: :class:`Series` object
-        :rtype: Seriess
+        Returns
+        -------
+        Series
+            A Series object
         """
         return Series(**data)
 

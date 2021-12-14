@@ -35,6 +35,8 @@ version = release = esak.__version__
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.intersphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -45,6 +47,8 @@ templates_path = ["_templates"]
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+napoleon_google_docstring = False
+napoleon_numpy_docstring = True
 
 # -- Options for HTML output -------------------------------------------------
 
