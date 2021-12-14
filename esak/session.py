@@ -42,7 +42,7 @@ class Session:
     Returns
     -------
     Session
-        A Session object to make api calls to Marvel.
+        A :class:`Session` object to make api calls to Marvel.
     """
 
     def __init__(
@@ -704,11 +704,20 @@ class Session:
         """
         Request data for a Story based on it's ``_id``.
 
-        :param int _id: The story id.
+        Parameters
+        ----------
+        _id: int
+            The story id.
 
-        :return: :class:`Stories` object
+        Returns
+        -------
+        Stories
+            A :class:`Stories` object
 
-        :raises: :class:`ApiError`
+        Raises
+        ------
+        ApiError
+            If requested information is not valid.
         """
         try:
             return stories.StoriesSchema().load(self._call(["stories", _id]))
@@ -721,12 +730,17 @@ class Session:
         """
         Request a list of characters from a story.
 
-        :param int _id: The story id.
+        Parameters
+        ----------
+        _id: int
+            The story id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Character` objects.
+        Returns
+        -------
+        CharactersList
+            A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
@@ -739,12 +753,17 @@ class Session:
         """
         Request a list of comics for a story.
 
-        :param int _id: The story id.
+        Parameters
+        ----------
+        _id: int
+            The story id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Comic` objects.
+        Returns
+        -------
+        ComicsList
+            A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
@@ -757,12 +776,17 @@ class Session:
         """
         Request a list of creators from a story.
 
-        :param int _id: The story id.
+        Parameters
+        ----------
+        _id: int
+            The story id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Creator` objects.
+        Returns
+        -------
+        CreatorsList
+            A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
@@ -773,12 +797,17 @@ class Session:
         """
         Request a list of events for a story.
 
-        :param int _id: The story id.
+        Parameters
+        ----------
+        _id: int
+            The story id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Event` objects.
+        Returns
+        -------
+        EventsList
+            A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
@@ -791,12 +820,17 @@ class Session:
         """
         Request a list of series for a story.
 
-        :param int _id: The story id.
+        Parameters
+        ----------
+        _id: int
+            The story id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Series` objects.
+        Returns
+        -------
+        SeriesList
+            A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
@@ -807,10 +841,15 @@ class Session:
         """
         Request a list of stories.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
+        Parameters
+        ----------
+        params: dict, optional
+            Parameters to add to the request.
 
-        :return: A list of :class:`Stories` objects.
+        Returns
+        -------
+        StoriesList
+            A list of :class:`Stories` objects.
         """
         if params is None:
             params = {}
@@ -821,11 +860,20 @@ class Session:
         """
         Request data for an event based on it's ``_id``.
 
-        :param int _id: The event id.
+        Parameters
+        ----------
+        _id: int
+            The event id.
 
-        :return: :class:`Event` object
+        Returns
+        -------
+        Events
+            A :class:`Events` object
 
-        :raises: :class:`ApiError`
+        Raises
+        ------
+        ApiError
+            If requested information is not valid.
         """
         try:
             return ev.EventSchema().load(self._call(["events", _id]))
@@ -838,12 +886,17 @@ class Session:
         """
         Request a list of characters from an event.
 
-        :param int _id: The event id.
+        Parameters
+        ----------
+        _id: int
+            The event id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Character` objects.
+        Returns
+        -------
+        CharactersList
+            A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
@@ -856,12 +909,17 @@ class Session:
         """
         Request a list of comics for an event.
 
-        :param int _id: The event id.
+        Parameters
+        ----------
+        _id: int
+            The event id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Comic` objects.
+        Returns
+        -------
+        ComicsList
+            A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
@@ -874,12 +932,17 @@ class Session:
         """
         Request a list of creators from an event.
 
-        :param int _id: The event id.
+        Parameters
+        ----------
+        _id: int
+            The event id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Creator` objects.
+        Returns
+        -------
+        CreatorsList
+            A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
@@ -892,12 +955,17 @@ class Session:
         """
         Request a list of series for an event.
 
-        :param int _id: The event id.
+        Parameters
+        ----------
+        _id: int
+            The event id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Series` objects.
+        Returns
+        -------
+        SeriesList
+            A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
@@ -910,12 +978,17 @@ class Session:
         """
         Request a list of stories for an event.
 
-        :param int _id: The event id.
+        Parameters
+        ----------
+        _id: int
+            The event id.
+        params: dict, optional
+            Parameters to add to the request.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
-
-        :return: A list of :class:`Stories` objects.
+        Returns
+        -------
+        StoriesList
+            A list of :class:`Stories` objects.
         """
         if params is None:
             params = {}
@@ -926,10 +999,15 @@ class Session:
         """
         Request a list of events.
 
-        :param params: Parameters to add to the request.
-        :type params: dict, optional
+        Parameters
+        ----------
+        params: dict, optional
+            Parameters to add to the request.
 
-        :return: A list of :class:`Event` objects.
+        Returns
+        -------
+        EventsList
+            A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
