@@ -216,7 +216,7 @@ class ComicsList:
             try:
                 result = ComicSchema().load(comic_dict)
             except ValidationError as error:
-                raise exceptions.ApiError(error)
+                raise exceptions.ApiError(error) from error
 
             self.comics.append(result)
 

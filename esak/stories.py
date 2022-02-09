@@ -146,7 +146,7 @@ class StoriesList:
             try:
                 result = StoriesSchema().load(stories_dict)
             except ValidationError as error:
-                raise exceptions.ApiError(error)
+                raise exceptions.ApiError(error) from error
 
             self.stories.append(result)
 

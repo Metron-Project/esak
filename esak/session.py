@@ -90,7 +90,7 @@ class Session:
             except AttributeError as e:
                 raise exceptions.CacheError(
                     f"Cache object passed in is missing attribute: {repr(e)}"
-                )
+                ) from e
 
         return cached_response
 
@@ -101,7 +101,7 @@ class Session:
             except AttributeError as e:
                 raise exceptions.CacheError(
                     f"Cache object passed in is missing attribute: {repr(e)}"
-                )
+                ) from e
 
     def _call(self, endpoint: List[Union[str, int]], params: Dict[str, Any] = None) -> Any:
         if params is None:
@@ -157,7 +157,7 @@ class Session:
         try:
             return com.ComicSchema().load(self._call(["comics", _id]))
         except ValidationError as error:
-            raise exceptions.ApiError(error)
+            raise exceptions.ApiError(error) from error
 
     def comic_characters(
         self, _id: int, params: Optional[Dict[str, Any]] = None
@@ -290,7 +290,7 @@ class Session:
         try:
             return ser.SeriesSchema().load(self._call(["series", _id]))
         except ValidationError as error:
-            raise exceptions.ApiError(error)
+            raise exceptions.ApiError(error) from error
 
     def series_characters(
         self, _id: int, params: Optional[Dict[str, Any]] = None
@@ -448,7 +448,7 @@ class Session:
         try:
             return cr.CreatorsSchema().load(self._call(["creators", _id]))
         except ValidationError as error:
-            raise exceptions.ApiError(error)
+            raise exceptions.ApiError(error) from error
 
     def creator_comics(
         self, _id: int, params: Optional[Dict[str, Any]] = None
@@ -585,7 +585,7 @@ class Session:
         try:
             return ch.CharacterSchema().load(self._call(["characters", _id]))
         except ValidationError as error:
-            raise exceptions.ApiError(error)
+            raise exceptions.ApiError(error) from error
 
     def character_comics(
         self, _id: int, params: Optional[Dict[str, Any]] = None
@@ -722,7 +722,7 @@ class Session:
         try:
             return stories.StoriesSchema().load(self._call(["stories", _id]))
         except ValidationError as error:
-            raise exceptions.ApiError(error)
+            raise exceptions.ApiError(error) from error
 
     def story_characters(
         self, _id: int, params: Optional[Dict[str, Any]] = None
@@ -878,7 +878,7 @@ class Session:
         try:
             return ev.EventSchema().load(self._call(["events", _id]))
         except ValidationError as error:
-            raise exceptions.ApiError(error)
+            raise exceptions.ApiError(error) from error
 
     def event_characters(
         self, _id: int, params: Optional[Dict[str, Any]] = None

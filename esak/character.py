@@ -140,7 +140,7 @@ class CharactersList:
             try:
                 result = CharacterSchema().load(character_dict)
             except ValidationError as error:
-                raise exceptions.ApiError(error)
+                raise exceptions.ApiError(error) from error
 
             self.character.append(result)
 
