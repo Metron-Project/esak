@@ -52,6 +52,9 @@ class Session:
         cache: Optional[sqlite_cache.SqliteCache] = None,
     ):
         """Intialize a new Session."""
+        self.header = {
+            "User-Agent": f"esak/{__version__} ({platform.system()}; {platform.release()})"
+        }
         self.public_key = public_key
         self.private_key = private_key
         self.cache = cache
@@ -115,14 +118,11 @@ class Session:
         if cached_response is not None:
             return cached_response
 
-        header = {
-            "User-Agent": f"esak/{__version__} ({platform.system()}; {platform.release()})"
-        }
         self._update_params(params)
         response = requests.get(
             url,
             params=params,
-            headers=header,
+            headers=self.header,
         )
 
         data = response.json()
