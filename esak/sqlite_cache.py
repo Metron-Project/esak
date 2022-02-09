@@ -41,9 +41,7 @@ class SqliteCache:
             value to search for.
         """
         self.cur.execute("SELECT json FROM responses WHERE key = ?", (key,))
-        result = self.cur.fetchone()
-
-        if result:
+        if result := self.cur.fetchone():
             return json.loads(result[0])
 
         return None
