@@ -17,7 +17,7 @@ esak - Python wrapper for Marvel API
 .. image:: https://img.shields.io/badge/Code%20Style-Black-000000.svg?style=flat-square
     :target: https://github.com/psf/black
 
-- `Code on Github <https://github.com/bpepple/esak>`_
+- `Code on Github <https://github.com/Metron-Project/esak>`_
 - `Published on PyPi <https://pypi.python.org/pypi/esak>`_
 - `Marvel API documentation <https://developer.marvel.com/docs>`_
 
@@ -62,7 +62,7 @@ Documentation
 Bugs/Requests
 -------------
   
-Please use the `GitHub issue tracker <https://github.com/bpepple/esak/issues>`_ to submit bugs or request features.
+Please use the `GitHub issue tracker <https://github.com/Metron-Project/esak/issues>`_ to submit bugs or request features.
 
 Contributing
 ------------
