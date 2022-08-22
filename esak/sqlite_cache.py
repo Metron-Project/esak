@@ -63,7 +63,8 @@ class SqliteCache:
             data to save.
         """
         self.cur.execute(
-            "INSERT INTO responses(key, json) VALUES(?, ?)", (key, json.dumps(value))
+            "INSERT INTO responses(key, json, expire) VALUES(?, ?, ?)",
+            (key, json.dumps(value), self._determine_expire_str()),
         )
         self.con.commit()
 
