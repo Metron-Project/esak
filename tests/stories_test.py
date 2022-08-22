@@ -67,11 +67,11 @@ def test_stories_list(talker):
     )
 
     stories_iter = iter(stories_lst)
-    assert (next(stories_iter).id) == 32039
-    assert (next(stories_iter).id) == 41777
-    assert (next(stories_iter).id) == 8186
+    assert (next(stories_iter).id) == 10670
+    assert (next(stories_iter).id) == 59543
+    assert (next(stories_iter).id) == 17283
     assert len(stories_lst) == 20
-    assert stories_lst[2].id == 8186
+    assert stories_lst[2].id == 17283
 
 
 def test_story_characters(talker):

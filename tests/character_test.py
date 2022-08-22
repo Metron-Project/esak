@@ -48,31 +48,31 @@ def test_pulls_verbose(talker):
     )
 
     c_iter = iter(characters)
-    assert (next(c_iter).name) == "Howard Saint"
-    assert (next(c_iter).name) == "The Phantom"
-    assert (next(c_iter).name) == "Nextwave"
+    assert (next(c_iter).name) == "Puppet Master"
+    assert (next(c_iter).name) == "Rhino"
+    assert (next(c_iter).name) == "Sandman"
     assert len(characters) > 0
-    assert characters[1].name == "The Phantom"
+    assert characters[1].name == "Rhino"
 
 
 def test_character_comics(talker):
     cap = talker.character_comics(1009220)
     assert len(cap.comics) == 20
-    af2 = cap.comics[10]
-    assert af2.id == 71246
-    assert af2.title == "Amazing Fantasy (2021) #2"
-    assert af2.issue_number == 2
+    af2 = cap.comics[2]
+    assert af2.id == 94664
+    assert af2.title == "Captain America: Sentinel of Liberty (2022) #3"
+    assert af2.issue_number == 3
     assert af2.page_count == 32
-    assert af2.upc == "75960609104100211"
+    assert af2.upc == "75960620168600311"
     assert af2.format == "Comic"
-    assert af2.series.id == 25984
-    assert af2.series.name == "Amazing Fantasy (2021 - Present)"
-    assert af2.series.resource_uri == "http://gateway.marvel.com/v1/public/series/25984"
-    assert af2.dates.foc == date(2021, 8, 2)
-    assert af2.dates.on_sale == date(2021, 8, 25)
+    assert af2.series.id == 32242
+    assert af2.series.name == "Captain America: Sentinel of Liberty (2022 - Present)"
+    assert af2.series.resource_uri == "http://gateway.marvel.com/v1/public/series/32242"
+    assert af2.dates.foc == date(2022, 7, 11)
+    assert af2.dates.on_sale == date(2022, 8, 10)
     assert len(af2.stories) == 2
     assert len(af2.events) == 0
-    assert len(af2.creators) == 3
+    assert len(af2.creators) == 7
 
 
 def test_character_events(talker):
@@ -94,13 +94,13 @@ def test_character_series(talker):
     cap = talker.character_series(1009220)
     assert len(cap.series) == 20
     af = cap.series[12]
-    assert af.title == "Amazing Fantasy (2021 - Present)"
+    assert af.title == "Amazing Fantasy (2021)"
     assert af.id == 25984
     assert af.start_year == 2021
-    assert af.end_year == 2099
-    assert len(af.comics) == 14
+    assert af.end_year == 2021
+    assert len(af.comics) == 16
     assert len(af.characters) == 3
-    assert len(af.creators) == 7
+    assert len(af.creators) == 10
     assert af.next is None
     assert af.previous is None
 

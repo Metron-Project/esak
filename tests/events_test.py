@@ -89,16 +89,16 @@ def test_event_characters(talker):
 def test_event_comics(talker):
     se = talker.event_comics(336)
     assert len(se) == 20
-    sm = se[12]
+    sm = se[11]
     assert sm.id == 60539
     assert sm.issue_number == 31
     assert sm.page_count == 32
     assert sm.upc == "75960608297103111"
-    assert sm.title == "The Amazing Spider-Man (2015) #31"
+    assert sm.title == "The Amazing Spider-Man (2017) #31"
     assert sm.prices.digital == Decimal("3.99")
     assert sm.prices.print == Decimal("3.99")
     assert sm.series.id == 20432
-    assert sm.series.name == "The Amazing Spider-Man (2015 - 2018)"
+    assert sm.series.name == "The Amazing Spider-Man (2017 - 2018)"
     assert len(sm.characters) == 4
     assert len(sm.creators) == 7
     assert len(sm.events) == 1

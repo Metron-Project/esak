@@ -102,7 +102,7 @@ def test_pulls_verbose(talker):
 def test_series_characters(talker):
     sm = talker.series_characters(24396)
     assert len(sm.character) == 20
-    kingpin = sm.character[10]
+    kingpin = sm.character[12]
     assert kingpin.id == 1009389
     assert kingpin.name == "Kingpin"
     assert kingpin.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/9/60/526034fb5aff7.jpg"
@@ -116,15 +116,15 @@ def test_series_characters(talker):
 def test_series_comics(talker):
     sm = talker.series_comics(24396)
     assert len(sm.comics) == 20
-    sm_75 = sm.comics[10]
+    sm_75 = sm.comics[1]
     assert sm_75.format == "Comic"
-    assert sm_75.title == "The Amazing Spider-Man (2018) #75 (Variant)"
-    assert sm_75.issue_number == 75
+    assert sm_75.title == "The Amazing Spider-Man (2018) #93"
+    assert sm_75.issue_number == 93
     assert sm_75.page_count == 56
-    assert sm_75.resource_uri == "http://gateway.marvel.com/v1/public/comics/97900"
-    assert sm_75.upc == "75960608936907551"
-    assert len(sm_75.creators) == 5
-    assert len(sm_75.characters) == 0
+    assert sm_75.resource_uri == "http://gateway.marvel.com/v1/public/comics/96827"
+    assert sm_75.upc == "75960608936909311"
+    assert len(sm_75.creators) == 11
+    assert len(sm_75.characters) == 2
     assert len(sm_75.events) == 0
     assert len(sm_75.stories) == 2
     assert sm_75.prices.print == Decimal("5.99")
@@ -134,7 +134,7 @@ def test_series_comics(talker):
 def test_series_creators(talker):
     sm = talker.series_creators(24396)
     assert len(sm.creator) == 20
-    bagley = sm.creator[10]
+    bagley = sm.creator[12]
     assert bagley.id == 87
     assert bagley.first_name == "Mark"
     assert bagley.last_name == "Bagley"
