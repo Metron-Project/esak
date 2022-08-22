@@ -33,7 +33,7 @@ class SqliteCache:
         self.expire = expire
         self.con = sqlite3.connect(db_name)
         self.cur = self.con.cursor()
-        self.cur.execute("CREATE TABLE IF NOT EXISTS responses (key, json)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS responses (key, json, expire)")
         self.cleanup()
 
     def get(self, key: str) -> Optional[Any]:
