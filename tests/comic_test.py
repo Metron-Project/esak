@@ -2,7 +2,7 @@
 Test Comic module.
 This module contains tests for Comic objects.
 """
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 
 
@@ -16,11 +16,11 @@ def test_pulls_verbose(talker):
         }
     )
     c_iter = iter(week)
-    assert next(c_iter).id == 89738
-    assert next(c_iter).id == 93316
-    assert next(c_iter).id == 93320
+    assert next(c_iter).id == 95836
+    assert next(c_iter).id == 98687
+    assert next(c_iter).id == 95855
     assert len(week) > 0
-    assert week[1].id == 93316
+    assert week[1].id == 98687
 
 
 def test_pulls_simple(talker):
@@ -99,7 +99,7 @@ def test_upc_code(talker):
     assert cable.upc == "759606201991000111"
     assert cable.dates.on_sale == date(2021, 8, 25)
     assert cable.dates.foc == date(2021, 8, 2)
-    assert cable.dates.unlimited is None
+    assert cable.dates.unlimited == date(2021, 11, 29)
 
 
 def test_comic_digital_price(talker):
@@ -128,8 +128,8 @@ def test_comic_digital_price(talker):
 
 def test_comic_characters(talker):
     a1 = talker.comic_characters(67002)
-    assert len(a1.character) == 8
-    she_hulk = a1.character[6]
+    assert len(a1.character) == 9
+    she_hulk = a1.character[7]
     assert she_hulk.id == 1009583
     assert she_hulk.name == "She-Hulk (Jennifer Walters)"
     assert she_hulk.resource_uri == "http://gateway.marvel.com/v1/public/characters/1009583"
