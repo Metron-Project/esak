@@ -61,7 +61,8 @@ class Session:
         self.cache = cache
         self.api_url = "https://gateway.marvel.com:80/v1/public/{}"
 
-    def _create_cached_params(self, params: dict[str, Any]) -> str:
+    @staticmethod
+    def _create_cached_params(params: dict[str, Any]) -> str:
         # Generate part of cache key before hash, apikey and timestamp added
         cache_params = ""
         if params:
