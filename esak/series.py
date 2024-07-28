@@ -59,7 +59,7 @@ class Series:
     """
 
     def __init__(self, **kwargs):
-        """Intialize a new series."""
+        """Initialize a new series."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 

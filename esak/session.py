@@ -37,8 +37,8 @@ class Session:
         The public_key for authentication with Marvel
     private_key: str
         The private_key used for authentication with Marvel
-    SqliteCache: optional, SqliteCache
-        SqliteCache to use
+    sqlite_cache.SqliteCache: optional, sqlite_cache.SqliteCache
+        sqlite_cache.SqliteCache to use
 
     Returns
     -------
@@ -52,7 +52,7 @@ class Session:
         private_key: str,
         cache: sqlite_cache.SqliteCache | None = None,
     ):
-        """Intialize a new Session."""
+        """Initialize a new Session."""
         self.header = {
             "User-Agent": f"esak/{__version__} ({platform.system()}; {platform.release()})"
         }
@@ -61,12 +61,13 @@ class Session:
         self.cache = cache
         self.api_url = "http://gateway.marvel.com:80/v1/public/{}"
 
-    def _create_cached_params(self, params: dict[str, Any]) -> str:
+    @staticmethod
+    def _create_cached_params(params: dict[str, Any]) -> str:
         # Generate part of cache key before hash, apikey and timestamp added
         cache_params = ""
         if params:
-            orderedParams = OrderedDict(sorted(params.items(), key=lambda t: t[0]))
-            cache_params = f"?{urllib.parse.urlencode(orderedParams)}"
+            ordered_params = OrderedDict(sorted(params.items(), key=lambda t: t[0]))
+            cache_params = f"?{urllib.parse.urlencode(ordered_params)}"
         return cache_params
 
     def _create_auth_hash(self, now_string: str) -> str:
@@ -539,8 +540,6 @@ class Session:
 
         Parameters
         ----------
-        _id: int
-            The creator id.
         params: dict, optional
             Parameters to add to the request.
 
@@ -676,8 +675,6 @@ class Session:
 
         Parameters
         ----------
-        _id: int
-            The character id.
         params: dict, optional
             Parameters to add to the request.
 

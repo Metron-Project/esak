@@ -30,7 +30,7 @@ class TextObject:
     """
 
     def __init__(self, **kwargs):
-        """Intialize a new TextObjects."""
+        """Initialize a new TextObjects."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 

@@ -57,7 +57,7 @@ class Urls:
         detail=None,
         **kwargs,
     ):
-        """Intialize a new url."""
+        """Initialize a new url."""
         self.digital_purchase_date = digital_purchase_date
         self.foc_date = foc_date
         self.onsale_date = onsale_date

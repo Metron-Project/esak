@@ -54,7 +54,7 @@ class Stories:
     """
 
     def __init__(self, **kwargs) -> None:
-        """Intialize a new story."""
+        """Initialize a new story."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 
