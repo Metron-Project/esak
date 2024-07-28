@@ -52,7 +52,7 @@ class Session:
         private_key: str,
         cache: sqlite_cache.SqliteCache | None = None,
     ):
-        """Intialize a new Session."""
+        """Initialize a new Session."""
         self.header = {
             "User-Agent": f"esak/{__version__} ({platform.system()}; {platform.release()})"
         }
