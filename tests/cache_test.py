@@ -2,6 +2,7 @@
 Test Cache module.
 This module contains tests for SqliteCache objects.
 """
+
 import json
 
 import pytest

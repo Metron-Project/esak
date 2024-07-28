@@ -6,6 +6,7 @@ This module provides the following classes:
 - TextObject
 - TextObjectSchema
 """
+
 from marshmallow import Schema, fields, post_load
 
 

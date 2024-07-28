@@ -3,6 +3,7 @@ Test Events module.
 
 This module contains tests for Event objects.
 """
+
 import datetime
 from decimal import Decimal
 

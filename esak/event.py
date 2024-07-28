@@ -7,6 +7,7 @@ This module provides the following classes:
 - EventSchema
 - EventsList
 """
+
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 from marshmallow.exceptions import ValidationError
 

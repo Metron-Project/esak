@@ -2,6 +2,7 @@
 Test Comic module.
 This module contains tests for Comic objects.
 """
+
 from datetime import date, datetime
 from decimal import Decimal
 

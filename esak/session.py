@@ -5,12 +5,13 @@ This module provides the following classes:
 
 - Session
 """
+
 import datetime
 import hashlib
 import platform
 import urllib.parse
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 import requests
 from marshmallow import ValidationError
@@ -49,7 +50,7 @@ class Session:
         self,
         public_key: str,
         private_key: str,
-        cache: Optional[sqlite_cache.SqliteCache] = None,
+        cache: sqlite_cache.SqliteCache | None = None,
     ):
         """Intialize a new Session."""
         self.header = {
@@ -60,7 +61,7 @@ class Session:
         self.cache = cache
         self.api_url = "http://gateway.marvel.com:80/v1/public/{}"
 
-    def _create_cached_params(self, params: Dict[str, Any]) -> str:
+    def _create_cached_params(self, params: dict[str, Any]) -> str:
         # Generate part of cache key before hash, apikey and timestamp added
         cache_params = ""
         if params:
@@ -75,14 +76,14 @@ class Session:
         auth_hash.update(self.public_key.encode("utf-8"))
         return auth_hash.hexdigest()
 
-    def _update_params(self, params: Dict[str, Any]) -> None:
+    def _update_params(self, params: dict[str, Any]) -> None:
         now_string = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
 
         params["hash"] = self._create_auth_hash(now_string)
         params["apikey"] = self.public_key
         params["ts"] = now_string
 
-    def _get_results_from_cache(self, key: str) -> Optional[Any]:
+    def _get_results_from_cache(self, key: str) -> Any | None:
         cached_response = None
 
         if self.cache:
@@ -106,7 +107,7 @@ class Session:
                     f"Cache object passed in is missing attribute: {repr(e)}"
                 ) from e
 
-    def _call(self, endpoint: List[Union[str, int]], params: Dict[str, Any] = None) -> Any:
+    def _call(self, endpoint: list[str | int], params: dict[str, Any] = None) -> Any:
         if params is None:
             params = {}
 
@@ -160,7 +161,7 @@ class Session:
             raise exceptions.ApiError(error) from error
 
     def comic_characters(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> ch.CharactersList:
         """
         Request a list of characters from a comic.
@@ -183,7 +184,7 @@ class Session:
         return ch.CharactersList(self._call(["comics", _id, "characters"], params=params))
 
     def comic_creators(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> cr.CreatorsList:
         """
         Request a list of creators from a comic.
@@ -205,7 +206,7 @@ class Session:
 
         return cr.CreatorsList(self._call(["comics", _id, "creators"], params=params))
 
-    def comic_events(self, _id: int, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
+    def comic_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
         """
         Request a list of events from a comic.
 
@@ -227,7 +228,7 @@ class Session:
         return ev.EventsList(self._call(["comics", _id, "events"], params=params))
 
     def comic_stories(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> stories.StoriesList:
         """
         Request a list of stories from a comic.
@@ -249,7 +250,7 @@ class Session:
 
         return stories.StoriesList(self._call(["comics", _id, "stories"], params=params))
 
-    def comics_list(self, params: Optional[Dict[str, Any]] = None) -> com.ComicsList:
+    def comics_list(self, params: dict[str, Any] | None = None) -> com.ComicsList:
         """
         Request a list of comics.
 
@@ -293,7 +294,7 @@ class Session:
             raise exceptions.ApiError(error) from error
 
     def series_characters(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> ch.CharactersList:
         """
         Request a list of characters from a series.
@@ -315,9 +316,7 @@ class Session:
 
         return ch.CharactersList(self._call(["series", _id, "characters"], params=params))
 
-    def series_comics(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> com.ComicsList:
+    def series_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
         """
         Request a list of comics from a series.
 
@@ -339,7 +338,7 @@ class Session:
         return com.ComicsList(self._call(["series", _id, "comics"], params=params))
 
     def series_creators(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> cr.CreatorsList:
         """
         Request a list of creators from a series.
@@ -361,9 +360,7 @@ class Session:
 
         return cr.CreatorsList(self._call(["series", _id, "creators"], params=params))
 
-    def series_events(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> ev.EventsList:
+    def series_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
         """
         Request a list of events from a series.
 
@@ -385,7 +382,7 @@ class Session:
         return ev.EventsList(self._call(["series", _id, "events"], params=params))
 
     def series_stories(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> stories.StoriesList:
         """
         Request a list of stories from a series.
@@ -407,7 +404,7 @@ class Session:
 
         return stories.StoriesList(self._call(["series", _id, "stories"], params=params))
 
-    def series_list(self, params: Optional[Dict[str, Any]] = None) -> ser.SeriesList:
+    def series_list(self, params: dict[str, Any] | None = None) -> ser.SeriesList:
         """
         Request a list of series.
 
@@ -450,9 +447,7 @@ class Session:
         except ValidationError as error:
             raise exceptions.ApiError(error) from error
 
-    def creator_comics(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> com.ComicsList:
+    def creator_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
         """
         Request a list of comics from a creator.
 
@@ -473,9 +468,7 @@ class Session:
 
         return com.ComicsList(self._call(["creators", _id, "comics"], params=params))
 
-    def creator_events(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> ev.EventsList:
+    def creator_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
         """
         Request a list of events from a creator.
 
@@ -496,9 +489,7 @@ class Session:
 
         return ev.EventsList(self._call(["creators", _id, "events"], params=params))
 
-    def creator_series(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> ser.SeriesList:
+    def creator_series(self, _id: int, params: dict[str, Any] | None = None) -> ser.SeriesList:
         """
         Request a list of series by a creator.
 
@@ -520,7 +511,7 @@ class Session:
         return ser.SeriesList(self._call(["creators", _id, "series"], params=params))
 
     def creator_stories(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> stories.StoriesList:
         """
         Request a list of stories from a creator.
@@ -542,7 +533,7 @@ class Session:
 
         return stories.StoriesList(self._call(["creators", _id, "stories"], params=params))
 
-    def creators_list(self, params: Optional[Dict[str, Any]] = None) -> cr.CreatorsList:
+    def creators_list(self, params: dict[str, Any] | None = None) -> cr.CreatorsList:
         """
         Request a list of creators.
 
@@ -588,7 +579,7 @@ class Session:
             raise exceptions.ApiError(error) from error
 
     def character_comics(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> com.ComicsList:
         """
         Request a list of comics for a character.
@@ -611,7 +602,7 @@ class Session:
         return com.ComicsList(self._call(["characters", _id, "comics"], params=params))
 
     def character_events(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> ev.EventsList:
         """
         Request a list of events for a character.
@@ -634,7 +625,7 @@ class Session:
         return ev.EventsList(self._call(["characters", _id, "events"], params=params))
 
     def character_series(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> ser.SeriesList:
         """
         Request a list of series for a character.
@@ -657,7 +648,7 @@ class Session:
         return ser.SeriesList(self._call(["characters", _id, "series"], params=params))
 
     def character_stories(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> stories.StoriesList:
         """
         Request a list of stories for a character.
@@ -679,7 +670,7 @@ class Session:
 
         return stories.StoriesList(self._call(["characters", _id, "stories"], params=params))
 
-    def characters_list(self, params: Optional[Dict[str, Any]] = None) -> ch.CharactersList:
+    def characters_list(self, params: dict[str, Any] | None = None) -> ch.CharactersList:
         """
         Request a list of characters.
 
@@ -725,7 +716,7 @@ class Session:
             raise exceptions.ApiError(error) from error
 
     def story_characters(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> ch.CharactersList:
         """
         Request a list of characters from a story.
@@ -747,9 +738,7 @@ class Session:
 
         return ch.CharactersList(self._call(["stories", _id, "characters"], params=params))
 
-    def story_comics(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> com.ComicsList:
+    def story_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
         """
         Request a list of comics for a story.
 
@@ -771,7 +760,7 @@ class Session:
         return com.ComicsList(self._call(["stories", _id, "comics"], params=params))
 
     def story_creators(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> cr.CreatorsList:
         """
         Request a list of creators from a story.
@@ -793,7 +782,7 @@ class Session:
 
         return cr.CreatorsList(self._call(["stories", _id, "creators"], params=params))
 
-    def story_events(self, _id: int, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
+    def story_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
         """
         Request a list of events for a story.
 
@@ -814,9 +803,7 @@ class Session:
 
         return ev.EventsList(self._call(["stories", _id, "events"], params=params))
 
-    def story_series(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> ser.SeriesList:
+    def story_series(self, _id: int, params: dict[str, Any] | None = None) -> ser.SeriesList:
         """
         Request a list of series for a story.
 
@@ -837,7 +824,7 @@ class Session:
 
         return ser.SeriesList(self._call(["stories", _id, "series"], params=params))
 
-    def stories_list(self, params: Optional[Dict[str, Any]] = None) -> stories.StoriesList:
+    def stories_list(self, params: dict[str, Any] | None = None) -> stories.StoriesList:
         """
         Request a list of stories.
 
@@ -881,7 +868,7 @@ class Session:
             raise exceptions.ApiError(error) from error
 
     def event_characters(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> ch.CharactersList:
         """
         Request a list of characters from an event.
@@ -903,9 +890,7 @@ class Session:
 
         return ch.CharactersList(self._call(["events", _id, "characters"], params=params))
 
-    def event_comics(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> com.ComicsList:
+    def event_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
         """
         Request a list of comics for an event.
 
@@ -927,7 +912,7 @@ class Session:
         return com.ComicsList(self._call(["events", _id, "comics"], params=params))
 
     def event_creators(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> cr.CreatorsList:
         """
         Request a list of creators from an event.
@@ -949,9 +934,7 @@ class Session:
 
         return cr.CreatorsList(self._call(["events", _id, "creators"], params=params))
 
-    def event_series(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
-    ) -> ser.SeriesList:
+    def event_series(self, _id: int, params: dict[str, Any] | None = None) -> ser.SeriesList:
         """
         Request a list of series for an event.
 
@@ -973,7 +956,7 @@ class Session:
         return ser.SeriesList(self._call(["events", _id, "series"], params=params))
 
     def event_stories(
-        self, _id: int, params: Optional[Dict[str, Any]] = None
+        self, _id: int, params: dict[str, Any] | None = None
     ) -> stories.StoriesList:
         """
         Request a list of stories for an event.
@@ -995,7 +978,7 @@ class Session:
 
         return stories.StoriesList(self._call(["events", _id, "stories"], params=params))
 
-    def events_list(self, params: Optional[Dict[str, Any]] = None) -> ev.EventsList:
+    def events_list(self, params: dict[str, Any] | None = None) -> ev.EventsList:
         """
         Request a list of events.
 
