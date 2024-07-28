@@ -2,6 +2,7 @@
 Test Init module.
 This module contains tests for project init.
 """
+
 import pytest
 
 from esak import api, exceptions, session

@@ -6,6 +6,7 @@ This module provides the following classes:
 - Prices
 - PricesSchema
 """
+
 from marshmallow import INCLUDE, Schema, fields, post_load, pre_load
 
 

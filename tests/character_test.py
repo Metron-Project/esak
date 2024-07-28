@@ -2,6 +2,7 @@
 Test Characters module.
 This module contains tests for Character objects.
 """
+
 from datetime import date
 
 import pytest

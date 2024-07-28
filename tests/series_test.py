@@ -2,6 +2,7 @@
 Test Series module.
 This module contains tests for Series objects.
 """
+
 import datetime
 from decimal import Decimal
 

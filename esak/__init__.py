@@ -1,15 +1,14 @@
 """Project entry file."""
-__version__ = "1.3.2"
 
-from typing import Optional
+__version__ = "1.3.2"
 
 from esak import exceptions, session, sqlite_cache
 
 
 def api(
-    public_key: Optional[str] = None,
-    private_key: Optional[str] = None,
-    cache: Optional[sqlite_cache.SqliteCache] = None,
+    public_key: str | None = None,
+    private_key: str | None = None,
+    cache: sqlite_cache.SqliteCache | None = None,
 ) -> session.Session:
     """Entry function the sets login credentials for Marvel's API.
 

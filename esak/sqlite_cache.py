@@ -5,10 +5,11 @@ This module provides the following classes:
 
 - SqliteCache
 """
+
 import json
 import sqlite3
 from datetime import datetime, timedelta
-from typing import Any, Optional
+from typing import Any
 
 
 class SqliteCache:
@@ -28,7 +29,7 @@ class SqliteCache:
         A :class:`SqliteCache` Object.
     """
 
-    def __init__(self, db_name: str = "esak_cache.db", expire: Optional[int] = None) -> None:
+    def __init__(self, db_name: str = "esak_cache.db", expire: int | None = None) -> None:
         """Intialize a new SqliteCache."""
         self.expire = expire
         self.con = sqlite3.connect(db_name)
@@ -36,7 +37,7 @@ class SqliteCache:
         self.cur.execute("CREATE TABLE IF NOT EXISTS responses (key, json, expire)")
         self.cleanup()
 
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
         """
         Retrieve data from the cache database.
 

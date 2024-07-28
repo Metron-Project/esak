@@ -3,6 +3,7 @@ Test Stories module.
 
 This module contains tests for Stories objects.
 """
+
 import pytest
 
 from esak import exceptions
