@@ -37,8 +37,8 @@ class Session:
         The public_key for authentication with Marvel
     private_key: str
         The private_key used for authentication with Marvel
-    SqliteCache: optional, SqliteCache
-        SqliteCache to use
+    sqlite_cache.SqliteCache: optional, sqlite_cache.SqliteCache
+        sqlite_cache.SqliteCache to use
 
     Returns
     -------
@@ -540,8 +540,6 @@ class Session:
 
         Parameters
         ----------
-        _id: int
-            The creator id.
         params: dict, optional
             Parameters to add to the request.
 
@@ -677,8 +675,6 @@ class Session:
 
         Parameters
         ----------
-        _id: int
-            The character id.
         params: dict, optional
             Parameters to add to the request.
 
