@@ -66,8 +66,8 @@ class Session:
         # Generate part of cache key before hash, apikey and timestamp added
         cache_params = ""
         if params:
-            orderedParams = OrderedDict(sorted(params.items(), key=lambda t: t[0]))
-            cache_params = f"?{urllib.parse.urlencode(orderedParams)}"
+            ordered_params = OrderedDict(sorted(params.items(), key=lambda t: t[0]))
+            cache_params = f"?{urllib.parse.urlencode(ordered_params)}"
         return cache_params
 
     def _create_auth_hash(self, now_string: str) -> str:
