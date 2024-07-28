@@ -36,7 +36,7 @@ class Dates:
     """
 
     def __init__(self, on_sale=None, foc=None, unlimited=None, **kwargs):
-        """Intialize a new date."""
+        """Initialize a new date."""
         self.on_sale = on_sale
         self.foc = foc
         self.unlimited = unlimited

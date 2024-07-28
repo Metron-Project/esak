@@ -32,7 +32,7 @@ class Prices:
     """
 
     def __init__(self, print=None, digital=None, **kwargs):
-        """Intialize a new price."""
+        """Initialize a new price."""
         self.print = print
         self.digital = digital
         self.unknown = kwargs

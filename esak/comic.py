@@ -91,7 +91,7 @@ class Comic:
     """
 
     def __init__(self, **kwargs):
-        """Intialize a new comic."""
+        """Initialize a new comic."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 

@@ -34,7 +34,7 @@ class Summary:
     """
 
     def __init__(self, id=None, name=None, resource_uri=None, type=None, role=None, **kwargs):
-        """Intialize a new Summary."""
+        """Initialize a new Summary."""
         self.id = id
         self.name = name
         self.resource_uri = resource_uri

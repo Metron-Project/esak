@@ -58,7 +58,7 @@ class Events:
     """
 
     def __init__(self, **kwargs) -> None:
-        """Intialize a new event."""
+        """Initialize a new event."""
         for k, v in kwargs.items():
             setattr(self, k, v)
 

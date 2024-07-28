@@ -30,7 +30,7 @@ class SqliteCache:
     """
 
     def __init__(self, db_name: str = "esak_cache.db", expire: int | None = None) -> None:
-        """Intialize a new SqliteCache."""
+        """Initialize a new SqliteCache."""
         self.expire = expire
         self.con = sqlite3.connect(db_name)
         self.cur = self.con.cursor()
