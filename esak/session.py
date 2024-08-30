@@ -1,30 +1,29 @@
-"""
-Session module.
+"""Session module.
 
 This module provides the following classes:
 
 - Session
 """
 
-import datetime
-import hashlib
 import platform
-import urllib.parse
 from collections import OrderedDict
+from datetime import datetime
+from hashlib import md5
 from typing import Any
+from urllib.parse import urlencode
 
 import requests
-from marshmallow import ValidationError
+from pydantic import TypeAdapter, ValidationError
 
-# Alias these modules to prevent namespace collision with methods.
 from esak import __version__
-from esak import character as ch
-from esak import comic as com
-from esak import creator as cr
-from esak import event as ev
-from esak import exceptions
-from esak import series as ser
-from esak import sqlite_cache, stories
+from esak.exceptions import ApiError, CacheError
+from esak.schemas.character import Character
+from esak.schemas.comic import Comic
+from esak.schemas.creator import Creator
+from esak.schemas.event import Event
+from esak.schemas.series import Series
+from esak.schemas.story import Story
+from esak.sqlite_cache import SqliteCache
 
 
 class Session:
@@ -46,14 +45,9 @@ class Session:
         A :class:`Session` object to make api calls to Marvel.
     """
 
-    def __init__(
-        self,
-        public_key: str,
-        private_key: str,
-        cache: sqlite_cache.SqliteCache | None = None,
-    ):
+    def __init__(self, public_key: str, private_key: str, cache: SqliteCache | None = None):
         """Initialize a new Session."""
-        self.header = {
+        self.headers = {
             "User-Agent": f"esak/{__version__} ({platform.system()}; {platform.release()})"
         }
         self.public_key = public_key
@@ -67,18 +61,18 @@ class Session:
         cache_params = ""
         if params:
             ordered_params = OrderedDict(sorted(params.items(), key=lambda t: t[0]))
-            cache_params = f"?{urllib.parse.urlencode(ordered_params)}"
+            cache_params = f"?{urlencode(ordered_params)}"
         return cache_params
 
     def _create_auth_hash(self, now_string: str) -> str:
-        auth_hash = hashlib.md5()
+        auth_hash = md5()
         auth_hash.update(now_string.encode("utf-8"))
         auth_hash.update(self.private_key.encode("utf-8"))
         auth_hash.update(self.public_key.encode("utf-8"))
         return auth_hash.hexdigest()
 
     def _update_params(self, params: dict[str, Any]) -> None:
-        now_string = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
+        now_string = datetime.now().strftime("%Y-%m-%d%H:%M:%S")
 
         params["hash"] = self._create_auth_hash(now_string)
         params["apikey"] = self.public_key
@@ -93,7 +87,7 @@ class Session:
                 if cached_response is not None:
                     return cached_response
             except AttributeError as e:
-                raise exceptions.CacheError(
+                raise CacheError(
                     f"Cache object passed in is missing attribute: {repr(e)}"
                 ) from e
 
@@ -104,7 +98,7 @@ class Session:
             try:
                 self.cache.store(key, data)
             except AttributeError as e:
-                raise exceptions.CacheError(
+                raise CacheError(
                     f"Cache object passed in is missing attribute: {repr(e)}"
                 ) from e
 
@@ -118,28 +112,30 @@ class Session:
         cached_response = self._get_results_from_cache(cache_key)
 
         if cached_response is not None:
-            return cached_response
+            return cached_response["results"]
 
         self._update_params(params)
         response = requests.get(
             url,
             params=params,
-            headers=self.header,
+            headers=self.headers,
         )
 
         data = response.json()
 
         if "message" in data:
-            raise exceptions.ApiError(data["message"])
+            raise ApiError(data["message"])
+        if data.get("code", 200) != 200:
+            raise ApiError(data.get("status"))
+        data = data["data"]
 
         if response.status_code == 200:
             self._save_results_to_cache(cache_key, data)
 
-        return data
+        return data["results"]
 
-    def comic(self, _id: int) -> com.Comic:
-        """
-        Request data for a comic based on it's ``_id``.
+    def comic(self, _id: int) -> Comic:
+        """Request data for a comic based on it's ``_id``.
 
         Parameters
         ----------
@@ -157,15 +153,16 @@ class Session:
             If requested information is not valid.
         """
         try:
-            return com.ComicSchema().load(self._call(["comics", _id]))
-        except ValidationError as error:
-            raise exceptions.ApiError(error) from error
+            result = self._call(["comics", _id])[0]
+            adapter = TypeAdapter(Comic)
+            return adapter.validate_python(result)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
     def comic_characters(
         self, _id: int, params: dict[str, Any] | None = None
-    ) -> ch.CharactersList:
-        """
-        Request a list of characters from a comic.
+    ) -> list[Character]:
+        """Request a list of characters from a comic.
 
         Parameters
         ----------
@@ -176,19 +173,21 @@ class Session:
 
         Returns
         -------
-        CharactersList
+        list[Character]
             A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
 
-        return ch.CharactersList(self._call(["comics", _id, "characters"], params=params))
+        try:
+            results = self._call(["comics", _id, "characters"], params=params)
+            adapter = TypeAdapter(list[Character])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def comic_creators(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> cr.CreatorsList:
-        """
-        Request a list of creators from a comic.
+    def comic_creators(self, _id: int, params: dict[str, Any] | None = None) -> list[Creator]:
+        """Request a list of creators from a comic.
 
         Parameters
         ----------
@@ -199,17 +198,21 @@ class Session:
 
         Returns
         -------
-        CreatorsList
+        list[Creator]
             A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
 
-        return cr.CreatorsList(self._call(["comics", _id, "creators"], params=params))
+        try:
+            results = self._call(["comics", _id, "creators"], params=params)
+            adapter = TypeAdapter(list[Creator])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def comic_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
-        """
-        Request a list of events from a comic.
+    def comic_events(self, _id: int, params: dict[str, Any] | None = None) -> list[Event]:
+        """Request a list of events from a comic.
 
         Parameters
         ----------
@@ -220,19 +223,21 @@ class Session:
 
         Returns
         -------
-        EventsList
+        list[Event]
             A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
 
-        return ev.EventsList(self._call(["comics", _id, "events"], params=params))
+        try:
+            results = self._call(["comics", _id, "events"], params=params)
+            adapter = TypeAdapter(list[Event])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def comic_stories(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> stories.StoriesList:
-        """
-        Request a list of stories from a comic.
+    def comic_stories(self, _id: int, params: dict[str, Any] | None = None) -> list[Story]:
+        """Request a list of stories from a comic.
 
         Parameters
         ----------
@@ -243,17 +248,21 @@ class Session:
 
         Returns
         -------
-        StoriesList
-            A list of :class:`Stories` objects.
+        list[Story]
+            A list of :class:`Story` objects.
         """
         if params is None:
             params = {}
 
-        return stories.StoriesList(self._call(["comics", _id, "stories"], params=params))
+        try:
+            results = self._call(["comics", _id, "stories"], params=params)
+            adapter = TypeAdapter(list[Story])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def comics_list(self, params: dict[str, Any] | None = None) -> com.ComicsList:
-        """
-        Request a list of comics.
+    def comics_list(self, params: dict[str, Any] | None = None) -> list[Comic]:
+        """Request a list of comics.
 
         Parameters
         ----------
@@ -262,17 +271,21 @@ class Session:
 
         Returns
         -------
-        ComicsList
+        list[Comic]
             A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
 
-        return com.ComicsList(self._call(["comics"], params=params))
+        try:
+            results = self._call(["comics"], params=params)
+            adapter = TypeAdapter(list[Comic])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def series(self, _id: int) -> ser.Series:
-        """
-        Request data for a series based on it's ``_id``.
+    def series(self, _id: int) -> Series:
+        """Request data for a series based on it's ``_id``.
 
         Parameters
         ----------
@@ -290,15 +303,16 @@ class Session:
             If requested information is not valid.
         """
         try:
-            return ser.SeriesSchema().load(self._call(["series", _id]))
-        except ValidationError as error:
-            raise exceptions.ApiError(error) from error
+            result = self._call(["series", _id])[0]
+            adapter = TypeAdapter(Series)
+            return adapter.validate_python(result)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
     def series_characters(
         self, _id: int, params: dict[str, Any] | None = None
-    ) -> ch.CharactersList:
-        """
-        Request a list of characters from a series.
+    ) -> list[Character]:
+        """Request a list of characters from a series.
 
         Parameters
         ----------
@@ -309,17 +323,21 @@ class Session:
 
         Returns
         -------
-        CharactersList
+        list[Character]
             A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
 
-        return ch.CharactersList(self._call(["series", _id, "characters"], params=params))
+        try:
+            results = self._call(["series", _id, "characters"], params=params)
+            adapter = TypeAdapter(list[Character])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def series_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
-        """
-        Request a list of comics from a series.
+    def series_comics(self, _id: int, params: dict[str, Any] | None = None) -> list[Comic]:
+        """Request a list of comics from a series.
 
         Parameters
         ----------
@@ -330,19 +348,21 @@ class Session:
 
         Returns
         -------
-        ComicsList
+        list[Comic]
             A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
 
-        return com.ComicsList(self._call(["series", _id, "comics"], params=params))
+        try:
+            results = self._call(["series", _id, "comics"], params=params)
+            adapter = TypeAdapter(list[Comic])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def series_creators(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> cr.CreatorsList:
-        """
-        Request a list of creators from a series.
+    def series_creators(self, _id: int, params: dict[str, Any] | None = None) -> list[Creator]:
+        """Request a list of creators from a series.
 
         Parameters
         ----------
@@ -353,17 +373,21 @@ class Session:
 
         Returns
         -------
-        CreatorsList
+        list[Creator]
             A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
 
-        return cr.CreatorsList(self._call(["series", _id, "creators"], params=params))
+        try:
+            results = self._call(["series", _id, "creators"], params=params)
+            adapter = TypeAdapter(list[Creator])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def series_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
-        """
-        Request a list of events from a series.
+    def series_events(self, _id: int, params: dict[str, Any] | None = None) -> list[Event]:
+        """Request a list of events from a series.
 
         Parameters
         ----------
@@ -374,19 +398,21 @@ class Session:
 
         Returns
         -------
-        EventsList
+        list[Event]
             A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
 
-        return ev.EventsList(self._call(["series", _id, "events"], params=params))
+        try:
+            results = self._call(["series", _id, "events"], params=params)
+            adapter = TypeAdapter(list[Event])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def series_stories(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> stories.StoriesList:
-        """
-        Request a list of stories from a series.
+    def series_stories(self, _id: int, params: dict[str, Any] | None = None) -> list[Story]:
+        """Request a list of stories from a series.
 
         Parameters
         ----------
@@ -397,17 +423,21 @@ class Session:
 
         Returns
         -------
-        StoriesList
-            A list of :class:`Stories` objects.
+        list[Story]
+            A list of :class:`Story` objects.
         """
         if params is None:
             params = {}
 
-        return stories.StoriesList(self._call(["series", _id, "stories"], params=params))
+        try:
+            results = self._call(["series", _id, "stories"], params=params)
+            adapter = TypeAdapter(list[Story])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def series_list(self, params: dict[str, Any] | None = None) -> ser.SeriesList:
-        """
-        Request a list of series.
+    def series_list(self, params: dict[str, Any] | None = None) -> list[Series]:
+        """Request a list of series.
 
         Parameters
         ----------
@@ -416,17 +446,21 @@ class Session:
 
         Returns
         -------
-        SeriesList
+        list[Series]
             A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
 
-        return ser.SeriesList(self._call(["series"], params=params))
+        try:
+            results = self._call(["series"], params=params)
+            adapter = TypeAdapter(list[Series])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def creator(self, _id: int) -> cr.Creator:
-        """
-        Request data for a creator based on it's ``_id``.
+    def creator(self, _id: int) -> Creator:
+        """Request data for a creator based on it's ``_id``.
 
         Parameters
         ----------
@@ -444,13 +478,14 @@ class Session:
             If requested information is not valid.
         """
         try:
-            return cr.CreatorsSchema().load(self._call(["creators", _id]))
-        except ValidationError as error:
-            raise exceptions.ApiError(error) from error
+            result = self._call(["creators", _id])[0]
+            adapter = TypeAdapter(Creator)
+            return adapter.validate_python(result)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def creator_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
-        """
-        Request a list of comics from a creator.
+    def creator_comics(self, _id: int, params: dict[str, Any] | None = None) -> list[Comic]:
+        """Request a list of comics from a creator.
 
         Parameters
         ----------
@@ -461,17 +496,21 @@ class Session:
 
         Returns
         -------
-        ComicsList
+        list[Comic]
             A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
 
-        return com.ComicsList(self._call(["creators", _id, "comics"], params=params))
+        try:
+            results = self._call(["creators", _id, "comics"], params=params)
+            adapter = TypeAdapter(list[Comic])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def creator_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
-        """
-        Request a list of events from a creator.
+    def creator_events(self, _id: int, params: dict[str, Any] | None = None) -> list[Event]:
+        """Request a list of events from a creator.
 
         Parameters
         ----------
@@ -482,17 +521,21 @@ class Session:
 
         Returns
         -------
-        EventsList
+        list[Event]
             A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
 
-        return ev.EventsList(self._call(["creators", _id, "events"], params=params))
+        try:
+            results = self._call(["creators", _id, "events"], params=params)
+            adapter = TypeAdapter(list[Event])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def creator_series(self, _id: int, params: dict[str, Any] | None = None) -> ser.SeriesList:
-        """
-        Request a list of series by a creator.
+    def creator_series(self, _id: int, params: dict[str, Any] | None = None) -> list[Series]:
+        """Request a list of series by a creator.
 
         Parameters
         ----------
@@ -503,19 +546,21 @@ class Session:
 
         Returns
         -------
-        SeriesList
+        list[Series]
             A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
 
-        return ser.SeriesList(self._call(["creators", _id, "series"], params=params))
+        try:
+            results = self._call(["creators", _id, "series"], params=params)
+            adapter = TypeAdapter(list[Series])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def creator_stories(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> stories.StoriesList:
-        """
-        Request a list of stories from a creator.
+    def creator_stories(self, _id: int, params: dict[str, Any] | None = None) -> list[Story]:
+        """Request a list of stories from a creator.
 
         Parameters
         ----------
@@ -526,17 +571,21 @@ class Session:
 
         Returns
         -------
-        StoriesList
-            A list of :class:`Stories` objects.
+        list[Story]
+            A list of :class:`Story` objects.
         """
         if params is None:
             params = {}
 
-        return stories.StoriesList(self._call(["creators", _id, "stories"], params=params))
+        try:
+            results = self._call(["creators", _id, "stories"], params=params)
+            adapter = TypeAdapter(list[Story])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def creators_list(self, params: dict[str, Any] | None = None) -> cr.CreatorsList:
-        """
-        Request a list of creators.
+    def creators_list(self, params: dict[str, Any] | None = None) -> list[Creator]:
+        """Request a list of creators.
 
         Parameters
         ----------
@@ -545,17 +594,21 @@ class Session:
 
         Returns
         -------
-        CreatorsList
+        list[Creator]
             A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
 
-        return cr.CreatorsList(self._call(["creators"], params=params))
+        try:
+            results = self._call(["creators"], params=params)
+            adapter = TypeAdapter(list[Creator])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def character(self, _id: int) -> ch.Character:
-        """
-        Request data for a character based on it's ``_id``.
+    def character(self, _id: int) -> Character:
+        """Request data for a character based on it's ``_id``.
 
         Parameters
         ----------
@@ -573,15 +626,14 @@ class Session:
             If requested information is not valid.
         """
         try:
-            return ch.CharacterSchema().load(self._call(["characters", _id]))
-        except ValidationError as error:
-            raise exceptions.ApiError(error) from error
+            result = self._call(["characters", _id])[0]
+            adapter = TypeAdapter(Character)
+            return adapter.validate_python(result)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def character_comics(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> com.ComicsList:
-        """
-        Request a list of comics for a character.
+    def character_comics(self, _id: int, params: dict[str, Any] | None = None) -> list[Comic]:
+        """Request a list of comics for a character.
 
         Parameters
         ----------
@@ -592,19 +644,21 @@ class Session:
 
         Returns
         -------
-        ComicsList
+        list[Comic]
             A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
 
-        return com.ComicsList(self._call(["characters", _id, "comics"], params=params))
+        try:
+            results = self._call(["characters", _id, "comics"], params=params)
+            adapter = TypeAdapter(list[Comic])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def character_events(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> ev.EventsList:
-        """
-        Request a list of events for a character.
+    def character_events(self, _id: int, params: dict[str, Any] | None = None) -> list[Event]:
+        """Request a list of events for a character.
 
         Parameters
         ----------
@@ -615,19 +669,21 @@ class Session:
 
         Returns
         -------
-        EventsList
+        list[Event]
             A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
 
-        return ev.EventsList(self._call(["characters", _id, "events"], params=params))
+        try:
+            results = self._call(["characters", _id, "events"], params=params)
+            adapter = TypeAdapter(list[Event])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def character_series(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> ser.SeriesList:
-        """
-        Request a list of series for a character.
+    def character_series(self, _id: int, params: dict[str, Any] | None = None) -> list[Series]:
+        """Request a list of series for a character.
 
         Parameters
         ----------
@@ -638,19 +694,21 @@ class Session:
 
         Returns
         -------
-        SeriesList
+        list[Series]
             A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
 
-        return ser.SeriesList(self._call(["characters", _id, "series"], params=params))
+        try:
+            results = self._call(["characters", _id, "series"], params=params)
+            adapter = TypeAdapter(list[Series])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def character_stories(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> stories.StoriesList:
-        """
-        Request a list of stories for a character.
+    def character_stories(self, _id: int, params: dict[str, Any] | None = None) -> list[Story]:
+        """Request a list of stories for a character.
 
         Parameters
         ----------
@@ -661,17 +719,21 @@ class Session:
 
         Returns
         -------
-        StoriesList
-            A list of :class:`Stories` objects.
+        list[Story]
+            A list of :class:`Story` objects.
         """
         if params is None:
             params = {}
 
-        return stories.StoriesList(self._call(["characters", _id, "stories"], params=params))
+        try:
+            results = self._call(["characters", _id, "stories"], params=params)
+            adapter = TypeAdapter(list[Story])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def characters_list(self, params: dict[str, Any] | None = None) -> ch.CharactersList:
-        """
-        Request a list of characters.
+    def characters_list(self, params: dict[str, Any] | None = None) -> list[Character]:
+        """Request a list of characters.
 
         Parameters
         ----------
@@ -680,17 +742,21 @@ class Session:
 
         Returns
         -------
-        CharactersList
+        list[Character]
             A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
 
-        return ch.CharactersList(self._call(["characters"], params=params))
+        try:
+            results = self._call(["characters"], params=params)
+            adapter = TypeAdapter(list[Character])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def story(self, _id: int) -> stories.Stories:
-        """
-        Request data for a Story based on it's ``_id``.
+    def story(self, _id: int) -> Story:
+        """Request data for a Story based on it's ``_id``.
 
         Parameters
         ----------
@@ -699,8 +765,8 @@ class Session:
 
         Returns
         -------
-        Stories
-            A :class:`Stories` object
+        Story
+            A :class:`Story` object
 
         Raises
         ------
@@ -708,15 +774,16 @@ class Session:
             If requested information is not valid.
         """
         try:
-            return stories.StoriesSchema().load(self._call(["stories", _id]))
-        except ValidationError as error:
-            raise exceptions.ApiError(error) from error
+            result = self._call(["stories", _id])[0]
+            adapter = TypeAdapter(Story)
+            return adapter.validate_python(result)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
     def story_characters(
         self, _id: int, params: dict[str, Any] | None = None
-    ) -> ch.CharactersList:
-        """
-        Request a list of characters from a story.
+    ) -> list[Character]:
+        """Request a list of characters from a story.
 
         Parameters
         ----------
@@ -727,17 +794,21 @@ class Session:
 
         Returns
         -------
-        CharactersList
+        list[Character]
             A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
 
-        return ch.CharactersList(self._call(["stories", _id, "characters"], params=params))
+        try:
+            results = self._call(["stories", _id, "characters"], params=params)
+            adapter = TypeAdapter(list[Character])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def story_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
-        """
-        Request a list of comics for a story.
+    def story_comics(self, _id: int, params: dict[str, Any] | None = None) -> list[Comic]:
+        """Request a list of comics for a story.
 
         Parameters
         ----------
@@ -748,19 +819,21 @@ class Session:
 
         Returns
         -------
-        ComicsList
+        list[Comic]
             A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
 
-        return com.ComicsList(self._call(["stories", _id, "comics"], params=params))
+        try:
+            results = self._call(["stories", _id, "comics"], params=params)
+            adapter = TypeAdapter(list[Comic])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def story_creators(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> cr.CreatorsList:
-        """
-        Request a list of creators from a story.
+    def story_creators(self, _id: int, params: dict[str, Any] | None = None) -> list[Creator]:
+        """Request a list of creators from a story.
 
         Parameters
         ----------
@@ -771,17 +844,21 @@ class Session:
 
         Returns
         -------
-        CreatorsList
+        list[Creator]
             A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
 
-        return cr.CreatorsList(self._call(["stories", _id, "creators"], params=params))
+        try:
+            results = self._call(["stories", _id, "creators"], params=params)
+            adapter = TypeAdapter(list[Creator])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def story_events(self, _id: int, params: dict[str, Any] | None = None) -> ev.EventsList:
-        """
-        Request a list of events for a story.
+    def story_events(self, _id: int, params: dict[str, Any] | None = None) -> list[Event]:
+        """Request a list of events for a story.
 
         Parameters
         ----------
@@ -792,17 +869,21 @@ class Session:
 
         Returns
         -------
-        EventsList
+        list[Event]
             A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
 
-        return ev.EventsList(self._call(["stories", _id, "events"], params=params))
+        try:
+            results = self._call(["stories", _id, "events"], params=params)
+            adapter = TypeAdapter(list[Event])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def story_series(self, _id: int, params: dict[str, Any] | None = None) -> ser.SeriesList:
-        """
-        Request a list of series for a story.
+    def story_series(self, _id: int, params: dict[str, Any] | None = None) -> list[Series]:
+        """Request a list of series for a story.
 
         Parameters
         ----------
@@ -813,17 +894,21 @@ class Session:
 
         Returns
         -------
-        SeriesList
+        list[Series]
             A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
 
-        return ser.SeriesList(self._call(["stories", _id, "series"], params=params))
+        try:
+            results = self._call(["stories", _id, "series"], params=params)
+            adapter = TypeAdapter(list[Series])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def stories_list(self, params: dict[str, Any] | None = None) -> stories.StoriesList:
-        """
-        Request a list of stories.
+    def stories_list(self, params: dict[str, Any] | None = None) -> list[Story]:
+        """Request a list of stories.
 
         Parameters
         ----------
@@ -832,17 +917,21 @@ class Session:
 
         Returns
         -------
-        StoriesList
-            A list of :class:`Stories` objects.
+        list[Story]
+            A list of :class:`Story` objects.
         """
         if params is None:
             params = {}
 
-        return stories.StoriesList(self._call(["stories"], params=params))
+        try:
+            results = self._call(["stories"], params=params)
+            adapter = TypeAdapter(list[Story])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def event(self, _id: int) -> ev.Events:
-        """
-        Request data for an event based on it's ``_id``.
+    def event(self, _id: int) -> Event:
+        """Request data for an event based on it's ``_id``.
 
         Parameters
         ----------
@@ -851,8 +940,8 @@ class Session:
 
         Returns
         -------
-        Events
-            A :class:`Events` object
+        Event
+            A :class:`Event` object
 
         Raises
         ------
@@ -860,15 +949,16 @@ class Session:
             If requested information is not valid.
         """
         try:
-            return ev.EventSchema().load(self._call(["events", _id]))
-        except ValidationError as error:
-            raise exceptions.ApiError(error) from error
+            result = self._call(["events", _id])[0]
+            adapter = TypeAdapter(Event)
+            return adapter.validate_python(result)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
     def event_characters(
         self, _id: int, params: dict[str, Any] | None = None
-    ) -> ch.CharactersList:
-        """
-        Request a list of characters from an event.
+    ) -> list[Character]:
+        """Request a list of characters from an event.
 
         Parameters
         ----------
@@ -879,17 +969,21 @@ class Session:
 
         Returns
         -------
-        CharactersList
+        list[Character]
             A list of :class:`Character` objects.
         """
         if params is None:
             params = {}
 
-        return ch.CharactersList(self._call(["events", _id, "characters"], params=params))
+        try:
+            results = self._call(["events", _id, "characters"], params=params)
+            adapter = TypeAdapter(list[Character])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def event_comics(self, _id: int, params: dict[str, Any] | None = None) -> com.ComicsList:
-        """
-        Request a list of comics for an event.
+    def event_comics(self, _id: int, params: dict[str, Any] | None = None) -> list[Comic]:
+        """Request a list of comics for an event.
 
         Parameters
         ----------
@@ -900,19 +994,21 @@ class Session:
 
         Returns
         -------
-        ComicsList
+        list[Comic]
             A list of :class:`Comic` objects.
         """
         if params is None:
             params = {}
 
-        return com.ComicsList(self._call(["events", _id, "comics"], params=params))
+        try:
+            results = self._call(["events", _id, "comics"], params=params)
+            adapter = TypeAdapter(list[Comic])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def event_creators(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> cr.CreatorsList:
-        """
-        Request a list of creators from an event.
+    def event_creators(self, _id: int, params: dict[str, Any] | None = None) -> list[Creator]:
+        """Request a list of creators from an event.
 
         Parameters
         ----------
@@ -923,17 +1019,21 @@ class Session:
 
         Returns
         -------
-        CreatorsList
+        list[Creator]
             A list of :class:`Creator` objects.
         """
         if params is None:
             params = {}
 
-        return cr.CreatorsList(self._call(["events", _id, "creators"], params=params))
+        try:
+            results = self._call(["events", _id, "creators"], params=params)
+            adapter = TypeAdapter(list[Creator])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def event_series(self, _id: int, params: dict[str, Any] | None = None) -> ser.SeriesList:
-        """
-        Request a list of series for an event.
+    def event_series(self, _id: int, params: dict[str, Any] | None = None) -> list[Series]:
+        """Request a list of series for an event.
 
         Parameters
         ----------
@@ -944,19 +1044,21 @@ class Session:
 
         Returns
         -------
-        SeriesList
+        list[Series]
             A list of :class:`Series` objects.
         """
         if params is None:
             params = {}
 
-        return ser.SeriesList(self._call(["events", _id, "series"], params=params))
+        try:
+            results = self._call(["events", _id, "series"], params=params)
+            adapter = TypeAdapter(list[Series])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def event_stories(
-        self, _id: int, params: dict[str, Any] | None = None
-    ) -> stories.StoriesList:
-        """
-        Request a list of stories for an event.
+    def event_stories(self, _id: int, params: dict[str, Any] | None = None) -> list[Story]:
+        """Request a list of stories for an event.
 
         Parameters
         ----------
@@ -967,17 +1069,21 @@ class Session:
 
         Returns
         -------
-        StoriesList
-            A list of :class:`Stories` objects.
+        list[Story]
+            A list of :class:`Story` objects.
         """
         if params is None:
             params = {}
 
-        return stories.StoriesList(self._call(["events", _id, "stories"], params=params))
+        try:
+            results = self._call(["events", _id, "stories"], params=params)
+            adapter = TypeAdapter(list[Story])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err
 
-    def events_list(self, params: dict[str, Any] | None = None) -> ev.EventsList:
-        """
-        Request a list of events.
+    def events_list(self, params: dict[str, Any] | None = None) -> list[Event]:
+        """Request a list of events.
 
         Parameters
         ----------
@@ -986,10 +1092,15 @@ class Session:
 
         Returns
         -------
-        EventsList
+        list[Event]
             A list of :class:`Event` objects.
         """
         if params is None:
             params = {}
 
-        return ev.EventsList(self._call(["events"], params=params))
+        try:
+            results = self._call(["events"], params=params)
+            adapter = TypeAdapter(list[Event])
+            return adapter.validate_python(results)
+        except ValidationError as err:
+            raise ApiError(err) from err

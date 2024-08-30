@@ -2,14 +2,16 @@
 
 __version__ = "1.3.2"
 
-from esak import exceptions, session, sqlite_cache
+from esak.exceptions import AuthenticationError
+from esak.session import Session
+from esak.sqlite_cache import SqliteCache
 
 
 def api(
     public_key: str | None = None,
     private_key: str | None = None,
-    cache: sqlite_cache.SqliteCache | None = None,
-) -> session.Session:
+    cache: SqliteCache | None = None,
+) -> Session:
     """Entry function the sets login credentials for Marvel's API.
 
     Parameters
@@ -31,9 +33,9 @@ def api(
         If Marvel credentials are missing.
     """
     if public_key is None:
-        raise exceptions.AuthenticationError("Missing public_key.")
+        raise AuthenticationError("Missing public_key.")
 
     if private_key is None:
-        raise exceptions.AuthenticationError("Missing private_key.")
+        raise AuthenticationError("Missing private_key.")
 
-    return session.Session(public_key, private_key, cache=cache)
+    return Session(public_key, private_key, cache=cache)
