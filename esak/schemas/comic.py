@@ -176,7 +176,7 @@ class Comic(BaseResource):
 
     @field_validator("diamond_code", "isbn", mode="before")
     def enforce_str(cls, value: str | int | None) -> str | None:
-        """Enforce an int to be a str
+        """Enforce an int to be a str.
 
         Parameters
         ----------

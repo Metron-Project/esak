@@ -22,7 +22,6 @@ class BaseModel(
     str_strip_whitespace=True,
     validate_assignment=True,
     revalidate_instances="always",
-    # extra="ignore",
-    extra="forbid",
+    extra="ignore",
 ):
     """Base model for esak resources."""

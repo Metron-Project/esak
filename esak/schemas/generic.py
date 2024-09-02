@@ -22,7 +22,7 @@ class GenericItem(BaseModel):
     Attributes
     ----------
         id: int
-            The unique ID of the Generic resource.
+
         name: str
             The name of the Generic Item.
         resource_uri: HttpUrl
@@ -34,6 +34,12 @@ class GenericItem(BaseModel):
 
     @property
     def id(self) -> int:
+        """Pull the id number from the resource_uri.
+
+        Returns
+        -------
+            The unique ID of the Generic resource.
+        """
         return int(self.resource_uri.__str__().split("/")[-1])
 
 
