@@ -127,7 +127,8 @@ class Session:
             raise ApiError(data["message"])
         if data.get("code", 200) != 200:
             raise ApiError(data.get("status"))
-        data = data["data"]
+        if "data" in data:
+            data = data["data"]
 
         if response.status_code == 200:
             self._save_results_to_cache(cache_key, data)

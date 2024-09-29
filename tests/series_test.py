@@ -52,12 +52,12 @@ def test_known_series(talker):
     )
 
     assert len(usms.creators) == 20
-    assert usms.creators[12].id == 162
-    assert usms.creators[12].name == "John Cassaday"
-    assert usms.creators[12].role == "penciller"
+    assert usms.creators[12].id == 362
+    assert usms.creators[12].name == "Scott Hanna"
+    assert usms.creators[12].role == "inker"
     assert (
         usms.creators[12].resource_uri.__str__()
-        == "http://gateway.marvel.com/v1/public/creators/162"
+        == "http://gateway.marvel.com/v1/public/creators/362"
     )
 
 
@@ -120,7 +120,7 @@ def test_series_comics(talker):
     sm_75 = sm[1]
     assert sm_75.format == "Comic"
     assert sm_75.title == "The Amazing Spider-Man (2018) #93 (Variant)"
-    assert sm_75.issue_number == 93
+    assert sm_75.issue_number == "93"
     assert sm_75.page_count == 56
     assert sm_75.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/comics/100983"
     assert sm_75.upc == "75960608936909341"

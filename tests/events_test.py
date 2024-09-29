@@ -104,7 +104,7 @@ def test_event_comics(talker):
     assert len(se) == 20
     sm = se[11]
     assert sm.id == 60539
-    assert sm.issue_number == 31
+    assert sm.issue_number == "31"
     assert sm.page_count == 32
     assert sm.upc == "75960608297103111"
     assert sm.title == "The Amazing Spider-Man (2015) #31"

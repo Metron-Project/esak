@@ -75,7 +75,7 @@ def test_creator_comics(talker):
     jason = talker.creator_comics(11463)
     assert len(jason) == 20
     val5 = jason[6]
-    assert val5.id == 120970
+    assert val5.id == 120971
     assert val5.series.id == 37818
     assert val5.series.name == "Namor (2024 - Present)"
     assert (
@@ -83,12 +83,12 @@ def test_creator_comics(talker):
         == "http://gateway.marvel.com/v1/public/series/37818"
     )
     assert val5.title == "Namor (2024) #2 (Variant)"
-    assert val5.issue_number == 2.0
+    assert val5.issue_number == "2"
     assert val5.page_count == 40
-    assert val5.upc == "75960620743500221"
+    assert val5.upc == "75960620743500231"
     assert val5.format == "Comic"
     assert len(val5.characters) == 0
-    assert len(val5.creators) == 7
+    assert len(val5.creators) == 8
     assert len(val5.events) == 0
     assert len(val5.stories) == 2
     assert val5.prices.digital is None

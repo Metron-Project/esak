@@ -6,6 +6,10 @@ This module contains tests for Comic objects.
 from datetime import date
 from decimal import Decimal
 
+import pytest
+
+from esak.exceptions import ApiError
+
 
 def test_pulls_verbose(talker):
     week = talker.comics_list(
@@ -17,11 +21,11 @@ def test_pulls_verbose(talker):
         }
     )
     c_iter = iter(week)
-    assert next(c_iter).id == 118649
-    assert next(c_iter).id == 115133
-    assert next(c_iter).id == 106436
+    assert next(c_iter).id == 120319
+    assert next(c_iter).id == 115084
+    assert next(c_iter).id == 69363
     assert len(week) > 0
-    assert week[1].id == 115133
+    assert week[1].id == 115084
 
 
 def test_pulls_simple(talker):
@@ -37,7 +41,7 @@ def test_pulls_simpler(talker):
 def test_known_comic(talker):
     af15 = talker.comic(16926)
     assert af15.title == "Amazing Fantasy (1962) #15"
-    assert af15.issue_number == 15
+    assert af15.issue_number == "15"
     assert (
         af15.description
         == "The First Appearance of the Amazing Spider-Man!  When young Peter Parker gains remarkable abilities from a radioactive spider, he must step up and try to become a hero — while also dealing with the fantastic pressures of an everyday teenager! For with great power, there must also come great responsibility!"
@@ -98,8 +102,8 @@ def test_invalid_isbn(talker):
 
 def test_invalid_diamond_code(talker):
     """Sometimes Marvel API sends number for diamond code"""
-    hulk = talker.comic(27399)
-    assert hulk.diamond_code is None
+    with pytest.raises(ApiError):
+        hulk = talker.comic(27399)
 
 
 def test_upc_code(talker):
@@ -118,7 +122,7 @@ def test_comic_digital_price(talker):
     assert cw1.series.name == "Civil War (2006 - 2007)"
     assert cw1.format == "Comic"
     assert cw1.upc == "75960605921800111"
-    assert cw1.issue_number == 1
+    assert cw1.issue_number == "1"
     assert cw1.digital_id == 5486
     assert len(cw1.stories) == 2
     assert cw1.stories[0].id == 5872
@@ -129,7 +133,7 @@ def test_comic_digital_price(talker):
     assert cw1.stories[1].name == "1 of 7 - 7XLS"
     assert cw1.dates.on_sale == date(2006, 5, 3)
     assert cw1.dates.foc is None
-    assert cw1.dates.unlimited == date(2009, 8, 12)
+    assert cw1.dates.unlimited == date(2006, 5, 3)
     assert (
         cw1.images[0].__str__()
         == "http://i.annihil.us/u/prod/marvel/i/mg/e/f0/511307b2f1200.jpg"

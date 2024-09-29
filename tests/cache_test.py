@@ -31,7 +31,6 @@ def test_no_get(dummy_pubkey, dummy_privkey):
         m.series(466)
 
 
-@pytest.mark.skip
 def test_no_store(dummy_pubkey, dummy_privkey):
     m = api(public_key=dummy_pubkey, private_key=dummy_privkey, cache=NoStore())
 
@@ -45,7 +44,6 @@ def test_no_store(dummy_pubkey, dummy_privkey):
             m.series(466)
 
 
-@pytest.mark.skip
 def test_sql_store(dummy_pubkey, dummy_privkey):
     fresh_cache = SqliteCache(":memory:")
     test_cache = SqliteCache("tests/testing_mock.sqlite")

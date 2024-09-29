@@ -11,7 +11,7 @@ __all__ = ["Comic"]
 from datetime import date, datetime
 from decimal import Decimal
 
-from pydantic import Field, HttpUrl, field_validator
+from pydantic import ConfigDict, Field, HttpUrl, field_validator
 
 from esak.schemas import BaseModel
 from esak.schemas.base import BaseResource
@@ -103,7 +103,7 @@ class Comic(BaseResource):
             The ID of the digital comic representation of this comic. Will be 0 if the comic is not available digitally.
         title: str
             The canonical title of the comic.
-        issue_number: float
+        issue_number: str
             The number of the issue in the series (will generally be 0 for collection formats).
         variant_description: str
             If the issue is a variant (e.g. an alternate cover, second printing, or director’s cut), a text description of the variant.
@@ -149,9 +149,11 @@ class Comic(BaseResource):
             A resource list containing the events in which this comic appears.
     """
 
+    model_config = ConfigDict(coerce_numbers_to_str=True)
+
     digital_id: int
     title: str
-    issue_number: float
+    issue_number: str
     variant_description: str  # or Blank
     description: str | None = None
     isbn: str | None = None

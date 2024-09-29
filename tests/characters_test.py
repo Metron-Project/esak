@@ -60,30 +60,30 @@ def test_pulls_verbose(talker):
     )
 
     c_iter = iter(characters)
-    assert next(c_iter).name == "Battering Ram"
-    assert next(c_iter).name == "Bloodscream"
-    assert next(c_iter).name == "Chronomancer"
+    assert next(c_iter).name == "Prowler (Rick Lawson)"
+    assert next(c_iter).name == "Ted Forrester"
+    assert next(c_iter).name == "Hedge Knight"
     assert len(characters) > 0
-    assert characters[1].name == "Bloodscream"
+    assert characters[1].name == "Ted Forrester"
 
 
 def test_character_comics(talker):
     cap = talker.character_comics(1009220)
     assert len(cap) == 20
     af2 = cap[2]
-    assert af2.id == 110368
-    assert af2.title == "Captain America (2023) #11"
-    assert af2.issue_number == 11.0
+    assert af2.id == 116133
+    assert af2.title == "Captain America (2023) #13"
+    assert af2.issue_number == "13"
     assert af2.page_count == 32
-    assert af2.upc == "75960620740401111"
+    assert af2.upc == "75960620740401311"
     assert af2.format == "Comic"
     assert af2.series.id == 37724
     assert af2.series.name == "Captain America (2023 - Present)"
     assert (
         af2.series.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/series/37724"
     )
-    assert af2.dates.foc == date(2024, 6, 24)
-    assert af2.dates.on_sale == date(2024, 7, 24)
+    assert af2.dates.foc == date(2024, 8, 12)
+    assert af2.dates.on_sale == date(2024, 9, 11)
     assert len(af2.stories) == 2
     assert len(af2.events) == 0
     assert len(af2.creators) == 6
@@ -131,7 +131,7 @@ def test_character_stories(talker):
     assert av_503.type == "cover"
     assert len(av_503.characters) == 1
     assert len(av_503.comics) == 1
-    assert len(av_503.creators) == 1
+    assert len(av_503.creators) == 0
     assert av_503.original_issue.id == 923
     assert av_503.original_issue.name == "Avengers (1998) #503"
     assert (

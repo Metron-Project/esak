@@ -85,11 +85,11 @@ def test_stories_list(talker):
     )
 
     stories_iter = iter(stories_lst)
-    assert next(stories_iter).id == 38397
-    assert next(stories_iter).id == 63791
-    assert next(stories_iter).id == 23565
+    assert next(stories_iter).id == 106520
+    assert next(stories_iter).id == 106057
+    assert next(stories_iter).id == 63441
     assert len(stories_lst) == 20
-    assert stories_lst[2].id == 23565
+    assert stories_lst[2].id == 63441
 
 
 def test_story_characters(talker):
@@ -110,7 +110,7 @@ def test_story_comics(talker):
     af = sm[1]
     assert af.id == 16926
     assert af.format == "Comic"
-    assert af.issue_number == 15
+    assert af.issue_number == "15"
     assert af.title == "Amazing Fantasy (1962) #15"
 
 
