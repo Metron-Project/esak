@@ -189,9 +189,7 @@ class Comic(BaseResource):
         -------
             String value of input or None
         """
-        if value:
-            return str(value)
-        return None
+        return str(value) if value else None
 
     @field_validator("dates", mode="before")
     def map_dates(cls, value: list[dict[str, str]]) -> dict[str, str]:

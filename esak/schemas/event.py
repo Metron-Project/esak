@@ -70,9 +70,7 @@ class Event(BaseResource):
         -------
             Parsed date or None
         """
-        if value:
-            return datetime.strptime(value, "%Y-%m-%d %H:%M:%S").date()
-        return None
+        return datetime.strptime(value, "%Y-%m-%d %H:%M:%S").date() if value else None
 
     @field_validator("creators", "characters", "stories", "comics", "series", mode="before")
     def map_generic_items(cls, value: dict) -> list[dict]:

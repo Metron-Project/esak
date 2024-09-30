@@ -53,9 +53,7 @@ class BaseResource(BaseModel):
         -------
             input value or None
         """
-        if value[0] == "-":
-            return None
-        return value
+        return value if value[0] != "-" else None
 
     @field_validator("thumbnail", mode="before")
     def dict_to_image_url(cls, value: dict[str, str] | None) -> str | None:
@@ -70,9 +68,7 @@ class BaseResource(BaseModel):
         -------
             String of path + extension or None
         """
-        if value:
-            return f"{value['path']}.{value['extension']}"
-        return None
+        return f"{value['path']}.{value['extension']}" if value else None
 
     @field_validator("urls", mode="before")
     def map_urls(cls, value: list[dict[str, str]] | None) -> dict[str, str] | None:
@@ -87,6 +83,4 @@ class BaseResource(BaseModel):
         -------
             Dict of type to url mapped from list or None
         """
-        if value:
-            return {x["type"]: x["url"] for x in value}
-        return None
+        return {x["type"]: x["url"] for x in value} if value else None
