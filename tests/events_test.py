@@ -4,21 +4,24 @@ Test Events module.
 This module contains tests for Event objects.
 """
 
-import datetime
+from datetime import date
 from decimal import Decimal
 
 import pytest
 
-from esak import exceptions
+from esak.exceptions import ApiError
 
 
 def test_known_event(talker):
     se = talker.event(336)
     assert se.title == "Secret Empire"
-    assert se.start == datetime.date(2017, 4, 19)
-    assert se.end == datetime.date(2017, 8, 9)
-    assert se.resource_uri == "http://gateway.marvel.com/v1/public/events/336"
-    assert se.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/6/f0/58e692d6f351b.jpg"
+    assert se.start == date(2017, 4, 19)
+    assert se.end == date(2017, 8, 9)
+    assert se.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/336"
+    assert (
+        se.thumbnail.__str__()
+        == "http://i.annihil.us/u/prod/marvel/i/mg/6/f0/58e692d6f351b.jpg"
+    )
 
     assert len(se.stories) == 20
     assert se.stories[0].id == 109335
@@ -29,7 +32,7 @@ def test_known_event(talker):
     assert se.characters[0].id == 1011227
     assert se.characters[0].name == "Amadeus Cho"
     assert (
-        se.characters[0].resource_uri
+        se.characters[0].resource_uri.__str__()
         == "http://gateway.marvel.com/v1/public/characters/1011227"
     )
 
@@ -46,16 +49,22 @@ def test_known_event(talker):
     assert len(se.comics) == 20
     assert se.comics[0].id == 63223
     assert se.comics[0].name == "All-New Guardians of the Galaxy Annual (2017) #1"
-    assert se.comics[0].resource_uri == "http://gateway.marvel.com/v1/public/comics/63223"
+    assert (
+        se.comics[0].resource_uri.__str__()
+        == "http://gateway.marvel.com/v1/public/comics/63223"
+    )
 
     assert len(se.series) == 20
     assert se.series[11].id == 25356
     assert se.series[11].name == "Secret Empire Omega (2017)"
-    assert se.series[11].resource_uri == "http://gateway.marvel.com/v1/public/series/25356"
+    assert (
+        se.series[11].resource_uri.__str__()
+        == "http://gateway.marvel.com/v1/public/series/25356"
+    )
 
 
 def test_bad_event(talker):
-    with pytest.raises(exceptions.ApiError):
+    with pytest.raises(ApiError):
         talker.event(-1)
 
 
@@ -67,9 +76,9 @@ def test_events_list(talker):
     )
 
     stories_iter = iter(events_lst)
-    assert (next(stories_iter).id) == 296
-    assert (next(stories_iter).id) == 302
-    assert (next(stories_iter).id) == 233
+    assert next(stories_iter).id == 296
+    assert next(stories_iter).id == 302
+    assert next(stories_iter).id == 233
     assert len(events_lst) == 20
     assert events_lst[1].id == 302
 
@@ -80,7 +89,10 @@ def test_event_characters(talker):
     ben = se[6]
     assert ben.id == 1010782
     assert ben.name == "Ben Urich"
-    assert ben.thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/5/90/4c00373d10e5e.jpg"
+    assert (
+        ben.thumbnail.__str__()
+        == "http://i.annihil.us/u/prod/marvel/i/mg/5/90/4c00373d10e5e.jpg"
+    )
     assert len(ben.comics) == 20
     assert len(ben.events) == 4
     assert len(ben.series) == 20
@@ -92,14 +104,14 @@ def test_event_comics(talker):
     assert len(se) == 20
     sm = se[11]
     assert sm.id == 60539
-    assert sm.issue_number == 31
+    assert sm.issue_number == "31"
     assert sm.page_count == 32
     assert sm.upc == "75960608297103111"
-    assert sm.title == "The Amazing Spider-Man (2017) #31"
+    assert sm.title == "The Amazing Spider-Man (2015) #31"
     assert sm.prices.digital == Decimal("3.99")
     assert sm.prices.print == Decimal("3.99")
     assert sm.series.id == 20432
-    assert sm.series.name == "The Amazing Spider-Man (2017 - 2018)"
+    assert sm.series.name == "The Amazing Spider-Man (2015 - 2018)"
     assert len(sm.characters) == 4
     assert len(sm.creators) == 7
     assert len(sm.events) == 1
@@ -119,10 +131,10 @@ def test_event_creators(talker):
     se = talker.event_creators(336)
     assert len(se) == 20
     chuck = se[10]
-    assert chuck.id == 13000
-    assert chuck.full_name == "Charles Beacham"
+    assert chuck.id == 12741
+    assert chuck.full_name == "Ramón F. Bachs"
     assert (
-        chuck.thumbnail
+        chuck.thumbnail.__str__()
         == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
     )
 

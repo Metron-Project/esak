@@ -8,7 +8,9 @@ import json
 import pytest
 import requests_mock
 
-from esak import api, exceptions, sqlite_cache
+from esak import api
+from esak.exceptions import CacheError
+from esak.sqlite_cache import SqliteCache
 
 
 class NoGet:
@@ -25,7 +27,7 @@ class NoStore:
 def test_no_get(dummy_pubkey, dummy_privkey):
     m = api(public_key=dummy_pubkey, private_key=dummy_privkey, cache=NoGet())
 
-    with pytest.raises(exceptions.CacheError):
+    with pytest.raises(CacheError):
         m.series(466)
 
 
@@ -38,13 +40,13 @@ def test_no_store(dummy_pubkey, dummy_privkey):
             text='{"response_code": 200}',
         )
 
-        with pytest.raises(exceptions.CacheError):
+        with pytest.raises(CacheError):
             m.series(466)
 
 
 def test_sql_store(dummy_pubkey, dummy_privkey):
-    fresh_cache = sqlite_cache.SqliteCache(":memory:")
-    test_cache = sqlite_cache.SqliteCache("tests/testing_mock.sqlite")
+    fresh_cache = SqliteCache(":memory:")
+    test_cache = SqliteCache("tests/testing_mock.sqlite")
 
     m = api(public_key=dummy_pubkey, private_key=dummy_privkey, cache=fresh_cache)
     url = "http://gateway.marvel.com:80/v1/public/series/466"

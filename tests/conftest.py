@@ -7,7 +7,8 @@ import os
 
 import pytest
 
-from esak import api, sqlite_cache
+from esak import api
+from esak.sqlite_cache import SqliteCache
 
 
 @pytest.fixture(scope="session")
@@ -28,5 +29,5 @@ def talker(dummy_pubkey, dummy_privkey):
     return api(
         public_key=dummy_pubkey,
         private_key=dummy_privkey,
-        cache=sqlite_cache.SqliteCache("tests/testing_mock.sqlite"),
+        cache=SqliteCache("tests/testing_mock.sqlite"),
     )
