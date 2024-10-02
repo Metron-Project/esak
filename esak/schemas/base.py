@@ -2,42 +2,17 @@
 
 This module provides the following classes:
 
-- BaseModel
 - BaseResource
 """
 
-__all__ = ["BaseResource", "BaseModel"]
+__all__ = ["BaseResource"]
 
 from datetime import datetime
 
-from pydantic import BaseModel as PydanticModel, Field, HttpUrl, field_validator
+from pydantic import Field, HttpUrl, field_validator
 
+from esak.schemas import BaseModel
 from esak.schemas.urls import Urls
-
-
-def to_camel_case(value: str) -> str:
-    """Convert attribute name to camelCase.
-
-    Args:
-        value: Attribute name
-
-    Returns:
-        Value converted to camelCase
-    """
-    temp = value.replace("_", " ").title().replace(" ", "")
-    return temp[0].lower() + temp[1:]
-
-
-class BaseModel(
-    PydanticModel,
-    alias_generator=to_camel_case,
-    populate_by_name=True,
-    str_strip_whitespace=True,
-    validate_assignment=True,
-    revalidate_instances="always",
-    extra="ignore",
-):
-    """Base model for esak resources."""
 
 
 class BaseResource(BaseModel):

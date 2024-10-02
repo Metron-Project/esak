@@ -11,7 +11,8 @@ from decimal import Decimal
 
 from pydantic import ConfigDict, Field, HttpUrl, field_validator
 
-from esak.schemas.base import BaseModel, BaseResource
+from esak.schemas import BaseModel
+from esak.schemas.base import BaseResource
 from esak.schemas.generic import GenericCreator, GenericItem, GenericStory
 
 

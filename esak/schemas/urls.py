@@ -10,7 +10,7 @@ __all__ = ["Urls"]
 
 from pydantic import HttpUrl
 
-from esak.schemas.base import BaseModel
+from esak.schemas import BaseModel
 
 
 class Urls(BaseModel):

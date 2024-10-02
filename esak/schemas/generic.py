@@ -11,7 +11,7 @@ __all__ = ["GenericItem", "GenericStory", "GenericCreator"]
 
 from pydantic import Field, HttpUrl
 
-from esak.schemas.base import BaseModel
+from esak.schemas import BaseModel
 
 
 class GenericItem(BaseModel):
