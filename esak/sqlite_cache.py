@@ -9,6 +9,7 @@ __all__ = ["SqliteCache"]
 import json
 import sqlite3
 from datetime import datetime, timedelta
+from typing import Any
 
 
 class SqliteCache:
@@ -26,7 +27,7 @@ class SqliteCache:
         self.cur.execute("CREATE TABLE IF NOT EXISTS responses (key, json, expire)")
         self.cleanup()
 
-    def get(self, key: str) -> str | None:
+    def get(self, key: str) -> Any | None:  # noqa: ANN401
         """Retrieve data from the cache database.
 
         Args:
@@ -38,7 +39,7 @@ class SqliteCache:
         self.cur.execute("SELECT json FROM responses WHERE key = ?", (key,))
         return json.loads(result[0]) if (result := self.cur.fetchone()) else None
 
-    def store(self, key: str, value: str) -> None:
+    def store(self, key: str, value: Any) -> None:  # noqa: ANN401
         """Save data to the cache database.
 
         Args:
