@@ -1,5 +1,5 @@
-"""
-Test Creator module.
+"""Test Creator module.
+
 This module contains tests for Creator objects.
 """
 
@@ -12,14 +12,13 @@ from esak.exceptions import ApiError
 from esak.session import Session
 
 
-def test_known_creator(talker):
+def test_known_creator(talker: Session) -> None:
     jason = talker.creator(11463)
     assert jason.first_name == "Jason"
     assert jason.last_name == "Aaron"
     assert jason.id == 11463
     assert (
-        jason.thumbnail.__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/7/10/5cd9c7870670e.jpg"
+        jason.thumbnail.__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/7/10/5cd9c7870670e.jpg"
     )
 
     assert 16450 in [s.id for s in jason.series]
@@ -39,8 +38,7 @@ def test_known_creator(talker):
     assert jason.comics[0].id == 45762
     assert jason.comics[0].name == "A+X Vol. 1: = Awesome (Trade Paperback)"
     assert (
-        jason.comics[0].resource_uri.__str__()
-        == "http://gateway.marvel.com/v1/public/comics/45762"
+        jason.comics[0].resource_uri.__str__() == "http://gateway.marvel.com/v1/public/comics/45762"
     )
 
     assert len(jason.series) == 20
@@ -52,17 +50,13 @@ def test_known_creator(talker):
     )
 
 
-def test_bad_creator(talker):
+def test_bad_creator(talker: Session) -> None:
     with pytest.raises(ApiError):
         talker.creator(-1)
 
 
-def test_pulls_verbose(talker):
-    creators = talker.creators_list(
-        {
-            "orderBy": "modified",
-        }
-    )
+def test_pulls_verbose(talker: Session) -> None:
+    creators = talker.creators_list({"orderBy": "modified"})
     c_iter = iter(creators)
     assert next(c_iter).full_name == "Miles Lane"
     assert next(c_iter).full_name == "Christopher Moeller"
@@ -71,17 +65,14 @@ def test_pulls_verbose(talker):
     assert creators[1].full_name == "Christopher Moeller"
 
 
-def test_creator_comics(talker):
+def test_creator_comics(talker: Session) -> None:
     jason = talker.creator_comics(11463)
     assert len(jason) == 20
     val5 = jason[6]
     assert val5.id == 120971
     assert val5.series.id == 37818
     assert val5.series.name == "Namor (2024 - Present)"
-    assert (
-        val5.series.resource_uri.__str__()
-        == "http://gateway.marvel.com/v1/public/series/37818"
-    )
+    assert val5.series.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/series/37818"
     assert val5.title == "Namor (2024) #2 (Variant)"
     assert val5.issue_number == "2"
     assert val5.page_count == 40
@@ -97,16 +88,13 @@ def test_creator_comics(talker):
     assert val5.dates.foc == date(2024, 7, 22)
 
 
-def test_creator_events(talker):
+def test_creator_events(talker: Session) -> None:
     jason = talker.creator_events(11463)
     assert len(jason) == 10
     s = jason[5]
     assert s.id == 309
     assert s.title == "Shattered Heroes"
-    assert (
-        s.thumbnail.__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/2/a0/511e8000770cd.jpg"
-    )
+    assert s.thumbnail.__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/2/a0/511e8000770cd.jpg"
     assert s.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/309"
     assert len(s.characters) == 20
     assert len(s.comics) == 20
@@ -117,7 +105,7 @@ def test_creator_events(talker):
     assert s.end == date(2012, 4, 22)
 
 
-def test_creator_series(talker):
+def test_creator_series(talker: Session) -> None:
     jason = talker.creator_series(11463)
     assert len(jason) == 20
     ax = jason[0]
@@ -129,7 +117,7 @@ def test_creator_series(talker):
     assert ax.previous is None
 
 
-def test_creator_stories(talker):
+def test_creator_stories(talker: Session) -> None:
     jason = talker.creator_stories(11463)
     assert len(jason) == 20
     man = jason[0]

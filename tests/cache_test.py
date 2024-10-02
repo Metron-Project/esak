@@ -1,5 +1,5 @@
-"""
-Test Cache module.
+"""Test Cache module.
+
 This module contains tests for SqliteCache objects.
 """
 
@@ -14,37 +14,34 @@ from esak.sqlite_cache import SqliteCache
 
 
 class NoGet:
-    def store(self, key, value):
+    def store(self, key: str, value: str) -> None:
         # This method should store key value pair
         return
 
 
 class NoStore:
-    def get(self, key):
+    def get(self, key: str) -> None:
         return None
 
 
-def test_no_get(dummy_pubkey, dummy_privkey):
+def test_no_get(dummy_pubkey: str, dummy_privkey: str) -> None:
     m = api(public_key=dummy_pubkey, private_key=dummy_privkey, cache=NoGet())
 
     with pytest.raises(CacheError):
         m.series(466)
 
 
-def test_no_store(dummy_pubkey, dummy_privkey):
+def test_no_store(dummy_pubkey: str, dummy_privkey: str) -> None:
     m = api(public_key=dummy_pubkey, private_key=dummy_privkey, cache=NoStore())
 
     with requests_mock.Mocker() as r:
-        r.get(
-            "http://gateway.marvel.com:80/v1/public/series/466",
-            text='{"response_code": 200}',
-        )
+        r.get("http://gateway.marvel.com:80/v1/public/series/466", text='{"response_code": 200}')
 
         with pytest.raises(CacheError):
             m.series(466)
 
 
-def test_sql_store(dummy_pubkey, dummy_privkey):
+def test_sql_store(dummy_pubkey: str, dummy_privkey: str) -> None:
     fresh_cache = SqliteCache(":memory:")
     test_cache = SqliteCache("tests/testing_mock.sqlite")
 
@@ -65,4 +62,4 @@ def test_sql_store(dummy_pubkey, dummy_privkey):
             "It should pass if you now re-run the test suite "
             "without deleting the database."
         )
-        assert False
+        raise AssertionError from None

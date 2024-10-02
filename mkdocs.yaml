@@ -1,0 +1,76 @@
+site_name: Esak
+site_url: https://esak.readthedocs.io/en/latest/
+site_description: A Python wrapper for the Marvel API.
+site_author: Brian Pepple, Robert Kuykendall
+
+copyright: GPL-3.0
+
+repo_url: https://github.com/Metron-Project/Esak
+repo_name: Metron-Project/Esak
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.expand
+    - navigation.top
+  icon:
+    repo: material/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.highlight:
+      auto_title: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+
+
+nav:
+  - Home: index.md
+  - esak:
+      - Package: esak/__init__.md
+      - exceptions: esak/exceptions.md
+      - session: esak/session.md
+      - sqlite_cache: esak/sqlite_cache.md
+  - esak.schemas:
+      - base: esak/schemas/base.md
+      - character: esak/schemas/character.md
+      - comic: esak/schemas/comic.md
+      - creator: esak/schemas/creator.md
+      - event: esak/schemas/event.md
+      - generic: esak/schemas/generic.md
+      - series: esak/schemas/series.md
+      - story: esak/schemas/story.md
+      - urls: esak/schemas/urls.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_root_heading: True
+            show_root_full_path: False
+            show_category_heading: True
+            # Docstrings
+            docstring_style: google
+            docstring_section_style: spacy
+            line_length: 100
+            merge_init_into_class: True
+            show_signature_annotations: True
+            # Additional
+            show_source: False
+  - include-markdown

@@ -1,7 +1,9 @@
-"""
-Test Init module.
+"""Test Init module.
+
 This module contains tests for project init.
 """
+
+import contextlib
 
 import pytest
 
@@ -10,7 +12,7 @@ from esak.exceptions import AuthenticationError
 from esak.session import Session
 
 
-def test_api():
+def test_api() -> None:
     with pytest.raises(AuthenticationError):
         api()
 
@@ -21,9 +23,7 @@ def test_api():
         api(public_key="Something")
 
     m = None
-    try:
+    with contextlib.suppress(Exception):
         m = api(public_key="Something", private_key="Else")
-    except Exception as exc:
-        print(f"mokkari.api() raised {exc} unexpectedly!")
 
     assert m.__class__.__name__, Session.__name__

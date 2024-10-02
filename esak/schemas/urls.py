@@ -5,9 +5,8 @@ This module provides the following classes:
 - Urls
 """
 
-from __future__ import annotations
-
 __all__ = ["Urls"]
+
 
 from pydantic import HttpUrl
 
@@ -17,18 +16,14 @@ from esak.schemas.base import BaseModel
 class Urls(BaseModel):
     """The Urls object contains commonly used urls.
 
-    Attributes
-    ----------
-        detail: HttpUrl
-            The url for detail information.
-        wiki: HttpUrl | None
-            The url for the wiki entry.
-        comiclink: HttpUrl | None
-        reader: HttpUrl | None
-        purchase: HttpUrl | None
-        onsale_date: HttpUrl | None
-            The url for the on sale date.
-        in_app_link: HttpUrl | None
+    Attributes:
+        detail: The url for detail information.
+        wiki: The url for the wiki entry.
+        comiclink:
+        reader:
+        purchase:
+        onsale_date: The url for the on sale date.
+        in_app_link:
     """
 
     detail: HttpUrl
