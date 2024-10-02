@@ -45,6 +45,7 @@ nav:
       - session: esak/session.md
       - sqlite_cache: esak/sqlite_cache.md
   - esak.schemas:
+      - Package: esak/schemas/__init__.md
       - base: esak/schemas/base.md
       - character: esak/schemas/character.md
       - comic: esak/schemas/comic.md
