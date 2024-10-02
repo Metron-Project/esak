@@ -14,6 +14,7 @@ from esak.session import Session
 
 
 def test_known_series(talker: Session) -> None:
+    """Test series endpoint with a known series."""
     usms = talker.series(466)
     assert usms.title == "Ultimate Spider-Man (2000 - 2009)"
     assert usms.id == 466
@@ -58,11 +59,13 @@ def test_known_series(talker: Session) -> None:
 
 
 def test_bad_series(talker: Session) -> None:
+    """Test series endpoint with a bad series."""
     with pytest.raises(ApiError):
         talker.series(-1)
 
 
 def test_all_series(talker: Session) -> None:
+    """Test series list endpoint."""
     # check known values
     usm = talker.series_list(
         params={"title": "Ultimate Spider-Man"}
@@ -84,6 +87,7 @@ def test_all_series(talker: Session) -> None:
 
 
 def test_pulls_verbose(talker: Session) -> None:
+    """Test series list endpoint."""
     series = talker.series_list()
     s_iter = iter(series)
     assert next(s_iter).id == 31445
@@ -94,6 +98,7 @@ def test_pulls_verbose(talker: Session) -> None:
 
 
 def test_series_characters(talker: Session) -> None:
+    """Test series characters endpoint with a known series."""
     sm = talker.series_characters(24396)
     assert len(sm) == 20
     kingpin = sm[12]
@@ -111,6 +116,7 @@ def test_series_characters(talker: Session) -> None:
 
 
 def test_series_comics(talker: Session) -> None:
+    """Test series comics endpoint with a known series."""
     sm = talker.series_comics(24396)
     assert len(sm) == 20
     sm_75 = sm[1]
@@ -129,6 +135,7 @@ def test_series_comics(talker: Session) -> None:
 
 
 def test_series_creators(talker: Session) -> None:
+    """Test series creators endpoint with a known series."""
     sm = talker.series_creators(24396)
     assert len(sm) == 20
     bagley = sm[12]
@@ -148,9 +155,10 @@ def test_series_creators(talker: Session) -> None:
 
 
 def test_series_events(talker: Session) -> None:
-    AvX = talker.series_events(15305)
-    assert len(AvX) == 1
-    e = AvX[0]
+    """Test series events endpoint with a known series."""
+    avx = talker.series_events(15305)
+    assert len(avx) == 1
+    e = avx[0]
     assert e.id == 310
     assert e.title == "Avengers VS X-Men"
     assert e.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/310"
@@ -171,9 +179,10 @@ def test_series_events(talker: Session) -> None:
 
 
 def test_series_stories(talker: Session) -> None:
-    AvX = talker.series_stories(15305)
-    assert len(AvX) == 20
-    s = AvX[13]
+    """Test series stories endpoint with a known series."""
+    avx = talker.series_stories(15305)
+    assert len(avx) == 20
+    s = avx[13]
     assert s.id == 93246
     assert s.type == "story"
     assert s.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/stories/93246"

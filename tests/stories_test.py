@@ -10,6 +10,7 @@ from esak.session import Session
 
 
 def test_known_story(talker: Session) -> None:
+    """Test story endpoint with a known story."""
     sm = talker.story(35505)
     assert sm.title == "Spider-Man!"
     assert sm.type == "story"
@@ -62,11 +63,13 @@ def test_known_story(talker: Session) -> None:
 
 
 def test_bad_story(talker: Session) -> None:
+    """Test story endpoint with a bad story."""
     with pytest.raises(ApiError):
         talker.story(-1)
 
 
 def test_stories_list(talker: Session) -> None:
+    """Test story list endpoint."""
     stories_lst = talker.stories_list({"orderBy": "modified"})
 
     stories_iter = iter(stories_lst)
@@ -78,6 +81,7 @@ def test_stories_list(talker: Session) -> None:
 
 
 def test_story_characters(talker: Session) -> None:
+    """Test story characters endpoint with a known story."""
     sm = talker.story_characters(35505)
     assert len(sm) == 1
     peter = sm[0]
@@ -90,6 +94,7 @@ def test_story_characters(talker: Session) -> None:
 
 
 def test_story_comics(talker: Session) -> None:
+    """Test story comics endpoint with a known story."""
     sm = talker.story_comics(35505)
     assert len(sm) == 2
     af = sm[1]
@@ -100,6 +105,7 @@ def test_story_comics(talker: Session) -> None:
 
 
 def test_story_creators(talker: Session) -> None:
+    """Test story creators endpoint with a known story."""
     sm = talker.story_creators(35505)
     assert len(sm) == 4
     ditko = sm[0]
@@ -112,6 +118,7 @@ def test_story_creators(talker: Session) -> None:
 
 
 def test_story_events(talker: Session) -> None:
+    """Test story events endpoint with a known story."""
     sm = talker.story_events(113981)
     assert len(sm) == 1
     sw = sm[0]
@@ -122,6 +129,7 @@ def test_story_events(talker: Session) -> None:
 
 
 def test_story_series(talker: Session) -> None:
+    """Test story series endpoint with a known story."""
     sm = talker.story_series(35505)
     assert len(sm) == 2
     af = sm[0]

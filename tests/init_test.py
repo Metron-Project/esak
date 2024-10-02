@@ -13,6 +13,7 @@ from esak.session import Session
 
 
 def test_api() -> None:
+    """Test that the api function produces a Session object."""
     with pytest.raises(AuthenticationError):
         api()
 

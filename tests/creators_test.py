@@ -13,6 +13,7 @@ from esak.session import Session
 
 
 def test_known_creator(talker: Session) -> None:
+    """Test creator endpoint with a known creator."""
     jason = talker.creator(11463)
     assert jason.first_name == "Jason"
     assert jason.last_name == "Aaron"
@@ -51,11 +52,13 @@ def test_known_creator(talker: Session) -> None:
 
 
 def test_bad_creator(talker: Session) -> None:
+    """Test creator endpoint with a bad creator."""
     with pytest.raises(ApiError):
         talker.creator(-1)
 
 
 def test_pulls_verbose(talker: Session) -> None:
+    """Test creator list endpoint."""
     creators = talker.creators_list({"orderBy": "modified"})
     c_iter = iter(creators)
     assert next(c_iter).full_name == "Miles Lane"
@@ -66,6 +69,7 @@ def test_pulls_verbose(talker: Session) -> None:
 
 
 def test_creator_comics(talker: Session) -> None:
+    """Test creator comics endpoint with a known creator."""
     jason = talker.creator_comics(11463)
     assert len(jason) == 20
     val5 = jason[6]
@@ -89,6 +93,7 @@ def test_creator_comics(talker: Session) -> None:
 
 
 def test_creator_events(talker: Session) -> None:
+    """Test creator events endpoint with a known creator."""
     jason = talker.creator_events(11463)
     assert len(jason) == 10
     s = jason[5]
@@ -106,6 +111,7 @@ def test_creator_events(talker: Session) -> None:
 
 
 def test_creator_series(talker: Session) -> None:
+    """Test creator series endpoint with a known creator."""
     jason = talker.creator_series(11463)
     assert len(jason) == 20
     ax = jason[0]
@@ -118,6 +124,7 @@ def test_creator_series(talker: Session) -> None:
 
 
 def test_creator_stories(talker: Session) -> None:
+    """Test creator stories endpoint with a known creator."""
     jason = talker.creator_stories(11463)
     assert len(jason) == 20
     man = jason[0]

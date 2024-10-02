@@ -14,17 +14,23 @@ from esak.sqlite_cache import SqliteCache
 
 
 class NoGet:
-    def store(self, key: str, value: str) -> None:
-        # This method should store key value pair
+    """Test class mocking a Cache class without a get function."""
+
+    def store(self, key: str, value: str) -> None:  # noqa: ARG002
+        """Mock storing an entry in the cache."""
         return
 
 
 class NoStore:
-    def get(self, key: str) -> None:
-        return None
+    """Test class mocking a Cache class without a store function."""
+
+    def get(self, key: str) -> None:  # noqa: ARG002
+        """Mock getting an entry from the cache."""
+        return
 
 
 def test_no_get(dummy_pubkey: str, dummy_privkey: str) -> None:
+    """Test using a cache without a get function."""
     m = api(public_key=dummy_pubkey, private_key=dummy_privkey, cache=NoGet())
 
     with pytest.raises(CacheError):
@@ -32,6 +38,7 @@ def test_no_get(dummy_pubkey: str, dummy_privkey: str) -> None:
 
 
 def test_no_store(dummy_pubkey: str, dummy_privkey: str) -> None:
+    """Test using a cache without a store function."""
     m = api(public_key=dummy_pubkey, private_key=dummy_privkey, cache=NoStore())
 
     with requests_mock.Mocker() as r:
@@ -42,6 +49,7 @@ def test_no_store(dummy_pubkey: str, dummy_privkey: str) -> None:
 
 
 def test_sql_store(dummy_pubkey: str, dummy_privkey: str) -> None:
+    """Test that the cache is used with set."""
     fresh_cache = SqliteCache(":memory:")
     test_cache = SqliteCache("tests/testing_mock.sqlite")
 

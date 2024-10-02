@@ -13,6 +13,7 @@ from esak.session import Session
 
 
 def test_known_event(talker: Session) -> None:
+    """Test event endpoint with a known event."""
     se = talker.event(336)
     assert se.title == "Secret Empire"
     assert se.start == date(2017, 4, 19)
@@ -57,11 +58,13 @@ def test_known_event(talker: Session) -> None:
 
 
 def test_bad_event(talker: Session) -> None:
+    """Test event endpoint with a bad event."""
     with pytest.raises(ApiError):
         talker.event(-1)
 
 
 def test_events_list(talker: Session) -> None:
+    """Test event list endpoint."""
     events_lst = talker.events_list({"orderBy": "modified"})
 
     stories_iter = iter(events_lst)
@@ -73,6 +76,7 @@ def test_events_list(talker: Session) -> None:
 
 
 def test_event_characters(talker: Session) -> None:
+    """Test event characters endpoint with a known event."""
     se = talker.event_characters(336)
     assert len(se) == 20
     ben = se[6]
@@ -88,6 +92,7 @@ def test_event_characters(talker: Session) -> None:
 
 
 def test_event_comics(talker: Session) -> None:
+    """Test event comics endpoint with a known event."""
     se = talker.event_comics(336)
     assert len(se) == 20
     sm = se[11]
@@ -116,6 +121,7 @@ def test_event_comics(talker: Session) -> None:
 
 
 def test_event_creators(talker: Session) -> None:
+    """Test event creators endpoint with a known event."""
     se = talker.event_creators(336)
     assert len(se) == 20
     chuck = se[10]
@@ -128,6 +134,7 @@ def test_event_creators(talker: Session) -> None:
 
 
 def test_event_series(talker: Session) -> None:
+    """Test event series endpoint with a known event."""
     se = talker.event_series(336)
     assert len(se) == 20
     champs = se[5]
@@ -138,6 +145,7 @@ def test_event_series(talker: Session) -> None:
 
 
 def test_event_stories(talker: Session) -> None:
+    """Test event stories endpoint with a known event."""
     se = talker.event_stories(336)
     assert len(se) == 20
     dp = se[1]

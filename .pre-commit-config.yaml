@@ -14,7 +14,7 @@ repos:
         args:
           - --number
           - --wrap=keep
-        files: "^docs/.*|README\\.md"
+        files: "README\\.md|docs/.*|tests/.*"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:

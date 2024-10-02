@@ -12,6 +12,7 @@ from esak.session import Session
 
 
 def test_known_character(talker: Session) -> None:
+    """Test character endpoint with a known character."""
     cap = talker.character(1009220)
     assert cap.name == "Captain America"
     assert cap.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/characters/1009220"
@@ -44,11 +45,13 @@ def test_known_character(talker: Session) -> None:
 
 
 def test_bad_character(talker: Session) -> None:
+    """Test character endpoint with a bad character."""
     with pytest.raises(ApiError):
         talker.character(-1)
 
 
 def test_pulls_verbose(talker: Session) -> None:
+    """Test character list endpoint."""
     characters = talker.characters_list({"orderBy": "modified"})
 
     c_iter = iter(characters)
@@ -60,6 +63,7 @@ def test_pulls_verbose(talker: Session) -> None:
 
 
 def test_character_comics(talker: Session) -> None:
+    """Test character comics endpoint with a known character."""
     cap = talker.character_comics(1009220)
     assert len(cap) == 20
     af2 = cap[2]
@@ -80,6 +84,7 @@ def test_character_comics(talker: Session) -> None:
 
 
 def test_character_events(talker: Session) -> None:
+    """Test character events endpoint with a known character."""
     cap = talker.character_events(1009220)
     assert len(cap) == 20
     fall = cap[9]
@@ -97,6 +102,7 @@ def test_character_events(talker: Session) -> None:
 
 
 def test_character_series(talker: Session) -> None:
+    """Test character series endpoint with a known character."""
     cap = talker.character_series(1009220)
     assert len(cap) == 20
     af = cap[12]
@@ -112,6 +118,7 @@ def test_character_series(talker: Session) -> None:
 
 
 def test_character_stories(talker: Session) -> None:
+    """Test character stories endpoint with a known character."""
     cap = talker.character_stories(1009220)
     assert len(cap) == 20
     av_503 = cap[5]
