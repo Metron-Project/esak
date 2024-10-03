@@ -1,26 +1,55 @@
 repos:
-  - repo: https://github.com/asottile/seed-isort-config
-    rev: v2.2.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.8
     hooks:
-      - id: seed-isort-config
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+      - id: ruff-format
+      - id: ruff
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
     hooks:
-      - id: isort
-  - repo: https://github.com/ambv/black
-    rev: 24.4.2
-    hooks:
-      - id: black
-        language_version: python3.10
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.1.0
-    hooks:
-      - id: flake8
-        exclude: ^tests/
+      - id: mdformat
         additional_dependencies:
-          [flake8-docstrings, flake8-builtins, flake8-rst-docstrings]
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.16.0
+          - mdformat-gfm
+          - mdformat-tables
+        args:
+          - --number
+          - --wrap=keep
+        files: "README\\.md|docs/.*|tests/.*"
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
     hooks:
-      - id: pyupgrade
-        args: ["--py36-plus", "--py37-plus", "--py38-plus", "--py39-plus", "--py310-plus"]
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-merge-conflict
+        args:
+          - --assume-in-merge
+      - id: check-toml
+      - id: check-yaml
+        args:
+          - --allow-multiple-documents
+      - id: end-of-file-fixer
+        exclude_types:
+          - json
+          - xml
+      - id: fix-byte-order-marker
+      - id: forbid-submodules
+      - id: mixed-line-ending
+        args:
+          - --fix=auto
+      - id: name-tests-test
+      - id: trailing-whitespace
+        args:
+          - --markdown-linebreak-ext=md
+  - repo: https://github.com/pappasam/toml-sort
+    rev: v0.23.1
+    hooks:
+      - id: toml-sort
+        args:
+          - --in-place
+          - --all
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes

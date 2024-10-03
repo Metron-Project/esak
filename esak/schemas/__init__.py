@@ -11,6 +11,14 @@ from pydantic import BaseModel as PydanticModel
 
 
 def to_camel_case(value: str) -> str:
+    """Convert attribute name to camelCase.
+
+    Args:
+        value: Attribute name
+
+    Returns:
+        Value converted to camelCase
+    """
     temp = value.replace("_", " ").title().replace(" ", "")
     return temp[0].lower() + temp[1:]
 

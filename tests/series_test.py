@@ -1,5 +1,5 @@
-"""
-Test Series module.
+"""Test Series module.
+
 This module contains tests for Series objects.
 """
 
@@ -10,22 +10,20 @@ import pytest
 
 from esak.exceptions import ApiError
 from esak.schemas.series import Series
+from esak.session import Session
 
 
-def test_known_series(talker):
-
+def test_known_series(talker: Session) -> None:
+    """Test series endpoint with a known series."""
     usms = talker.series(466)
     assert usms.title == "Ultimate Spider-Man (2000 - 2009)"
     assert usms.id == 466
     assert (
-        usms.thumbnail.__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/6/c0/5149db8019dc9.jpg"
+        usms.thumbnail.__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/6/c0/5149db8019dc9.jpg"
     )
     assert usms.end_year == 2009
     assert usms.start_year == 2000
-    assert usms.modified == datetime(
-        2018, 2, 21, 12, 37, 0, tzinfo=timezone(timedelta(hours=-5))
-    )
+    assert usms.modified == datetime(2018, 2, 21, 12, 37, 0, tzinfo=timezone(timedelta(hours=-5)))
     assert usms.description == (
         "In 2000, Marvel embarked on a bold new experiment, re-imagining some "
         "of their greatest heroes in the 21st century, beginning with Spider-Man! "
@@ -39,8 +37,7 @@ def test_known_series(talker):
     assert usms.comics[0].id == 4372
     assert usms.comics[0].name == "Ultimate Spider-Man (2000) #1"
     assert (
-        usms.comics[0].resource_uri.__str__()
-        == "http://gateway.marvel.com/v1/public/comics/4372"
+        usms.comics[0].resource_uri.__str__() == "http://gateway.marvel.com/v1/public/comics/4372"
     )
 
     assert len(usms.characters) == 20
@@ -61,12 +58,14 @@ def test_known_series(talker):
     )
 
 
-def test_bad_series(talker):
+def test_bad_series(talker: Session) -> None:
+    """Test series endpoint with a bad series."""
     with pytest.raises(ApiError):
         talker.series(-1)
 
 
-def test_all_series(talker):
+def test_all_series(talker: Session) -> None:
+    """Test series list endpoint."""
     # check known values
     usm = talker.series_list(
         params={"title": "Ultimate Spider-Man"}
@@ -87,7 +86,8 @@ def test_all_series(talker):
     assert powers.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/series/8891"
 
 
-def test_pulls_verbose(talker):
+def test_pulls_verbose(talker: Session) -> None:
+    """Test series list endpoint."""
     series = talker.series_list()
     s_iter = iter(series)
     assert next(s_iter).id == 31445
@@ -97,7 +97,8 @@ def test_pulls_verbose(talker):
     assert series[1].id == 26024
 
 
-def test_series_characters(talker):
+def test_series_characters(talker: Session) -> None:
+    """Test series characters endpoint with a known series."""
     sm = talker.series_characters(24396)
     assert len(sm) == 20
     kingpin = sm[12]
@@ -114,7 +115,8 @@ def test_series_characters(talker):
     assert kingpin.urls.onsale_date is None
 
 
-def test_series_comics(talker):
+def test_series_comics(talker: Session) -> None:
+    """Test series comics endpoint with a known series."""
     sm = talker.series_comics(24396)
     assert len(sm) == 20
     sm_75 = sm[1]
@@ -132,7 +134,8 @@ def test_series_comics(talker):
     assert sm_75.prices.digital is None
 
 
-def test_series_creators(talker):
+def test_series_creators(talker: Session) -> None:
+    """Test series creators endpoint with a known series."""
     sm = talker.series_creators(24396)
     assert len(sm) == 20
     bagley = sm[12]
@@ -151,17 +154,15 @@ def test_series_creators(talker):
     assert len(bagley.stories) == 20
 
 
-def test_series_events(talker):
-    AvX = talker.series_events(15305)
-    assert len(AvX) == 1
-    e = AvX[0]
+def test_series_events(talker: Session) -> None:
+    """Test series events endpoint with a known series."""
+    avx = talker.series_events(15305)
+    assert len(avx) == 1
+    e = avx[0]
     assert e.id == 310
     assert e.title == "Avengers VS X-Men"
     assert e.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/310"
-    assert (
-        e.thumbnail.__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/3/20/5109a1f93b543.jpg"
-    )
+    assert e.thumbnail.__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/3/20/5109a1f93b543.jpg"
     assert len(e.characters) == 20
     assert len(e.comics) == 20
     assert len(e.creators) == 20
@@ -174,15 +175,14 @@ def test_series_events(talker):
     assert e.next.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/311"
     assert e.previous.id == 309
     assert e.previous.name == "Shattered Heroes"
-    assert (
-        e.previous.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/309"
-    )
+    assert e.previous.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/309"
 
 
-def test_series_stories(talker):
-    AvX = talker.series_stories(15305)
-    assert len(AvX) == 20
-    s = AvX[13]
+def test_series_stories(talker: Session) -> None:
+    """Test series stories endpoint with a known series."""
+    avx = talker.series_stories(15305)
+    assert len(avx) == 20
+    s = avx[13]
     assert s.id == 93246
     assert s.type == "story"
     assert s.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/stories/93246"
