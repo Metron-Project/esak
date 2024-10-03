@@ -15,8 +15,6 @@
 
 This project is a fork of [marvelous](https://github.com/rkuykendall/marvelous) with the goal of supporting the full Marvel API.
 
-- [Marvel API documentation](https://developer.marvel.com/docs)
-
 ## Installation
 
 ```console
@@ -50,7 +48,8 @@ for comic in pulls:
 
 ## Documentation
 
-[Read the project documentation](https://esak.readthedocs.io/en/stable)
+- [esak](https://esak.readthedocs.io/en/stable)
+- [Marvel API](https://developer.marvel.com/docs)
 
 ## Bugs/Requests
 
@@ -58,8 +57,8 @@ Please use the [GitHub issue tracker](https://github.com/Metron-Project/esak/iss
 
 ## Contributing
 
-- When running a new test for the first time, set the environment variables `PUBLIC_KEY` and `PRIVATE_KEY` to any Marel API keys.
-  The result will be stored in the `tests/testing_mock.sqlite` database without your keys.
+- When running a new test for the first time, set the environment variables `PUBLIC_KEY` and `PRIVATE_KEY` to your Marvel API keys.
+  The responses will be cached in the `tests/testing_mock.sqlite` database without your keys.
 
 ## Socials
 
