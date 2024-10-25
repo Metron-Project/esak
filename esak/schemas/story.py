@@ -26,7 +26,8 @@ class Story(BaseResource):
         series: A resource list containing series in which this story appears.
         comics: A resource list containing comics in which this story takes place.
         events: A resource list of the events in which this story appears.
-        original_issue: A summary representation of the issue in which this story was originally published.
+        original_issue: A summary representation of the issue in which this story
+            was originally published.
     """
 
     title: str

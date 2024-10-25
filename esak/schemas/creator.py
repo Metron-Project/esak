@@ -22,7 +22,8 @@ class Creator(BaseResource):
         middle_name: The middle name of the creator.
         last_name: The last name of the creator.
         suffix: The suffix or honorific for the creator.
-        full_name: The full name of the creator (a space-separated concatenation of the above four fields).
+        full_name: The full name of the creator (a space-separated concatenation of the
+            above four fields).
         comics: A resource list containing the comics which feature work by this creator.
         series: A resource list containing the series which feature work by this creator.
         stories: A resource list containing the stories which feature work by this creator.

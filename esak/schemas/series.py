@@ -21,7 +21,8 @@ class Series(BaseResource):
         title: The canonical title of the series.
         description: A description of the series.
         start_year: The first year of publication for the series.
-        end_year: The last year of publication for the series (conventionally, 2099 for ongoing series).
+        end_year: The last year of publication for the series
+            (conventionally, 2099 for ongoing series).
         rating: The age-appropriateness rating for the series.
         type:
         creators: A resource list of creators whose work appears in comics in this series.
