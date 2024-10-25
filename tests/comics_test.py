@@ -44,10 +44,10 @@ def test_known_comic(talker: Session) -> None:
     assert af15.issue_number == "15"
     assert (
         af15.description
-        == "The First Appearance of the Amazing Spider-Man!  When young Peter Parker gains \
-        remarkable abilities from a radioactive spider, he must step up and try to become a \
-        hero — while also dealing with the fantastic pressures of an everyday teenager! For \
-        with great power, there must also come great responsibility!"
+        == "The First Appearance of the Amazing Spider-Man!  When young Peter Parker gains "
+        "remarkable abilities from a radioactive spider, he must step up and try to become a "
+        "hero — while also dealing with the fantastic pressures of an everyday teenager! For "
+        "with great power, there must also come great responsibility!"
     )
     assert af15.format == "Comic"
     assert af15.id == 16926
