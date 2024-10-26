@@ -1,5 +1,5 @@
-"""
-Test Comic module.
+"""Test Comic module.
+
 This module contains tests for Comic objects.
 """
 
@@ -9,16 +9,13 @@ from decimal import Decimal
 import pytest
 
 from esak.exceptions import ApiError
+from esak.session import Session
 
 
-def test_pulls_verbose(talker):
+def test_pulls_verbose(talker: Session) -> None:
+    """Test comics list endpoint."""
     week = talker.comics_list(
-        {
-            "format": "comic",
-            "formatType": "comic",
-            "noVariants": True,
-            "dateDescriptor": "thisWeek",
-        }
+        {"format": "comic", "formatType": "comic", "noVariants": True, "dateDescriptor": "thisWeek"}
     )
     c_iter = iter(week)
     assert next(c_iter).id == 120319
@@ -28,29 +25,34 @@ def test_pulls_verbose(talker):
     assert week[1].id == 115084
 
 
-def test_pulls_simple(talker):
+def test_pulls_simple(talker: Session) -> None:
+    """Test comics list endpoint."""
     week = talker.comics_list({"dateDescriptor": "thisWeek"})
     assert len(week) > 0
 
 
-def test_pulls_simpler(talker):
+def test_pulls_simpler(talker: Session) -> None:
+    """Test comics list endpoint."""
     week = talker.comics_list()
     assert len(week) > 0
 
 
-def test_known_comic(talker):
+def test_known_comic(talker: Session) -> None:
+    """Test comic endpoint with a known comic."""
     af15 = talker.comic(16926)
     assert af15.title == "Amazing Fantasy (1962) #15"
     assert af15.issue_number == "15"
     assert (
         af15.description
-        == "The First Appearance of the Amazing Spider-Man!  When young Peter Parker gains remarkable abilities from a radioactive spider, he must step up and try to become a hero — while also dealing with the fantastic pressures of an everyday teenager! For with great power, there must also come great responsibility!"
+        == "The First Appearance of the Amazing Spider-Man!  When young Peter Parker gains "
+        "remarkable abilities from a radioactive spider, he must step up and try to become a "
+        "hero — while also dealing with the fantastic pressures of an everyday teenager! For "
+        "with great power, there must also come great responsibility!"
     )
     assert af15.format == "Comic"
     assert af15.id == 16926
     assert (
-        af15.thumbnail.__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/f/10/598363848588e.jpg"
+        af15.thumbnail.__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/f/10/598363848588e.jpg"
     )
     assert "Spider-Man (Peter Parker)" in [c.name for c in af15.characters]
     assert "Foo" not in [c.name for c in af15.characters]
@@ -92,21 +94,22 @@ def test_known_comic(talker):
     )
 
 
-def test_invalid_isbn(talker):
-    """Sometimes Marvel API sends number for isbn"""
+def test_invalid_isbn(talker: Session) -> None:
+    """Sometimes Marvel API sends number for isbn."""
     murpg = talker.comic(1143)
     assert murpg.isbn == "785110283"
     assert murpg.prices.print == Decimal("9.99")
     assert murpg.prices.digital is None
 
 
-def test_invalid_diamond_code(talker):
-    """Sometimes Marvel API sends number for diamond code"""
+def test_invalid_diamond_code(talker: Session) -> None:
+    """Sometimes Marvel API sends number for diamond code."""
     with pytest.raises(ApiError):
-        hulk = talker.comic(27399)
+        talker.comic(27399)
 
 
-def test_upc_code(talker):
+def test_upc_code(talker: Session) -> None:
+    """Test comic with a UPC code."""
     cable = talker.comic(95781)
     assert cable.upc == "759606201991000111"
     assert cable.dates.on_sale == date(2021, 8, 25)
@@ -114,7 +117,8 @@ def test_upc_code(talker):
     assert cable.dates.unlimited == date(2021, 11, 29)
 
 
-def test_comic_digital_price(talker):
+def test_comic_digital_price(talker: Session) -> None:
+    """Test comic with a digital price."""
     cw1 = talker.comic(4216)
     assert cw1.title == "Civil War (2006) #1"
     assert cw1.prices.print is None
@@ -135,24 +139,22 @@ def test_comic_digital_price(talker):
     assert cw1.dates.foc is None
     assert cw1.dates.unlimited == date(2006, 5, 3)
     assert (
-        cw1.images[0].__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/e/f0/511307b2f1200.jpg"
+        cw1.images[0].__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/e/f0/511307b2f1200.jpg"
     )
     assert (
-        cw1.images[1].__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/6/f0/4f75b393338cf.jpg"
+        cw1.images[1].__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/6/f0/4f75b393338cf.jpg"
     )
 
 
-def test_comic_characters(talker):
+def test_comic_characters(talker: Session) -> None:
+    """Test comic characters endpoint with a known comic."""
     a1 = talker.comic_characters(67002)
     assert len(a1) == 9
     she_hulk = a1[7]
     assert she_hulk.id == 1009583
     assert she_hulk.name == "She-Hulk (Jennifer Walters)"
     assert (
-        she_hulk.resource_uri.__str__()
-        == "http://gateway.marvel.com/v1/public/characters/1009583"
+        she_hulk.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/characters/1009583"
     )
     assert (
         she_hulk.thumbnail.__str__()
@@ -164,7 +166,8 @@ def test_comic_characters(talker):
     assert len(she_hulk.stories) == 20
 
 
-def test_comic_creators(talker):
+def test_comic_creators(talker: Session) -> None:
+    """Test comic creators endpoint with a known comic."""
     a1 = talker.comic_creators(67002)
     assert len(a1) > 0
     jason = a1[0]
@@ -174,8 +177,7 @@ def test_comic_creators(talker):
     assert jason.full_name == "Jason Aaron"
     assert jason.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/creators/11463"
     assert (
-        jason.thumbnail.__str__()
-        == "http://i.annihil.us/u/prod/marvel/i/mg/7/10/5cd9c7870670e.jpg"
+        jason.thumbnail.__str__() == "http://i.annihil.us/u/prod/marvel/i/mg/7/10/5cd9c7870670e.jpg"
     )
     assert len(jason.comics) == 20
     assert len(jason.events) == 10
@@ -183,7 +185,8 @@ def test_comic_creators(talker):
     assert len(jason.stories) == 20
 
 
-def test_comic_events(talker):
+def test_comic_events(talker: Session) -> None:
+    """Test comic events endpoint with a known comic."""
     sw1 = talker.comic_events(52447)
     assert len(sw1) == 1
     secret_wars = sw1[0]
@@ -193,9 +196,7 @@ def test_comic_events(talker):
         secret_wars.thumbnail.__str__()
         == "http://i.annihil.us/u/prod/marvel/i/mg/c/70/545be45c5d6cc.jpg"
     )
-    assert (
-        secret_wars.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/323"
-    )
+    assert secret_wars.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/323"
     assert secret_wars.start == date(2015, 5, 1)
     assert secret_wars.end == date(2015, 12, 31)
     assert len(secret_wars.characters) == 10
@@ -205,8 +206,7 @@ def test_comic_events(talker):
     assert secret_wars.next.id == 332
     assert secret_wars.next.name == "Dead No More: The Clone Conspiracy"
     assert (
-        secret_wars.next.resource_uri.__str__()
-        == "http://gateway.marvel.com/v1/public/events/332"
+        secret_wars.next.resource_uri.__str__() == "http://gateway.marvel.com/v1/public/events/332"
     )
     assert secret_wars.previous.id == 321
     assert secret_wars.previous.name == "Spider-Verse"
@@ -216,7 +216,8 @@ def test_comic_events(talker):
     )
 
 
-def test_comic_stories(talker):
+def test_comic_stories(talker: Session) -> None:
+    """Test comic stories endpoint with a known comic."""
     aforce4 = talker.comic_stories(51206)
     assert len(aforce4) == 2
     s = aforce4[1]
