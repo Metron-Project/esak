@@ -7,7 +7,7 @@ This module provides the following classes:
 - GenericCreator
 """
 
-__all__ = ["GenericItem", "GenericStory", "GenericCreator"]
+__all__ = ["GenericCreator", "GenericItem", "GenericStory"]
 
 from pydantic import Field, HttpUrl
 
