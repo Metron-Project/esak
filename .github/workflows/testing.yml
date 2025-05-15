@@ -30,14 +30,6 @@ jobs:
         uses: astral-sh/setup-uv@v6
       - name: Setup Python
         run: uv python install ${{ matrix.python-version }}
-      - name: Install unrar
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get -y install unrar
-          else
-            echo "$RUNNER_OS not supported"
-          fi
-        shell: bash
       - name: Install project
         run: uv sync --group test
       - name: Run tests
