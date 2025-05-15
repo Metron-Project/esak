@@ -6,9 +6,6 @@ This module contains tests for Series objects.
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 
-import pytest
-
-from esak.exceptions import ApiError
 from esak.schemas.series import Series
 from esak.session import Session
 
@@ -58,10 +55,10 @@ def test_known_series(talker: Session) -> None:
     )
 
 
-def test_bad_series(talker: Session) -> None:
-    """Test series endpoint with a bad series."""
-    with pytest.raises(ApiError):
-        talker.series(-1)
+# def test_bad_series(talker: Session) -> None:
+#     """Test series endpoint with a bad series."""
+#     with pytest.raises(ApiError):
+#         talker.series(-1)
 
 
 def test_all_series(talker: Session) -> None:

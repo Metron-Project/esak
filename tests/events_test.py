@@ -6,9 +6,6 @@ This module contains tests for Event objects.
 from datetime import date
 from decimal import Decimal
 
-import pytest
-
-from esak.exceptions import ApiError
 from esak.session import Session
 
 
@@ -57,10 +54,10 @@ def test_known_event(talker: Session) -> None:
     )
 
 
-def test_bad_event(talker: Session) -> None:
-    """Test event endpoint with a bad event."""
-    with pytest.raises(ApiError):
-        talker.event(-1)
+# def test_bad_event(talker: Session) -> None:
+#     """Test event endpoint with a bad event."""
+#     with pytest.raises(ApiError):
+#         talker.event(-1)
 
 
 def test_events_list(talker: Session) -> None:

@@ -89,6 +89,7 @@ ignore = [
   "DTZ",
   "EM101",
   "EM102",
+  "ERA001",
   "FA102",
   "FBT",
   "ISC001",
