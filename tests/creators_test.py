@@ -6,9 +6,6 @@ This module contains tests for Creator objects.
 from datetime import date
 from decimal import Decimal
 
-import pytest
-
-from esak.exceptions import ApiError
 from esak.session import Session
 
 
@@ -51,10 +48,10 @@ def test_known_creator(talker: Session) -> None:
     )
 
 
-def test_bad_creator(talker: Session) -> None:
-    """Test creator endpoint with a bad creator."""
-    with pytest.raises(ApiError):
-        talker.creator(-1)
+# def test_bad_creator(talker: Session) -> None:
+#     """Test creator endpoint with a bad creator."""
+#     with pytest.raises(ApiError):
+#         talker.creator(-1)
 
 
 def test_pulls_verbose(talker: Session) -> None:

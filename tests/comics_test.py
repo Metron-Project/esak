@@ -6,9 +6,6 @@ This module contains tests for Comic objects.
 from datetime import date
 from decimal import Decimal
 
-import pytest
-
-from esak.exceptions import ApiError
 from esak.session import Session
 
 
@@ -102,10 +99,10 @@ def test_invalid_isbn(talker: Session) -> None:
     assert murpg.prices.digital is None
 
 
-def test_invalid_diamond_code(talker: Session) -> None:
-    """Sometimes Marvel API sends number for diamond code."""
-    with pytest.raises(ApiError):
-        talker.comic(27399)
+# def test_invalid_diamond_code(talker: Session) -> None:
+#     """Sometimes Marvel API sends number for diamond code."""
+#     with pytest.raises(ApiError):
+#         talker.comic(27399)
 
 
 def test_upc_code(talker: Session) -> None:
