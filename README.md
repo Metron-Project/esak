@@ -1,3 +1,5 @@
+# Note: The Marvel API was shutdown in November 2025.
+
 # esak - Python wrapper for Marvel API
 
 [![PyPI - Python](https://img.shields.io/pypi/pyversions/esak.svg?logo=Python&label=Python&style=flat-square)](https://pypi.python.org/pypi/esak/)
